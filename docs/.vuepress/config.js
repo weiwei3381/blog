@@ -24,6 +24,11 @@ module.exports = {
         sidebar: {
             '/front-end/': [
               'vuepress',
+              'babel',
+            ],
+            '/general/':[
+              'vscode',
+              'guide'
             ]
           }
       }
