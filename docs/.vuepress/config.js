@@ -29,6 +29,7 @@ module.exports = {
               'babel',
             ],
             '/general/':[
+              'git',
               'vscode',
               'guide'
             ]

@@ -9,6 +9,53 @@
 <img :src="$withBase('/foo.png')" alt="foo">
 ```
 
+## config配置
+
+`config.js`文件配置在`docs/.vuepress`目录下, 基本写法如下:
+
+```javascript
+module.exports = {
+    // 设置基础路径
+    base:'/blogs/',
+    // 设置网页标题
+    title: '贺小熊的技术Blog',
+    // 设置网页描述
+    description: '衣带渐宽终不悔',
+    // 设置输出目录, 默认为docs/.vuepress/dist目录, 改为根目录下的dist文件夹
+    dest: './dist',
+    // 主题配置
+    themeConfig: {
+        // 添加导航栏
+        nav: [
+          { text: '前端', link: '/front-end/' },
+          { text: '后端', link: '/back-end/' },
+          { text: '办公', link: '/office/' },
+          { text: '通用', link: '/general/' },
+          {
+            text: '资源',
+            // 这里是下拉列表展现形式。
+            items: [
+              { text: '小鸟搜索', link: 'https://www.birdiesearch.com/' },
+              { text: '每天一本编程书', link: 'https://salttiger.com/' }
+            ]
+          }
+        ],
+        // 为以下路由添加侧边栏
+        sidebar: {
+          '/前端/': [
+              'vuepress',
+              'babel',
+            ],
+            '/通用/':[
+              'vscode',
+              'guide'
+            ]
+        }
+      }
+  }
+```
+
+
 ## 二级目录下的README.md
 
 在`docs`文件夹下新建目录, 例如`/home`, 然后在目录中新建文件`README.md`, 这就相当于生成了`/home/index.html`, 使用`http://localhost:8080/home`即可访问该文件.  
