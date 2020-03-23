@@ -12,9 +12,6 @@
 /build
 /dist
 
-# vuepree
-/docs/.vuepress/dist
-
 # misc
 .DS_Store
 .env.local

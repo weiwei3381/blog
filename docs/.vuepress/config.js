@@ -3,6 +3,8 @@ module.exports = {
     base:'/blogs/',
     title: '贺小熊的技术Blog',
     description: '衣带渐宽终不悔',
+    // 设置输出目录
+    dest: './dist',
     themeConfig: {
         // 添加导航栏
         nav: [
