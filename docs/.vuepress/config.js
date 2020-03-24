@@ -4,7 +4,7 @@ module.exports = {
   title: '贺小熊的技术Blog',
   description: '衣带渐宽终不悔，为伊消得人憔悴',
   head: [
-    // 增加一个自定义的 favicon(网页标签的图标)
+    // 增加自定义的 icon, 作为网页图标
     ['link', { rel: 'icon', href: '/fav.ico' }], 
     ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
     ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }]
@@ -19,22 +19,24 @@ module.exports = {
     lastUpdated: '最近更新',
     // 添加导航栏
     nav: [
-      { text: '前端', link: '/front-end/' },
-      { text: '后端', link: '/back-end/' },
-      { text: '办公', link: '/office/' },
-      { text: '通用', link: '/general/' },
+      { text: '🎨前端技术', link: '/front-end/' },
+      { text: '💻后端编程', link: '/back-end/' },
+      { text: '🏢高效办公', link: '/office/' },
+      { text: '🍓通用知识', link: '/general/' },
       {
-        text: '资源',
+        text: '⭐️资源',
         // 这里是下拉列表展现形式。
         items: [
           { text: '小鸟搜索', link: 'https://www.birdiesearch.com/' },
           { text: '每天一本编程书', link: 'https://salttiger.com/' },
+          { text: 'emoji表情大全', link: 'https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json' },
         ]
       }
     ],
     // 为以下路由添加侧边栏
     sidebar: {
       '/front-end/': [
+        'javascript',
         'vuepress',
         'babel',
       ],
