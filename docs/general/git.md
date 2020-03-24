@@ -10,7 +10,9 @@ git add . // 添加所有文件
 git commit -m "first commit"  // 提交文件
 git remote add origin [远程仓库地址] //链接远程仓库，创建主分支
 git pull origin master // 拉取远程仓库到本地主分支
-git push -u origin master //把本地仓库的文件推送到远程仓库, 如果当前分支与多个主机存在追踪关系，那么这个时候-u选项会指定一个默认主机(即origin)，这样后面就可以不加任何参数使用git push
+git push -u origin master  // 把本地仓库的文件推送到远程仓库
+// 如果当前分支与多个主机存在追踪关系，那么这个时候-u选项会指定一个默认主机(即origin)
+// 这样后面就可以不加任何参数使用git push
 ```
 
 ## git创建ssh key进行远程提交

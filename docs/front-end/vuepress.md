@@ -1,5 +1,7 @@
 # vuepress基本配置
 
+> [vuepress](https://www.vuepress.cn/)是一个**Vue.js驱动的静态网站生成器**, 它以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
+
 ## 基础路径（Base URL）
 
 如果vuepress会被部署到一个非根路径，你将需要在`.vuepress/config.js` 中设置`base`，举例来说，如果你打算将你的网站部署到 `https://foo.github.io/bar/`，那么`base`的值就应该被设置为 `"/bar/"`(**应当总是以斜杠开始，并以斜杠结束**)。  
@@ -13,7 +15,7 @@
 
 `config.js`文件配置在`docs/.vuepress`目录下, 基本写法如下:
 
-```javascript
+```js
 module.exports = {
     // 设置基础路径
     base:'/blogs/',
@@ -21,6 +23,10 @@ module.exports = {
     title: '贺小熊的技术Blog',
     // 设置网页描述
     description: '衣带渐宽终不悔',
+    // 网站图标配置
+    head: [
+      ['link', { rel: 'icon', href: '/fav.ico' }], // 增加一个自定义的 favicon(网页标签的图标)
+    ],
     // 设置输出目录, 默认为docs/.vuepress/dist目录, 改为根目录下的dist文件夹
     dest: './dist',
     // 主题配置
@@ -64,7 +70,7 @@ module.exports = {
 
 可以通过设置 themeConfig.nav 来添加导航链接，通过设置 themeConfig.sidebar 属性来添加侧边栏。如果您的导航是一个下拉列表，可以通过 items 属性来设置。示例代码如下.  
 
-```javascript
+```js
 // dcos/.vuepress/config.js
 module.exports = {
   themeConfig: {
@@ -105,7 +111,7 @@ docs
 
 对于多级目录的侧边栏，我们需要用使用对象描述的写法，下面的`/git/` 表示在git目录，默认指向`/git/README.md` 文件。  
 
-```javascript
+```js
 // dcos/.vuepress/config.js
 module.exports = {
   themeConfig: {
@@ -123,18 +129,22 @@ module.exports = {
 }
 ```  
 
-**tips**: 你在config.js里配置的名字，要和你在文件夹下新建的名字一致，但是实际侧边栏的名字，是你在`文档.md`文件下写的第一个标题的名字.
-重新启动，刷新浏览器，你会看到设置已经生效的，但是貌似还是有点问题，你在.md文件下生成的每一个标题都会生成一个二级的页面，设置config.js取消掉
+::: tip
+你在config.js里配置的名字，要和你在文件夹下新建的名字一致，但是实际侧边栏的名字，是你在`文档.md`文件下写的第一个标题的名字.
+:::
 
-```javascript
-module.exports = {
+设置侧边栏的层级显示和页面结尾显示[最后更新时间], 代码示例如下:
+
+```js
   themeConfig: {
-    sidebarDepth: '0',
+    // 将同时提取markdown中h2和h3标题，显示在侧边栏上
+    sidebarDepth: 2,
+    // 文档更新时间：每个文件git最后提交的时间
+    lastUpdated: '最近更新',
   }
-}
 ```
 
-## 自定义页面
+## 自定义首页
 
 默认的主题提供了一个首页（Homepage）的布局(用于这个网站的主页)。想要使用它，需要在你的根目录下`README.md`采用`home: true`，然后添加数据, 示例代码如下
 
@@ -154,3 +164,144 @@ features:
 footer: MIT Licensed | Copyright © 2018-present Evan You
 ---
 ```
+
+## markdown增强
+
+### 提示框
+
+输入
+
+```markdown
+// tip后面加名称可以自定义标题
+::: tip 注意
+这是一个提示
+:::
+
+::: warning
+这是一个警告
+:::
+
+::: danger
+这是一个危险警告
+:::
+
+::: details
+这是一个详情块，在 IE / Edge 中不生效
+:::
+```
+
+会输出:
+::: tip 注意
+这是一个提示
+:::
+
+::: warning
+这是一个警告
+:::
+
+::: danger
+这是一个危险警告
+:::
+
+::: details
+这是一个详情块，在 IE / Edge 中不生效
+:::
+
+### Emoji表情
+
+输入`:tada:`, `:100:`, 会输出:tada:, :100:, 支持的[列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json)
+
+常用的表情有:
+
+- 微笑(smile): :smile:
+- 笑中带泪(joy): :joy:
+- 无语(no_mouth): :no_mouth:
+- 点赞(+1): :+1:
+- 不推荐(-1): :-1:
+- 狗狗(dog): :dog:
+- 猫猫(cat): :cat:
+- 灵感(bulb): :bulb:
+- 钻石(gem): :gem:
+- 手枪(gun): :gun:
+- 药丸(pill): :pill:
+- 钥匙(key): :key:
+- 红心(heart): :heart:
+- 问题(question): :question:
+- 放大镜(mag): :mag:
+- 备忘(memo): :memo:
+- 邮件(email): :email:
+- 礼物(gift): :gift:
+- 火(fire): :fire:
+- 电(zap): :zap:
+- 炸了(boom): :boom:
+- 晴天(sunny): :sunny:
+- 彩虹(rainbow): :rainbow:
+- 海浪(ocean): :ocean:
+
+### 代码块增强
+
+代码块支持多种语言, 例如`java`, `html`, `xml`等, 其中有些语言可以简写, 例如`js`(javascript), `py`(python), `vb`(Visual Basic).
+有些不常用语言也意外的支持:joy:, 例如: `git`(git代码),`batch`(批处理文件), `matlab`(Matlab), `yaml`(Yaml)
+
+## 插件使用
+
+vuepress自带插件有2项:
+
+- [@vuepress/plugin-last-updated](https://www.vuepress.cn/plugin/official/plugin-last-updated.html)
+- [@vuepress/plugin-register-components](https://www.vuepress.cn/plugin/official/plugin-register-components.html)
+
+默认主题自带的插件有:
+
+- [@vuepress/plugin-active-header-links](https://www.vuepress.cn/plugin/official/plugin-active-header-links.html)
+- [@vuepress/plugin-nprogress](https://www.vuepress.cn/plugin/official/plugin-nprogress.html)
+- [@vuepress/plugin-search](https://www.vuepress.cn/plugin/official/plugin-search.html)
+- [vuepress-plugin-container](https://vuepress.github.io/zh/plugins/container/)
+- [vuepress-plugin-smooth-scroll](https://vuepress.github.io/zh/plugins/smooth-scroll/)
+
+tips: 在[awesome-vuepress](https://github.com/vuepressjs/awesome-vuepress#plugins)项目上列举了许多vuepress的插件
+
+### 搜索插件
+
+默认主题自带搜索插件, 启用方法如下:
+
+```js
+// .vuepress/config.js or themePath/index.js
+module.exports = {
+  plugins: [
+    ['@vuepress/search', {
+      searchMaxSuggestions: 5
+    }]
+  ]
+}
+```
+
+### 页面滚动时侧边栏自动激活
+
+开启与配置选项:
+
+```js
+module.exports = {
+  plugins: ['@vuepress/active-header-links', {
+    sidebarLinkSelector: '.sidebar-link',
+    headerAnchorSelector: '.header-anchor'
+  }]
+}
+```
+
+### 返回页面顶端插件
+
+该插件默认不提供, 需要安装`npm install -D @vuepress/plugin-back-to-top`, 安装后开启选项:
+
+```js
+module.exports = {
+  plugins: ['@vuepress/back-to-top']
+}
+```
+
+### 测试
+
+==mark==是否有效
+行内公式$x^2+y^2=z$
+段中公式:
+
+$$a_1+a_2 = b_1$$
