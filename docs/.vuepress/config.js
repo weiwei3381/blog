@@ -2,7 +2,7 @@ module.exports = {
   // 提交到gitee则开启base
   base: '/blogs/',
   title: '贺小熊的技术Blog',
-  description: '衣带渐宽终不悔',
+  description: '衣带渐宽终不悔，为伊消得人憔悴',
   head: [
     // 增加一个自定义的 favicon(网页标签的图标)
     ['link', { rel: 'icon', href: '/fav.ico' }], 

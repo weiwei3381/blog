@@ -209,7 +209,7 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 
 ### Emoji表情
 
-输入`:tada:`, `:100:`, 会输出:tada:, :100:, 支持的[列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json)
+输入`:tada:`, `:100:`, 会输出:tada:, :100:, 这是VuePress所有支持的Emoji表情[列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json)
 
 常用的表情有:
 
@@ -302,7 +302,7 @@ module.exports = {
 
 ### 安装Latex公式增强
 
-使用命令`npm install markdown-it-katex`安装markdown-it-katex, 在*config.js*中启用"markdown"增强:
+使用命令`npm install markdown-it-katex`安装**markdown-it-katex**, 在*config.js*中启用"markdown"增强:
 
 ```js
 module.exports = {
@@ -318,7 +318,7 @@ module.exports = {
 }
 ```
 
-然后添加与katex相关的css属性, 需要在*config.js*中的`head`属性中增加
+然后添加与katex相关的css属性, 需要在*config.js*中的`head`属性中增加相关配置:
 
 ```js
 module.exports = {
