@@ -240,8 +240,8 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 
 ### 代码块增强
 
-代码块支持多种语言, 例如`java`, `html`, `xml`等, 其中有些语言可以简写, 例如`js`(javascript), `py`(python), `vb`(Visual Basic).
-有些不常用语言也意外的支持:joy:, 例如: `git`(git代码),`batch`(批处理文件), `matlab`(Matlab), `yaml`(Yaml)
+VuePress提供的代码块支持多种语言, 例如`java`, `html`, `xml`等, 其中有些语言可以简写, 例如`js`(javascript), `py`(python), `vb`(Visual Basic).
+另外, 有些不常用语言也意外的支持:joy:, 例如: `git`(git代码),`batch`(批处理文件), `matlab`(Matlab), `yaml`(Yaml), 所有支持的语言可以访问[支持列表](https://prismjs.com/)查看.
 
 ## 插件使用
 

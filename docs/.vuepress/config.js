@@ -29,7 +29,6 @@ module.exports = {
         items: [
           { text: '小鸟搜索', link: 'https://www.birdiesearch.com/' },
           { text: '每天一本编程书', link: 'https://salttiger.com/' },
-          { text: '掘金', link: 'https://juejin.im/' },
         ]
       }
     ],
@@ -42,6 +41,7 @@ module.exports = {
       '/general/': [
         'git',
         'vscode',
+        'latex',
         'guide'
       ]
     }
