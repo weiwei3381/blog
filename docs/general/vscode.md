@@ -1,5 +1,7 @@
 # VS Code常用操作
 
+>[vistual studio code](https://code.visualstudio.com/)
+
 ## 配置不自动更新
 
 [文件]->[首选项]->[设置], 进入设置页面, 搜索"update", 将**Update: Enable Windows Background Updates**(windows后台更新)设为`false`, 将**Update: Mode**(更新模式)设置为`none`.
