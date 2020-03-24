@@ -298,10 +298,50 @@ module.exports = {
 }
 ```
 
-### 测试
+## Latex公式支持
 
-==mark==是否有效
-行内公式$x^2+y^2=z$
+### 安装Latex公式增强
+
+使用命令`npm install markdown-it-katex`安装markdown-it-katex, 在*config.js*中启用"markdown"增强:
+
+```js
+module.exports = {
+  markdown: {
+    extendMarkdown: md => {
+      md.set({
+        breaks: true,
+        html: true,
+      });
+      md.use(require('markdown-it-katex'))
+    }
+  }
+}
+```
+
+然后添加与katex相关的css属性, 需要在*config.js*中的`head`属性中增加
+
+```js
+module.exports = {
+  head: [
+    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
+    ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }]
+  ],
+}
+```
+
+### Latex公式语法
+
+Latex公式主要语法如下:
+
+```tex
+行内公式: $x^2+y^2=z$
 段中公式:
-
 $$a_1+a_2 = b_1$$
+```
+
+显示情况:
+::: tip Latex公式效果
+行内公式: $x^2+y^2=z$
+段中公式:
+$$a_1+a_2 = b_1$$
+:::

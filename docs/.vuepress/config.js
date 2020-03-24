@@ -4,7 +4,10 @@ module.exports = {
   title: '贺小熊的技术Blog',
   description: '衣带渐宽终不悔',
   head: [
-    ['link', { rel: 'icon', href: '/fav.ico' }], // 增加一个自定义的 favicon(网页标签的图标)
+    // 增加一个自定义的 favicon(网页标签的图标)
+    ['link', { rel: 'icon', href: '/fav.ico' }], 
+    ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css' }],
+    ['link', { rel: "stylesheet", href: "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css" }]
   ],
   // 设置输出目录
   dest: './dist',
@@ -60,7 +63,7 @@ module.exports = {
         breaks: true,
         html: true, 
       });
-      md.use(require('markdown-it-mark'))
+      md.use(require('markdown-it-katex'))
     }
   }
 }
