@@ -40,6 +40,9 @@ module.exports = {
         'vuepress',
         'babel',
       ],
+      '/office/':[
+        'word'
+      ],
       '/general/': [
         'git',
         'vscode',
