@@ -6,7 +6,8 @@
 
 ## 文章目录
 
-- :fire: [javascript/ECMAScript归纳总结](./javascript.md)
+- :fire: [javascript归纳总结](./javascript.md)
+- :fire: [深入理解ES6](./es6.md)
 - :fire: [VuePress基本配置](./vuepress.md)
 - :+1: [Babel学习](./babel.md)
 

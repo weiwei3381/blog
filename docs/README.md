@@ -10,5 +10,5 @@ features:
   details: 以最精简的内容提供相关解决方案，一站式知识速查。
 - title: 🌈他山之石
   details: 提供高质量参考链接供查询使用，包括技术博客、经典书籍等。
-footer: MIT Licensed | © Copyright 2020 贺小熊 - All Rights Reserved
+footer: MIT Licensed | © Copyright 2020 小熊 - All Rights Reserved
 ---
