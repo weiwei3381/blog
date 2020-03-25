@@ -216,6 +216,7 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 - 微笑(smile): :smile:
 - 笑中带泪(joy): :joy:
 - 无语(no_mouth): :no_mouth:
+- 震惊(scream): :scream:
 - 点赞(+1): :+1:
 - 不推荐(-1): :-1:
 - 狗狗(dog): :dog:

@@ -41,6 +41,9 @@ module.exports = {
         'vuepress',
         'babel',
       ],
+      '/back-end/': [
+        'daily'
+      ],
       '/office/':[
         'word'
       ],
@@ -52,7 +55,7 @@ module.exports = {
       ]
     }
   },
-  // 插件系统
+  // vuepress插件系统
   plugins: [
     ['@vuepress/search', {
       searchMaxSuggestions: 5
@@ -63,6 +66,7 @@ module.exports = {
     }],
     ['@vuepress/back-to-top'],
   ],
+  // markdown增强
   markdown: {
     extendMarkdown: md => {
       md.set({ 
