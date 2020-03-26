@@ -1,6 +1,6 @@
 # 每日冷知识
 
-![每日冷知识](https://s1.ax1x.com/2020/03/26/8xDR58.jpg)
+![每日冷知识封面](https://s1.ax1x.com/2020/03/26/8xLVM9.jpg)
 
 ## :sunny: 2020年3月25日
 
@@ -27,6 +27,6 @@
 - 获取LOFTER首页壁纸url, [点击获取](https://api.uomg.com/api/image.lofter?format=text)
 - 随机输出竖版手机图片, [点击获取](https://api.uomg.com/api/rand.img2?sort=%E7%BE%8E%E5%A5%B3&format=text)
 
-### robotjs
+### RobotJS
 
-robotjs是一个优秀的自动化库，可以实现控制鼠标、键盘、获取屏幕信息等功能，可以实现很多自动化操作。可惜安装起来比较麻烦, 需要编译才能使用.
+[RobotJS](http://robotjs.io/)是一个优秀的自动化库，可以实现控制鼠标、键盘、获取屏幕信息等功能，可以实现很多自动化操作。可惜安装起来比较麻烦, 需要编译才能使用.

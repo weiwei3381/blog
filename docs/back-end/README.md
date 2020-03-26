@@ -6,8 +6,7 @@
 
 ## 文章目录
 
-- :fire: [VuePress基本配置](./vuepress.md)
-- :+1: [Babel学习](./babel.md)
+- :fire: [每日冷知识](./daily.md)
 
 ---
 
@@ -15,8 +14,4 @@
 
 个人觉得比较好的参考网站有:
 
-- [echarts官方实例](https://www.echartsjs.com/examples/zh/index.html)
-- [ant.design 3.x文档](https://3x.ant.design/components/button-cn/)
-- [electron文档](https://www.electronjs.org/docs)
-- [node.js中文API文档](http://nodejs.cn/api/)
-- [阮一峰-ES6入门教程](https://es6.ruanyifeng.com/)
+- [每周一个Python3模块](https://pymotw.com/3/index.html)
