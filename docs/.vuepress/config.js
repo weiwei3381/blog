@@ -16,7 +16,7 @@ module.exports = {
     // 将同时提取markdown中h2和h3标题，显示在侧边栏上。
     sidebarDepth: 2,
     // 文档更新时间：每个文件git最后提交的时间
-    lastUpdated: '最近更新',
+    lastUpdated: '更新于',
     // 添加导航栏
     nav: [
       { text: '🎨前端技术', link: '/front-end/' },
@@ -39,7 +39,6 @@ module.exports = {
         'javascript',
         'es6',
         'vuepress',
-        'markdown',
         'babel',
       ],
       '/back-end/': [
@@ -50,6 +49,7 @@ module.exports = {
       ],
       '/general/': [
         'git',
+        'markdown',
         'vscode',
         'latex',
         'guide'

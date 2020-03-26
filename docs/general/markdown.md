@@ -41,3 +41,16 @@ step1：我这篇文章参考来源是 [1][markdown]
 
 [markdown]: http://wowubuntu.com/markdown/index.html
 
+## 有序与无序列表
+
+```markdown
+有序列表
+1. 学习
+2. 生活
+3. 工作
+
+无序列表
+- 学习
+- 工作
+- 生活
+```
