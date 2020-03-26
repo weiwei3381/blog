@@ -38,6 +38,7 @@ module.exports = {
       '/front-end/': [
         'javascript',
         'es6',
+        'node',
         'vuepress',
         'markdown',
         'babel',
