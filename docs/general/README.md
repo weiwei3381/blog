@@ -5,6 +5,7 @@
 ## 文章目录
 
 - :fire: [git常用命令及解决方案](./git.md)
+- :fire: [markdown常用命令](./markdown.md)
 - :+1: [vscode高效操作](./vscode.md)
 - :+1: [TeX公式](./latex.md)
 - [本项目搭建指南](./guide.md)

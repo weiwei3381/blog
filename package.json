@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vuepress dev docs",
     "build": "vuepress build docs",
-    "deploy": "npm run build && deploy.bat",
-    "deploy:gitee": "npm run build && deploy_gitee.bat"
+    "github": "npm run build && deploy.bat",
+    "gitee": "npm run build && deploy_gitee.bat"
   },
   "author": "",
   "license": "ISC",

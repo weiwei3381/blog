@@ -39,6 +39,7 @@ module.exports = {
         'javascript',
         'es6',
         'vuepress',
+        'markdown',
         'babel',
       ],
       '/back-end/': [

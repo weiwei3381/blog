@@ -1,6 +1,6 @@
 # 每日冷知识
 
-![每日冷知识封面](https://s1.ax1x.com/2020/03/26/8xLVM9.jpg)
+![每日冷知识封面](http://s1.ax1x.com/2020/03/26/8xLVM9.jpg)
 
 ## :sunny: 2020年3月25日
 
@@ -30,3 +30,9 @@
 ### RobotJS
 
 [RobotJS](http://robotjs.io/)是一个优秀的自动化库，可以实现控制鼠标、键盘、获取屏幕信息等功能，可以实现很多自动化操作。可惜安装起来比较麻烦, 需要编译才能使用.
+
+### vscode的markdown增强
+
+1. markdown ALL in One, 安装后使用默认配置就可以, 提供了自动完成和预览功能, 快捷键列表如下:
+![Markdown All in One快捷键一览表](http://s1.ax1x.com/2020/03/26/8xX4KJ.jpg)
+
