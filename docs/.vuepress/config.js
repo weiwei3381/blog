@@ -39,6 +39,7 @@ module.exports = {
         'javascript',
         'es6',
         'node',
+        'npm',
         'vuepress',
         'babel',
       ],
