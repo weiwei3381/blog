@@ -230,7 +230,7 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 
 9. **提醒类**: 警告(warning): :warning: | 问题(question): :question: | 注意(exclamation): :exclamation: | 叉叉(x): :x: | 圈圈(o): :o: | 救命(sos): :sos: | 放射性(radioactive): :radioactive: | 有毒(biohazard): :biohazard:
 
-10. **状态类**: 点赞(+1): :+1: | 不推荐(-1): :-1: | 灵感(bulb): :bulb: | 红心(heart): :heart: | 火(fire): :fire: | 电(zap): :zap: | 炸了(boom): :boom: | 火箭(rocket): :rocket: | 正中靶心(dart): dart | 金牌(trophy): :trophy:
+10. **状态类**: 点赞(+1): :+1: | 不推荐(-1): :-1: | 灵感(bulb): :bulb: | 红心(heart): :heart: | 火(fire): :fire: | 电(zap): :zap: | 炸了(boom): :boom: | 火箭(rocket): :rocket: | 正中靶心(dart): :dart: | 金牌(trophy): :trophy:
 
 ### 代码块增强
 

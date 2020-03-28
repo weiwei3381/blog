@@ -21,6 +21,7 @@ module.exports = {
     nav: [
       { text: '🎨前端技术', link: '/front-end/' },
       { text: '💻后端编程', link: '/back-end/' },
+      { text: '🚀实战记录', link: '/practice/' },
       { text: '🏢高效办公', link: '/office/' },
       { text: '🍓通用知识', link: '/general/' },
       {
