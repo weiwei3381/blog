@@ -47,6 +47,9 @@ module.exports = {
       '/back-end/': [
         'daily'
       ],
+      '/practice':[
+        'holi'
+      ],
       '/office/':[
         'word'
       ],
