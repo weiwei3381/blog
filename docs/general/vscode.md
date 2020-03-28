@@ -100,3 +100,9 @@
     }
 ]
 ```
+
+### vscode的markdown增强
+
+1. `markdown ALL in One`安装后使用默认配置就可以, 提供了自动完成和预览功能, 快捷键列表如下:
+![Markdown All in One快捷键一览表](http://s1.ax1x.com/2020/03/26/8xX4KJ.jpg)
+

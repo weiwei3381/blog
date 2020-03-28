@@ -1,11 +1,11 @@
 # vuepress基本配置
 
-> [vuepress](https://www.vuepress.cn/)是一个**Vue.js驱动的静态网站生成器**, 它以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
+> [vuepress](https://www.vuepress.cn/)是一个**Vue.js驱动的静态网站生成器**，它以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
 
 ## 基础路径（Base URL）
 
 如果vuepress会被部署到一个非根路径，你将需要在`.vuepress/config.js` 中设置`base`，举例来说，如果你打算将你的网站部署到 `https://foo.github.io/bar/`，那么`base`的值就应该被设置为 `"/bar/"`(**应当总是以斜杠开始，并以斜杠结束**)。  
-有了基础路径（Base URL），如果你希望引用一张放在`.vuepress/public`中的图片，你需要使用这样路径：`/bar/image.png`，但是一旦修改`base`则路径全部失效。为了解决这个问题，VuePress 提供了内置的一个helper函数`$withBase`（它被注入到了 Vue 的原型上），可以帮助你生成正确的路径, 可以在Vue组件和Markdown文件都使用下面的url写法。
+有了基础路径（Base URL），如果你希望引用一张放在`.vuepress/public`中的图片，你需要使用这样路径：`/bar/image.png`，但是一旦修改`base`则路径全部失效。为了解决这个问题，VuePress 提供了内置的一个helper函数`$withBase`（它被注入到了 Vue 的原型上），可以帮助你生成正确的路径，可以在Vue组件和Markdown文件都使用下面的url写法。
 
 ```javascript
 <img :src="$withBase('/foo.png')" alt="foo">
@@ -13,7 +13,7 @@
 
 ## config配置
 
-`config.js`文件配置在`docs/.vuepress`目录下, 基本写法如下:
+`config.js`文件配置在`docs/.vuepress`目录下，基本写法如下:
 
 ```js
 module.exports = {
@@ -61,14 +61,13 @@ module.exports = {
   }
 ```
 
-
 ## 二级目录下的README.md
 
-在`docs`文件夹下新建目录, 例如`/home`, 然后在目录中新建文件`README.md`, 这就相当于生成了`/home/index.html`, 使用`http://localhost:8080/home`即可访问该文件.  
+在`docs`文件夹下新建目录，例如`/home`，然后在目录中新建文件`README.md`，这就相当于生成了`/home/index.html`，使用`http://localhost:8080/home`即可访问该文件。
 
 ## 配置导航栏与侧边栏
 
-可以通过设置 themeConfig.nav 来添加导航链接，通过设置 themeConfig.sidebar 属性来添加侧边栏。如果您的导航是一个下拉列表，可以通过 items 属性来设置。示例代码如下.  
+可以通过设置 themeConfig.nav 来添加导航链接，通过设置 themeConfig.sidebar 属性来添加侧边栏。如果您的导航是一个下拉列表，可以通过 items 属性来设置，示例代码如下。
 
 ```js
 // dcos/.vuepress/config.js
@@ -146,7 +145,7 @@ module.exports = {
 
 ## 自定义首页
 
-默认的主题提供了一个首页（Homepage）的布局(用于这个网站的主页)。想要使用它，需要在你的根目录下`README.md`采用`home: true`，然后添加数据, 示例代码如下
+默认的主题提供了一个首页（Homepage）的布局(用于这个网站的主页)。想要使用它，需要在你的根目录下`README.md`采用`home: true`，然后添加数据，示例代码如下：
 
 ```markdown
 ---
@@ -209,7 +208,7 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 
 ### Emoji表情
 
-输入`:tada:`, `:100:`, 会输出:tada:, :100:, 这是VuePress所有支持的Emoji表情[列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json)
+输入`:tada:`，`:100:`，会输出:tada:，:100:，这是VuePress所有支持的Emoji表情[列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json)
 
 常用的表情有:
 
@@ -235,8 +234,8 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 
 ### 代码块增强
 
-VuePress提供的代码块支持多种语言, 例如`java`, `html`, `xml`等, 其中有些语言可以简写, 例如`js`(javascript), `py`(python), `vb`(Visual Basic).
-另外, 有些不常用语言也意外的支持:joy:, 例如: `git`(git代码),`batch`(批处理文件), `matlab`(Matlab), `yaml`(Yaml), 所有支持的语言可以访问[支持列表](https://prismjs.com/)查看.
+VuePress提供的代码块支持多种语言，例如`java`、`html`、`xml`等，其中有些语言可以简写，例如`js`(javascript)、`py`(python)、`vb`(Visual Basic)。
+另外，有些不常用语言也意外的支持:joy:，例如: `git`(git代码)，`batch`(批处理文件)，`matlab`(Matlab)，`yaml`(Yaml), 所有支持的语言可以访问[支持列表](https://prismjs.com/)查看。
 
 ## 插件使用
 
@@ -253,11 +252,11 @@ vuepress自带插件有2项:
 - [vuepress-plugin-container](https://vuepress.github.io/zh/plugins/container/)
 - [vuepress-plugin-smooth-scroll](https://vuepress.github.io/zh/plugins/smooth-scroll/)
 
-tips: 在[awesome-vuepress](https://github.com/vuepressjs/awesome-vuepress#plugins)项目上列举了许多vuepress的插件
+tips: 在[awesome-vuepress](https://github.com/vuepressjs/awesome-vuepress#plugins)项目上列举了许多vuepress的插件。
 
 ### 搜索插件
 
-默认主题自带搜索插件, 启用方法如下:
+默认主题自带搜索插件，启用方法如下：
 
 ```js
 // .vuepress/config.js or themePath/index.js
@@ -272,7 +271,7 @@ module.exports = {
 
 ### 页面滚动时侧边栏自动激活
 
-开启与配置选项:
+开启与配置选项：
 
 ```js
 module.exports = {
@@ -285,7 +284,7 @@ module.exports = {
 
 ### 返回页面顶端插件
 
-该插件默认不提供, 需要安装`npm install -D @vuepress/plugin-back-to-top`, 安装后开启选项:
+该插件默认不提供, 需要安装`npm install -D @vuepress/plugin-back-to-top`，安装后开启选项：
 
 ```js
 module.exports = {
@@ -297,7 +296,7 @@ module.exports = {
 
 ### 安装Latex公式增强
 
-使用命令`npm install markdown-it-katex`安装**markdown-it-katex**, 在*config.js*中启用"markdown"增强:
+使用命令`npm install markdown-it-katex`安装**markdown-it-katex**，在*config.js*中启用"markdown"增强：
 
 ```js
 module.exports = {
@@ -313,7 +312,7 @@ module.exports = {
 }
 ```
 
-然后添加与katex相关的css属性, 需要在*config.js*中的`head`属性中增加相关配置:
+然后添加与katex相关的css属性，需要在*config.js*中的`head`属性中增加相关配置：
 
 ```js
 module.exports = {
@@ -326,7 +325,7 @@ module.exports = {
 
 ### Latex公式语法
 
-Latex公式主要语法如下:
+Latex公式主要语法如下：
 
 ```tex
 行内公式: $x^2+y^2=z$
