@@ -52,8 +52,9 @@ module.exports = {
       '/general/': [
         'git',
         'markdown',
-        'vscode',
+        'nexus',
         'latex',
+        'vscode',
         'guide'
       ]
     }

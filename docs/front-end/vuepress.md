@@ -213,31 +213,25 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 
 常用的表情有:
 
-- 微笑(smile): :smile:
-- 笑中带泪(joy): :joy:
-- 无语(no_mouth): :no_mouth:
-- 震惊(scream): :scream:
-- 点赞(+1): :+1:
-- 不推荐(-1): :-1:
-- 狗狗(dog): :dog:
-- 猫猫(cat): :cat:
-- 灵感(bulb): :bulb:
-- 钻石(gem): :gem:
-- 手枪(gun): :gun:
-- 药丸(pill): :pill:
-- 钥匙(key): :key:
-- 红心(heart): :heart:
-- 问题(question): :question:
-- 放大镜(mag): :mag:
-- 备忘(memo): :memo:
-- 邮件(email): :email:
-- 礼物(gift): :gift:
-- 火(fire): :fire:
-- 电(zap): :zap:
-- 炸了(boom): :boom:
-- 晴天(sunny): :sunny:
-- 彩虹(rainbow): :rainbow:
-- 海浪(ocean): :ocean:
+1. **表情类**：微笑(smile): :smile: | 笑中带泪(joy): :joy: | 眨眼笑(wink): :wink: | 无语(no_mouth): :no_mouth: | 震惊(scream): :scream: | 睡着(zzz): :zzz:
+
+2. **动物类**：狗狗(dog): :dog: | 猫猫(cat): :cat: | 老鼠(mouse): :mouse: | 兔子(rabbit): :rabbit: | 熊(bear): :bear: | 鱼(fish): :fish: | 青蛙(frog): :frog: | 猴子(monkey): :monkey: | 小鸟(bird): :bird: | 虫子(bug): :bug: | 蛇(snake): :snake:
+
+3. **植物类**: 向日葵(sunflower): :sunflower: | 玫瑰(rose): :rose: | 草药(herb): :herb:
+
+4. **水果类**: 苹果(apple): :apple: | 梨子(pear): :pear: | 柠檬(lemon): :lemon: | 香蕉(banana): :banana: | 西瓜(watermelon): :watermelon: | 草莓(strawberry): :strawberry: | 桃子(peach): :peach:
+
+5. **食物类**: 便当(bento): :bento: | 米饭(rice): :rice: | 冰激凌(icecream): :icecream: | 啤酒(beer): :beer:
+
+6. **物品类**: 钻石(gem): :gem: | 手枪(gun): :gun: | 药丸(pill): :pill: | 钥匙(key): :key: | 问题(question): :question: | 放大镜(mag): :mag: | 备忘(memo): :memo: | 邮件(email): :email: | 礼物(gift): :gift: | 脚印(feet): :feet: | 调色盘(art): :art: | 铅笔(pencil2): :pencil2:
+
+7. **天气类**: 晴天(sunny): :sunny: | 晴有多云(partly_sunny): :partly_sunny: | 多云(cloud): :cloud: | 雨天(cloud_with_rain): :cloud_with_rain: | 彩虹(rainbow): :rainbow: | 雪花(snowflake): :snowflake: | 雪人(snowman): :snowman:
+
+8. **景观类**: 月亮(moon): :moon: | 星星(star): :star: | 太阳(sun_with_face): :sun_with_face: | 海浪(ocean): :ocean:
+
+9. **提醒类**: 警告(warning): :warning: | 问题(question): :question: | 注意(exclamation): :exclamation: | 叉叉(x): :x: | 圈圈(o): :o: | 救命(sos): :sos: | 放射性(radioactive): :radioactive: | 有毒(biohazard): :biohazard:
+
+10. **状态类**: 点赞(+1): :+1: | 不推荐(-1): :-1: | 灵感(bulb): :bulb: | 红心(heart): :heart: | 火(fire): :fire: | 电(zap): :zap: | 炸了(boom): :boom: | 火箭(rocket): :rocket: | 正中靶心(dart): dart | 金牌(trophy): :trophy:
 
 ### 代码块增强
 

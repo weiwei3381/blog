@@ -1,104 +1,88 @@
-# node.js包管理
+# npm常用命令
 
-## nexus3搭建私有源
+## 配置命令
 
-### Nexus初始化
+```shell
+# 查看registry
+npm config get registry
 
-1. **下载Nexus3软件**  
-首先去官方下载[windows x64软件包](https://sonatype-download.global.ssl.fastly.net/nexus/3/latest-win64.zip), 直接下载可能会被墙，建议使用迅雷下载.
+# 修改为淘宝镜像
+npm config set registry http://registry.npm.taobao.org
 
-2. **运行nexus**  
-(1) nexus需要java1.8以上运行环境，首先确保电脑上有安装。  
-(2)下载软件包，解压，进入“\nexus-3.17.0-01\bin"目录，可以看到该目录有"nexus.exe"文件, 在该目录打开命令行，运行"nexus.exe /run"命令, 就可以启动nexus服务了.
+# 修改为本地Nexus服务器镜像
+npm config set registry http://localhost:8081/repository/npm-proxy/
 
-:::tip 提示
-更方便的做法是将nexus.exe文件发送到桌面快捷方式, 修改快捷方式命令, 加入"/run"指令即可.
-:::
+# 修改为原始镜像
+npm config set registry http://registry.npmjs.org
 
-3. **进入Nexus**  
-(1)服务启动完毕后, 在浏览器中输入`http://localhost:8081/`进入nexus主页. 第一次进入需要点击右上角的登录, 用户名为`admin`, 对于老版本的Nexus, 默认密码为`admin123`, 新版本则放在了`admin.password`文件中. 登陆后必须要修改管理员密码.
+# 查看所有配置
+npm config list
+npm config list --json  # 以json方式查看
 
-### 利用Nexus3搭建PYPI代理服务器
-
-**Step1**: 登录服务器之后, 按照下图创建仓库:
-![创建pypi仓库](https://s1.ax1x.com/2020/03/28/Gk9YfU.png)
-**Step2**: 在仓库选择地方, 有不同类型的仓库, 选择`pypi(proxy)`, 即pypi的代理仓库(代理仓库就是找不到软件包时会去指定源下载, 下载之后就保存在nexus上)
-**Step3**: 创建代理服务器的设置, 最重要的是名字和远程源地址(注意: 远程源地址不需要加simple), 常用的豆瓣源为: `https://pypi.doubanio.com`
-![pypi仓库设置](https://s1.ax1x.com/2020/03/28/GkPwIx.png)
-**Step4**: 一个典型的设置如下图所示, 使用时的源地址为:`http://localhost:8081/repository/pypi-proxy/simple/`, 这时候需要加上simple.  
-![pypi仓库示例](https://s1.ax1x.com/2020/03/28/GkPLes.png)
-**Step5**: 使用时, 临时指定源的命令为: `pip install itchat -i http://localhost:8081/repository/pypi-proxy/simple`, 全局设置在文件`%APPDATA%\pip\pip.ini`中, 例如`C:\Users\weiwe\AppData\Roaming\pip\pip.ini`设置如下:
-
-```ini
-[global]
-timeout = 60
-index-url = https://pypi.doubanio.com/simple
+# 完整版语法
+npm config set <key> <value> [-g|--global]
+npm config get <key>
+npm config delete <key>
+npm config list
+npm config edit
+npm get <key>
+npm set <key> <value> [-g|--global]
 ```
 
-### 搭设NPM代理服务器
+## 模块命令
 
-**Step1**: 步骤与pypi源基本相同, 创建时选择"npm (proxy)"方式. 源地址输入淘宝NPM源`http://registry.npm.taobao.org/`.
+```shell
+# 初始化package.json
+npm init [-f|--force|-y|--yes]
 
-![npm源配置](https://s1.ax1x.com/2020/03/28/GkmtyV.png)
+# 安装模块
+npm install  # 不加任何参数则安装package.json中所有依赖包
+npm install [<@scope>/]<name>
+npm install [<@scope>/]<name>@<tag>
+npm install [<@scope>/]<name>@<version>
+npm install [<@scope>/]<name>@<version range>
+npm install <tarball file>
+npm install <tarball url>
+npm install <folder>
+# 别名
+npm i
+# 可选配置
+[-S|--save|-D|--save-dev|-O|--save-optional] [-E|--save-exact] [--dry-run]
 
-**Step2**: 使用时, 可以直接设置npm源地址, 命令为`npm config set registry http://localhost:8081/repository/npm-proxy/`, 查看npm源地址命令为"npm config get registry"也可以在安装包时临时指定地址, 例如, 安装express包, 则使用`npm install express --registry=http://127.0.0.1:8081/repository/npm-proxy/`
+# 卸载模块
+npm uninstall [<@scope>/]<pkg>[@<version>]... [-S|--save|-D|--save-dev|-O|--save-optional]
 
-:::warning 注意
-如果在使用配置的npm源时出现*401未授权*错误, 有可能是npm的5.0.3版本bug, 首先可以尝试升级npm, 命令为`npm install npm -g`, 然后在浏览器尝试访问对应模块地址, 如果本地url为`http://127.0.0.1:8081/repository/npm-proxy/`, 则访问`http://127.0.0.1:8081/repository/npm-proxy/express`试试, 如果弹出用户名密码输入框,则使用nexus的管理员账号密码看能不能访问, 如果可以的话, 那么在Nexus中配置匿名登录即可正常访问, 设置方式如下:
-![npm设置匿名登录](https://s1.ax1x.com/2020/03/28/GkuGrV.png)
-设置nexus3匿名登录的好处在于, pip安装时不需要每次输入用户名密码, npm安装也不会出现401未授权错误.
-:::
+# 更新模块
+npm update [-g] [<pkg>...]
 
-### 搭设Maven代理服务器
+# 查看已安装模块
+npm list  # 查看当前目录下安装模块
+npm list -g # 查看全局安装模块
+npm list --depth=0  # 限制查看层级为0
+# 别名
+npm ls
 
-**Step1**: 创建方式跟之前的差不多, 代理地址一般用阿里巴巴的源, 地址为:`https://maven.aliyun.com/repository/central`, 阿里巴巴还有其他的maven镜像源, 可以到[阿里巴巴Maven库](https://maven.aliyun.com/mvn/view)查看. 配置完毕后的页面如下:
-![Maven代理设置](https://s1.ax1x.com/2020/03/28/GknBB8.png)
+# 查看模块版本
+npm version
 
-**Step2**: 修改maven源地址,	打开maven的安装目录, 打开`conf\settings.xml`文件, 在`mirrors`节点下加入下面配置:  
-
-```xml
-<mirror>
-    <id>myMaven</id>
-    <mirrorOf>*</mirrorOf>
-    <name>My Maven Repository</name>
-    <url>http://localhost:8081/repository/maven-proxy/</url>
-</mirror>
 ```
 
-其中url标签就是Nexus提供给我们的地址.  
+## 查看路径
 
-**Step3**: 使用命令批量下载`pom.xml`中的jar包, 方法来自于[原文](https://www.cnblogs.com/luoruiyuan/p/5948181.html)写一个批处理文件, 先写一个批处理文件, 内容如下所示, 然后将批处理文件和需要下载的`pom.xml`文件放在同一目录, 双击批处理文件即可.
+```shell
+# 查看npm安装路径
+npm get prefix
 
-```batch
-call mvn -f pom.xml dependency:copy-dependencies
-pause
+# 查看全局node包路径
+npm root -g
+
+# npm清理缓存
+npm cache clean -f
 ```
 
-一个典型的pom.xml文件如下:
+## 运行脚本
 
-```xml
-<?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>temp.download</groupId>
-    <artifactId>temp-download</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <dependencies>
-    <!-- 需要下载什么jar包 添加相应依赖 其余部分无需在意-->
-    <dependency>
-        <groupId>org.jasig.cas</groupId>
-        <artifactId>cas-client-core</artifactId>
-        <version>3.1.10</version>
-    </dependency>
-  
-    </dependencies>
-</project>
-```
-
-**Step4**: 在gradle中使用自己建立的maven库
-
-```Groovy
-repositories{
-maven{url'http://localhost:8081/repository/maven-public/'}
-}
+```shell
+# 运行package.json中[Scripts]属性中的脚本
+npm run <脚本名称>
 ```
