@@ -40,6 +40,7 @@ module.exports = {
         'javascript',
         'es6',
         'node',
+        'design',
         'npm',
         'vuepress',
         'babel',
@@ -47,7 +48,7 @@ module.exports = {
       '/back-end/': [
         'daily'
       ],
-      '/practice':[
+      '/practice/':[
         'holi'
       ],
       '/office/':[
