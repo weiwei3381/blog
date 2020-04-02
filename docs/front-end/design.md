@@ -86,3 +86,10 @@ var chart = echarts.init(containerDom, null, {renderer: 'svg'});
 
 (2) 修改工具栏的保存图片格式
 `toolbox.feature.saveAsImage.type`表示保存的图片格式。如果初始化图表时`renderer`类型是 'canvas'（默认），则支持 'png'（默认）和 'jpeg'；如`renderer` 的类型是 'svg'，则 type 只支持 'svg'。
+
+## 甘特图创建
+
+echarts也可以做甘特图, 但是效果不好, 目前评价比较高的是[DHTMLX/gantt](https://github.com/DHTMLX/gantt), 可以在[官网](https://dhtmlx.com/docs/products/dhtmlxGantt/)进行下载.
+![DHTMLX甘特图效果](https://s1.ax1x.com/2020/04/02/GYm8js.png)
+
+[掘金甘特图教程](https://juejin.im/post/5e7ffd56f265da794e526102)详细介绍了在react中开发使用甘特图的过程.

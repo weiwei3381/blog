@@ -38,6 +38,7 @@ module.exports = {
     sidebar: {
       '/front-end/': [
         'javascript',
+        'typescript',
         'es6',
         'node',
         'design',
