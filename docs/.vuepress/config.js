@@ -53,7 +53,8 @@ module.exports = {
         'holi'
       ],
       '/office/':[
-        'word'
+        'word',
+        'other',
       ],
       '/general/': [
         'git',
