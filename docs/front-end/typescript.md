@@ -35,11 +35,15 @@
 安装[cheerio](https://github.com/cheeriojs/cheerio)进行 html 文件解析, `npm install cheerio --save`, 并安装相应的`d.ts`文件, `npm install @types/cheerio -D`. `cheerio`用法很简单, 可以按照以前`jquery`的写法来找到对象, 示例代码如下:
 
 ```js
-const cheerio = require("cheerio"); // 导入cheerio包
-const $ = cheerio.load('<h2 class="title">Hello world</h2>'); // 加载html内容, 赋值给$变量
+const cheerio = require('cheerio') // 导入cheerio包
+const $ = cheerio.load('<h2 class="title">Hello world</h2>') // 加载html内容, 赋值给$变量
 // 利用$进行查找
-$("h2.title").text("Hello there!");
-$("h2").addClass("welcome");
+$('h2.title').text('Hello there!')
+$('h2').addClass('welcome')
 // 显示html内容
-$.html();
+$.html()
 ```
+
+## 在 react 项目中使用 Typescript
+
+使用 Typescript 模板安装 react: `npx create-react-app my-app --template typescript --use-npm`, 命令的意思是: 下载最新的 `create-react-app`,并且使用`Typescript`作为模板, 创建`my-app`的文件夹, 创建完毕后, 使用`npm`进行安装.

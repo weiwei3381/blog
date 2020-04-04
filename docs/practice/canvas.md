@@ -1,0 +1,63 @@
+# canvas 绘制
+
+## Hilo
+
+> [Hilo](https://github.com/hiloteam/Hilo) 是阿里巴巴集团开发的一款 HTML5 跨终端游戏解决方案，可以帮助开发者快速创建 HTML5 游戏。
+
+## Konva
+
+[Konva.js](https://konvajs.org/)是 Canvas 的一个非常好用的框架，很直观，适用于可视化图形和动画的开发, [文档](https://konvajs.org/docs/)也很详细, 关键是在 github 上他有对应的 react 包装类[React Konva](https://github.com/konvajs/react-konva), 下面是一个点击方块切换颜色的实例.
+
+```jsx
+import React, { Component } from 'react'
+import { render } from 'react-dom'
+import { Stage, Layer, Rect, Text } from 'react-konva'
+import Konva from 'konva'
+
+// 定义颜色矩形
+class ColoredRect extends React.Component {
+  state = {
+    // 默认为绿色
+    color: 'green',
+  }
+  handleClick = () => {
+    this.setState({
+      color: Konva.Util.getRandomColor(),
+    })
+  }
+  render() {
+    return (
+      <Rect
+        x={20}
+        y={20}
+        width={50}
+        height={50}
+        fill={this.state.color}
+        shadowBlur={5}
+        onClick={this.handleClick}
+      />
+    )
+  }
+}
+
+class App extends Component {
+  render() {
+    // Stage是一个div容器
+    // Layer是真正的canvas元素(所以可以放置多个canvas到stage上)
+    // 然后我们把canvas形状放到Layer中
+    return (
+      <Stage width={window.innerWidth} height={window.innerHeight}>
+        <Layer>
+          <Text text="点击变色" />
+          <ColoredRect />
+        </Layer>
+      </Stage>
+    )
+  }
+}
+
+render(<App />, document.getElementById('root'))
+```
+
+显示效果如下:
+![Konva示例效果](https://s1.ax1x.com/2020/04/05/GB9oe1.png)
