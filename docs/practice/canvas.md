@@ -61,3 +61,5 @@ render(<App />, document.getElementById('root'))
 
 显示效果如下:
 ![Konva示例效果](https://s1.ax1x.com/2020/04/05/GB9oe1.png)
+
+如果要提高性能, 可以使用[react-spring](https://github.com/react-spring/react-spring), 这是一个基于弹簧物理的动画库，应满足您大多数与 UI 相关的动画需求。 它为您提供了足够灵活的工具，可以自信地将您的想法投射到不断变化的界面中。

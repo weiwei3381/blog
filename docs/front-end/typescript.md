@@ -47,3 +47,5 @@ $.html()
 ## 在 react 项目中使用 Typescript
 
 使用 Typescript 模板安装 react: `npx create-react-app my-app --template typescript --use-npm`, 命令的意思是: 下载最新的 `create-react-app`,并且使用`Typescript`作为模板, 创建`my-app`的文件夹, 创建完毕后, 使用`npm`进行安装.
+
+使用类型断言`!`手动排除`null`和`undifined`, 例如将`frame`改为`frame!`即可.
