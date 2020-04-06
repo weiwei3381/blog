@@ -1,6 +1,6 @@
 module.exports = {
   // 提交到gitee则开启base
-  // base: '/blogs/',
+  base: '/blogs/',
   title: '小熊的技术Blog',
   description: '衣带渐宽终不悔，为伊消得人憔悴',
   head: [
