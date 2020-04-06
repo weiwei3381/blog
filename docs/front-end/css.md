@@ -74,7 +74,7 @@
 它和 `visibility` 属性不一样。把 `display` 设置成 `none` 元素不会占据它本来应该显示的空间，但是设置成 `visibility: hidden;` 还会占据空间。
 :::
 
-### margin: auto;
+### margin: auto
 
 ```css
 #main {
