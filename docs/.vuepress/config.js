@@ -54,6 +54,7 @@ module.exports = {
     ],
     // 为以下路由添加侧边栏
     sidebar: {
+      // 前端技术
       '/front-end/': [
         'javascript',
         'typescript',
@@ -65,9 +66,13 @@ module.exports = {
         'vuepress',
         'babel',
       ],
+      // 后端编程
       '/back-end/': ['daily'],
-      '/practice/': ['canvas'],
+      // 项目实战
+      '/practice/': ['canvas', 'react'],
+      // 高效办公
       '/office/': ['word', 'other'],
+      // 通用技术
       '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide'],
     },
   },
