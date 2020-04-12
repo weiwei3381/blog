@@ -1,4 +1,4 @@
-# Hilo
+# Hilo 使用记录
 
 > [Hilo](https://github.com/hiloteam/Hilo) 是阿里巴巴集团开发的一款 HTML5 跨终端游戏解决方案，可以帮助开发者快速创建 HTML5 游戏。
 
@@ -8,7 +8,7 @@ Flappy Bird 是一款前不久风靡世界的休闲小游戏。虽然它难度�
 
 ### 源文件结构
 
-大家可以先下载 [Flappy Bird 的项目源文件](/flappybird.zip)作为参考，以下是整个项目的文件结构：
+大家可以先下载 <a :href="$withBase('/flappybird.zip')" >Flappy Bird 的项目源文件</a>作为参考，以下是整个项目的文件结构：
 
 ```txt
 flappybird/
