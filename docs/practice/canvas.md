@@ -1,9 +1,5 @@
 # canvas 绘制
 
-## Hilo
-
-> [Hilo](https://github.com/hiloteam/Hilo) 是阿里巴巴集团开发的一款 HTML5 跨终端游戏解决方案，可以帮助开发者快速创建 HTML5 游戏。
-
 ## Konva
 
 [Konva.js](https://konvajs.org/)是 Canvas 的一个非常好用的框架，很直观，适用于可视化图形和动画的开发, [文档](https://konvajs.org/docs/)也很详细, 关键是在 github 上他有对应的 react 包装类[React Konva](https://github.com/konvajs/react-konva), 下面是一个点击方块切换颜色的实例.
@@ -18,11 +14,11 @@ import Konva from 'konva'
 class ColoredRect extends React.Component {
   state = {
     // 默认为绿色
-    color: 'green',
+    color: 'green'
   }
   handleClick = () => {
     this.setState({
-      color: Konva.Util.getRandomColor(),
+      color: Konva.Util.getRandomColor()
     })
   }
   render() {
