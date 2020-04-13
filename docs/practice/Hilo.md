@@ -2,6 +2,10 @@
 
 > [Hilo](https://github.com/hiloteam/Hilo) 是阿里巴巴集团开发的一款 HTML5 跨终端游戏解决方案，可以帮助开发者快速创建 HTML5 游戏。
 
+## 使用记录
+
+使用`npm install hilojs --save`进行安装
+
 ## 使用 Hilo 开发 Flappy Bird
 
 Flappy Bird 是一款前不久风靡世界的休闲小游戏。虽然它难度超高，但是游戏本身却非常简单。下面我们就使用 Hilo 来快速开发 HTML5 版的 Flappy Bird。
