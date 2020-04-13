@@ -66,7 +66,7 @@ module.exports = {
         'babel'
       ],
       // 后端编程
-      '/back-end/': ['daily'],
+      '/back-end/': ['daily', 'python'],
       // 项目实战
       '/practice/': ['Hilo', 'canvas', 'react'],
       // 高效办公
@@ -98,12 +98,12 @@ module.exports = {
       md.set({
         breaks: true,
         html: true
-      })
-      md.use(require('markdown-it-katex'))
-      md.use(require('markdown-it-footnote'))
-      md.use(require('markdown-it-task-lists'))
-      md.use(require('markdown-it-mark'))
-      md.use(require('markdown-it-ins'))
+      });
+      md.use(require('markdown-it-katex'));
+      md.use(require('markdown-it-footnote'));
+      md.use(require('markdown-it-task-lists'));
+      md.use(require('markdown-it-mark'));
+      md.use(require('markdown-it-ins'));
     }
   }
-}
+};
