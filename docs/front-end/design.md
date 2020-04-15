@@ -2,11 +2,11 @@
 
 ## 色系搭配
 
-### Antd色系
+### Antd 色系
 
-> Ant Design是阿里巴巴出的一款前端UI框架, [Antd色彩体系](https://ant.design/docs/spec/colors-cn)解读成两个层面：系统级色彩体系和产品级色彩体系.
+> Ant Design 是阿里巴巴出的一款前端 UI 框架, [Antd 色彩体系](https://ant.design/docs/spec/colors-cn)解读成两个层面：系统级色彩体系和产品级色彩体系.
 
-#### Antd色系
+#### Antd 色系
 
 Ant Design 的基础色板共计 120 个颜色，包含 12 个主色以及衍生色。这些颜色基本可以满足中后台设计中对于颜色的需求。
 ![Antd色系1](https://s1.ax1x.com/2020/03/30/GmmRfO.png)
@@ -15,7 +15,7 @@ Ant Design 的基础色板共计 120 个颜色，包含 12 个主色以及衍生
 中性色包含了黑、白、灰。在蚂蚁中后台的网页设计中被大量使用到，合理地选择中性色能够令页面信息具备良好的主次关系，助力阅读体验。Ant Design 的中性色板一共包含了从白到黑的 13 个颜色。
 ![Antd中性色板](https://s1.ax1x.com/2020/03/30/GmuDd1.png)
 
-[AntV色板色彩值](https://www.yuque.com/docs/share/98fd436e-bf79-4242-9ccd-2eeb74234ce6?#)记录了很详细的色彩选取规则和颜色.  
+[AntV 色板色彩值](https://www.yuque.com/docs/share/98fd436e-bf79-4242-9ccd-2eeb74234ce6?#)记录了很详细的色彩选取规则和颜色.
 
 #### 分类色板
 
@@ -23,9 +23,27 @@ Ant Design 的基础色板共计 120 个颜色，包含 12 个主色以及衍生
 ![Antd分类色板](https://s1.ax1x.com/2020/03/30/GmMZjg.png)
 ![10-20色分类面板](https://s1.ax1x.com/2020/03/30/GmQkZ9.png)
 
+```json
+{
+  // 基础十色系
+  "color": [
+    "#5B8FF9",
+    "#5AD8A6",
+    "#5D7092",
+    "#F6BD16",
+    "#E8684A",
+    "#6DC8EC",
+    "#9270CA",
+    "#FF9D4D",
+    "#269A99",
+    "#FF99C3"
+  ]
+}
+```
+
 #### 单一顺序色板
 
-最多支持8色，最少支持2色
+最多支持 8 色，最少支持 2 色
 ![Antd单一顺序色板](https://s1.ax1x.com/2020/03/30/GmQaQS.png)
 
 #### 邻近色色板
@@ -33,14 +51,14 @@ Ant Design 的基础色板共计 120 个颜色，包含 12 个主色以及衍生
 最多支持 9 色，最少支持 2 色
 ![Antd邻近色色板](https://s1.ax1x.com/2020/03/30/GmlNkR.png)
 
-## Echarts技巧
+## Echarts 技巧
 
 > [Echarts](https://www.echartsjs.com/zh/index.html)是百度开源的图表可视化工具, 主要用于前端数据可视化, [官方实例](https://www.echartsjs.com/examples/zh/index.html)十分丰富, [配置项手册](https://www.echartsjs.com/zh/option.html#title)说明也很详细.
 
-### Echarts常用概念
+### Echarts 常用概念
 
 **(1) 系列（series）**
-`系列`（series）是很常见的名词。在echarts里，`系列`（series）是指：一组数值以及他们映射成的图。“系列”这个词原本可能来源于“一系列的数据”，而在 echarts 中取其扩展的概念，不仅表示数据，也表示数据映射成为的图。所以，一个 `系列` 包含的要素至少有：一组数值、图表类型（`series.type`）、以及其他的关于这些数据如何映射成图的参数。
+`系列`（series）是很常见的名词。在 echarts 里，`系列`（series）是指：一组数值以及他们映射成的图。“系列”这个词原本可能来源于“一系列的数据”，而在 echarts 中取其扩展的概念，不仅表示数据，也表示数据映射成为的图。所以，一个 `系列` 包含的要素至少有：一组数值、图表类型（`series.type`）、以及其他的关于这些数据如何映射成图的参数。
 
 echarts 里系列类型（`series.type`）就是图表类型。系列类型（`series.type`）至少有：line（折线图）、bar（柱状图）、pie（饼图）、scatter（散点图）、graph（关系图）、tree（树图）、...如下图，右侧的 `option` 中声明了三个 `系列`（series）：pie（饼图系列）、line（折线图系列）、bar（柱状图系列），每个系列中有他所需要的数据（`series.data`）。
 ![series配置方式](https://s1.ax1x.com/2020/03/31/Gl8Pn1.png)
@@ -70,18 +88,18 @@ echarts 里系列类型（`series.type`）就是图表类型。系列类型（`s
 再来看下图，一个 echarts 实例中，有多个 grid，每个 grid 分别有 xAxis、yAxis，他们使用 xAxisIndex、yAxisIndex、gridIndex 来指定引用关系：
 ![多坐标多Grid图](https://s1.ax1x.com/2020/03/31/GlYG4K.png)
 
-### 导出svg图片
+### 导出 svg 图片
 
-(1) 导出SVG图片需要先修改渲染器, 默认使用canvas渲染器, 需要改为SVG渲染器
+(1) 导出 SVG 图片需要先修改渲染器, 默认使用 canvas 渲染器, 需要改为 SVG 渲染器
 
 ```js
 // 使用 Canvas 渲染器（默认）
-var chart = echarts.init(containerDom, null, {renderer: 'canvas'});
+var chart = echarts.init(containerDom, null, { renderer: 'canvas' })
 // 等价于：
-var chart = echarts.init(containerDom);
+var chart = echarts.init(containerDom)
 
 // 使用 SVG 渲染器
-var chart = echarts.init(containerDom, null, {renderer: 'svg'});
+var chart = echarts.init(containerDom, null, { renderer: 'svg' })
 ```
 
 (2) 修改工具栏的保存图片格式
@@ -89,7 +107,7 @@ var chart = echarts.init(containerDom, null, {renderer: 'svg'});
 
 ## 甘特图创建
 
-echarts也可以做甘特图, 但是效果不好, 目前评价比较高的是[DHTMLX/gantt](https://github.com/DHTMLX/gantt), 可以在[官网](https://dhtmlx.com/docs/products/dhtmlxGantt/)进行下载.
+echarts 也可以做甘特图, 但是效果不好, 目前评价比较高的是[DHTMLX/gantt](https://github.com/DHTMLX/gantt), 可以在[官网](https://dhtmlx.com/docs/products/dhtmlxGantt/)进行下载.
 ![DHTMLX甘特图效果](https://s1.ax1x.com/2020/04/02/GYm8js.png)
 
-[掘金甘特图教程](https://juejin.im/post/5e7ffd56f265da794e526102)详细介绍了在react中开发使用甘特图的过程.
+[掘金甘特图教程](https://juejin.im/post/5e7ffd56f265da794e526102)详细介绍了在 react 中开发使用甘特图的过程.
