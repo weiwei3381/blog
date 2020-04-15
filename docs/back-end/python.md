@@ -68,3 +68,46 @@ os.path.exists("../python/foo")  # 输出为False
 os.path.isfile(path)
 os.path.isdir(path)  # 返回值均为True或False
 ```
+
+## 爬取内容
+
+### requests 模块
+
+requests 是 python 中爬虫使用最多的网络请求模块，api 比较友好，参考网址：[requests 快速上手](https://requests.readthedocs.io/zh_CN/latest/user/quickstart.html)、[requests 高级用法](https://requests.readthedocs.io/zh_CN/latest/user/advanced.html)。
+
+一、使用 requests 模块进行获取 session，然后利用 session 访问网站
+
+```py
+import requests
+
+session = requests.Session()  # 获取session实例
+# 自定义headers
+headers = {
+            'user-agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36",
+            'accept-encoding': "gzip, deflate",
+            'accept-language': "zh-CN,zh;q=0.9,en;q=0.8"
+        }
+# 登陆网址
+login_url = "http://211.103.185.50/home/hytdlogin.cbs"
+# 登陆所需的用户名和密码
+payload = {'u': 'shiyong', 'p': 'shiyong123'}
+# 请求登陆，获取session
+response = session.post(login_url, payload, headers=headers, timeout=20)
+# 修改返回值编码
+response.encoding = "gbk"
+```
+
+### BeautifulSoup 模块
+
+[BeautifulSoup4 文档](https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/)写的很详细，与 xpath 相比，它输出文本的方法更加科学合理。
+
+```py
+from bs4 import BeautifulSoup  # 导入模块
+
+# 传入html文本，生成soup对象，默认使用lxml对html进行解析
+soup = BeautifulSoup(html,"lxml")
+# 找到H2标题
+name = soup.find('h2')
+# 找到id为jm的对象
+volumn_node = soup.find(id="jm")  # 卷名
+```
