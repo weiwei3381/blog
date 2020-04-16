@@ -75,7 +75,7 @@ os.path.isdir(path)  # 返回值均为True或False
 
 requests 是 python 中爬虫使用最多的网络请求模块，api 比较友好，参考网址：[requests 快速上手](https://requests.readthedocs.io/zh_CN/latest/user/quickstart.html)、[requests 高级用法](https://requests.readthedocs.io/zh_CN/latest/user/advanced.html)。
 
-一、使用 requests 模块进行获取 session，然后利用 session 访问网站
+#### 利用 session 登陆并访问网站
 
 ```py
 import requests
@@ -95,6 +95,59 @@ payload = {'u': 'shiyong', 'p': 'shiyong123'}
 response = session.post(login_url, payload, headers=headers, timeout=20)
 # 修改返回值编码
 response.encoding = "gbk"
+```
+
+#### 保存文件
+
+```py
+def download_file(url, diretory, name="", min_size=5000):
+    """文件下载方法
+
+    Arguments:
+        url {String} -- 下载网址
+        diretory {String} -- 文件存放地址
+
+
+    Keyword Arguments:
+        name {String} -- 文件名称，带扩展符，例如"test.mp3" (default: {""})
+        min_size {int} -- 文件最小大小，默认为5kb，小于此大小不建立文件 (default: {5000})
+    """
+    # 根据是否传入文件名称，设定下载的文件名
+    file_name = ""
+    if name:
+        file_name = name
+    else:
+        file_name = url.split('/')[-1]
+    file_name = __filename_process(file_name)
+    # 如果文件名中不含有.号，则说明传入错误
+    if "." not in file_name:
+        raise ValueError("传入的网址或者文件名不是下载格式")
+    # 文件与目录拼接
+    file_name = os.path.join(diretory, file_name)
+    # 如果文件存在，则跳过
+    if os.path.exists(file_name):
+        print("文件[{0}]已经存在".format(file_name))
+        return
+    # 访问链接
+    try:
+        response = requests.get(url, stream=True, timeout=20)
+    except:
+        print("url:" + url)
+        print("文件下载错误，错误信息：")
+        traceback.print_exc()
+        raise RuntimeError("下载文件时出错")
+    # 文件过小，则不处理
+    try:
+        if len(response.content) < min_size:
+            return
+    except:
+        return
+    # 如果文件不存在，则分块下载
+    if not os.path.exists(file_name):
+        with open(file_name, "wb") as f:
+            for chunk in response.iter_content(chunk_size=512):
+                if chunk:
+                    f.write(chunk)
 ```
 
 ### BeautifulSoup 模块
