@@ -411,3 +411,229 @@ console.log('Server Start in port 3000!')
 :::warning 注意
 由于`process.cwd()`能显示当前项目的绝对路径, 通过与绝对路径修改 api 文件夹位置, 这样无论怎么修改`init.js`文件位置都没关系,但是**必须保证**`api`文件夹的位置始终位于项目工程根目录的`./app/api`中.
 :::
+
+## 参数传递
+
+### koa2 获取 4 种类型的参数
+
+使用 post 传递参数, 一般使用 postman 进行发送, 传递 json 格式的参数, 在`postman`的[body]栏中应该选择`raw`, 格式为`JSONapplication/json`
+![postman传递json参数](https://s1.ax1x.com/2020/04/25/JyC1Zq.png)
+
+一般的参数传递有 4 种方式:
+
+- 在 url 中包含参数, 例如`http://t.cn/3`表示第 3 页等
+- url 中的?传参,`http://t.cn/test/?param=weiwei`
+- body 传参, 在 body 中使用`application/json`格式
+- heads 传参, 在 head 中以键值对的方式进行传参
+
+一个包括上述所有参数的例如如下所示:
+![postman模拟4种传参方式](https://s1.ax1x.com/2020/04/25/JyizGT.png)
+
+为了获取 body 中的参数, 需要安装`koa-bodyparser`中间件, 它会自动把 body 的参数挂载到 request 对象的 body 属性中去, 修改后的`app.js`代码如下所示:
+
+```js
+const Koa = require('koa')
+const InitManager = require('./core/init')
+const parser = require('koa-bodyparser')
+
+const app = new Koa()
+
+// 使用bodyParser, 以便解析body中的参数, 需要在初始化之前使用
+// 会自动把body的参数挂载到request对象的body属性中去
+app.use(parser())
+
+// 将app传入到初始化类中
+InitManager.initCore(app)
+
+app.listen(3000)
+console.log('Server Start in port 3000!')
+```
+
+我们在`user.js`尝试获取参数, 写法如下:
+
+```js
+const Router = require('koa-router')
+
+const router = new Router() // 实例化router
+
+router.post('/v1/:id/test', (ctx, next) => {
+  const path = ctx.params // 获取到{id:"1"}
+  const query = ctx.request.query // 获取到{param:"weiwei"}
+  const headers = ctx.request.header // 对象包含很多属性, 其中token属性为12345678
+  // 在使用路由之前, 使用了koa-bodyparser中间件
+  // 才能在request的body属性中获取值
+  const body = ctx.request.body // 获取到{test: 2}
+
+  ctx.body = { key: '获取参数成功' }
+})
+
+module.exports = router
+```
+
+:::warning 注意
+必须保证在使用路由**之前**, 在`app`中使用挂载 koa-bodyparser 中间件, 否则路由是无法获取到`body`属性的.
+:::
+
+### koa2 异常处理
+
+函数中出现异常, 有 2 种处理方法, 一种是`return false`或者`return null`, 另外一种是`throw new Error`, 一般来说, 第二种方法更好一些, 因为返回 null 会丢失异常, 我们需要捕捉异常告诉开发者.
+最好是定义全局异常处理, 在所有函数调用的最顶部, 能够监听到所有的异常, 方便操作.
+异步操作时不太好捕捉异常的, 一般操作是在所有 promise 返回的对象都加上 async/await, 然后包裹 try/catch 即可, 示例代码如下:
+
+```js
+// 在另一个函数中利用async/await关键字使用try/catch捕获异常
+async function func2() {
+  try {
+    await func3()
+  } catch (error) {
+    console.log('error')
+  }
+}
+
+// 自己创建一个promise
+function func3() {
+  return new Promise((resolve, reject) => {
+    setTimeout(function() {
+      const r = Math.random()
+      // 随机抛出异常
+      if (r > 0.5) {
+        reject('error')
+      } else {
+        resolve('success')
+      }
+    }, 1000)
+  })
+}
+
+func2() // 调用函数执行
+```
+
+:::warning 注意
+javascript 中`1/0`不会报错, 会返回一个值`Infinity`的值, 表示无限大.
+如果 promise 的异常没有处理, 例如没有用 await 来接收, 则会报"UnhandledPromiseRejectionWarning"错误
+:::
+
+### 增加全局异常处理
+
+主要思想是增加一个中间件, 把所有函数都放到中间件的 try/catch 中去, 如果出现问题则修改 body.
+新增中间件`middlewares`文件夹, 编写`exception.js`文件
+
+```batch
+my-koa2
+ ├── app
+ │   └── api
+ │       ├── v1
+ │       │   ├── deploy.js
+ │       │   └── user.js
+ │       └── v2
+ ├── app.js
+ ├── core
+ │   └── init.js
+ └── middlewares
+     └── exception.js
+```
+
+`exception.js`文件内容如下:
+
+```js
+// 自己编写全局异常处理, 有点面向切面编程的感觉
+const catchError = async (ctx, next) => {
+  try {
+    await next()
+  } catch (error) {
+    ctx.body = { message: '服务器出现问题' }
+  }
+}
+
+module.exports = catchError
+```
+
+再在 app.js 中增加处理调用中间件代码.
+
+```js
+const Koa = require('koa')
+const InitManager = require('./core/init')
+const parser = require('koa-bodyparser')
+// 引入全局异常处理
+const catchError = require('./middlewares/exception')
+
+const app = new Koa()
+// 首先进行全局异常处理
+app.use(catchError)
+
+// 解析body参数, 调用初始化类
+app.use(parser())
+InitManager.initCore(app)
+
+app.listen(3000)
+console.log('Server Start in port 3000!')
+```
+
+### 使用变量挂载方式完善全局异常处理
+
+返回的异常一般有四种信息:
+
+- status: 整型, Http 状态码, 例如 200, 301, 400, 500 等
+- message: 字符串型, 给客户端的消息信息
+- errorCode: 整型, 自定义的详细错误码信息
+- requestUrl: 字符串型, 当前请求的 url 信息
+
+但是比较麻烦的是怎么在全局异常处理中获得上述 4 种信息, 1 种是可以利用获得的 error 实例, 在 error 实例上挂载相应的信息, 修改后的 user.js 代码如下
+
+```js
+const Router = require('koa-router')
+
+const router = new Router() // 实例化router
+
+router.post('/v1/:id/test', (ctx, next) => {
+  const path = ctx.params
+  const query = ctx.request.query
+  const headers = ctx.request.header
+  const body = ctx.request.body
+
+  // 如果query为空对象, 则抛出相应错误
+  if (JSON.stringify(query) === '{}') {
+    // 创建error对象之后, 在上面挂载相应的状态
+    const error = new Error('错误信息')
+    error.errorCode = 10001
+    error.status = 400
+    error.requestUrl = `${ctx.method} ${ctx.path}`
+    throw error
+  }
+  // 如果没有错误发生, 则显示"获取参数成功"
+  ctx.body = { key: '获取参数成功' }
+})
+
+module.exports = router
+```
+
+:::tip 小技巧
+判断一个对象`obj`是不是空对象`{}`, 没法用`if(!obj){}`进行判断, 可以采用`JSON.stringify(obj) === '{}'`进行判断
+:::
+
+此时, 全局异常处理`exception.js`代码可以修改为:
+
+```js
+// 自己编写全局异常处理, 有点面向切面编程的感觉
+const catchError = async (ctx, next) => {
+  try {
+    await next()
+  } catch (error) {
+    // 如果含有errorCode, 表示是一类已知错误
+    if (error.errorCode) {
+      // 构造返回值
+      ctx.body = {
+        msg: error.message,
+        errorCode: error.errorCode,
+        requestUrl: error.requestUrl,
+      }
+      // http状态码直接写到ctx上
+      ctx.status = error.status
+    }
+  }
+}
+
+module.exports = catchError
+```
+
+但是, 采用这种方式, 每次构造异常比较麻烦, 可以采用类的方式简化这种构建.
