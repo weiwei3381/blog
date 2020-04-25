@@ -20,6 +20,7 @@
     "markdown-it-ins": "^3.0.0",
     "markdown-it-katex": "^2.0.3",
     "markdown-it-mark": "^3.0.0",
-    "markdown-it-task-lists": "^2.1.1"
+    "markdown-it-task-lists": "^2.1.1",
+    "vuepress-plugin-code-copy": "^1.0.6"
   }
 }

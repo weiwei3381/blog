@@ -39,6 +39,13 @@ module.exports = {
       { text: '🏢高效办公', link: '/office/' },
       { text: '🍓通用知识', link: '/general/' },
       {
+        text: '🦉近期重点',
+        items: [
+          { text: 'koa2实战', link: '/back-end/koa2' },
+          { text: 'python常用模块', link: '/back-end/python' },
+        ],
+      },
+      {
         text: '⭐️资源',
         // 这里是下拉列表展现形式。
         items: [
@@ -92,6 +99,7 @@ module.exports = {
       },
     ],
     ['@vuepress/back-to-top'],
+    ['vuepress-plugin-code-copy', true],
   ],
   // markdown增强
   markdown: {
