@@ -152,12 +152,13 @@ def download_file(url, diretory, name="", min_size=5000):
 
 ### BeautifulSoup 模块
 
-[BeautifulSoup4 文档](https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/)写的很详细，与 xpath 相比，它输出文本的方法更加科学合理。
+[BeautifulSoup4 文档](https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/)写的很详细，与 xpath 相比，它输出文本的方法更加科学合理。使用`pip install beautifulsoup4`进行安装，因为 bs4 解析时用到了`lxml`模块，因此也要进行安装`pip install lxml`。
 
 ```py
 from bs4 import BeautifulSoup  # 导入模块
 
 # 传入html文本，生成soup对象，默认使用lxml对html进行解析
+# 如果lxml版本为3.x，则传入“lxml”，如果是4.x的新版本，则传入“html.parser”
 soup = BeautifulSoup(html,"lxml")
 # 找到H2标题
 name = soup.find('h2')

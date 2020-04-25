@@ -10,17 +10,18 @@ module.exports = {
       'link',
       {
         rel: 'stylesheet',
-        href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css'
-      }
+        href:
+          'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css',
+      },
     ],
     [
       'link',
       {
         rel: 'stylesheet',
         href:
-          'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css'
-      }
-    ]
+          'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css',
+      },
+    ],
   ],
   // 设置输出目录
   dest: './dist',
@@ -46,10 +47,10 @@ module.exports = {
           {
             text: 'emoji表情大全',
             link:
-              'https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json'
-          }
-        ]
-      }
+              'https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json',
+          },
+        ],
+      },
     ],
     // 为以下路由添加侧边栏
     sidebar: {
@@ -63,47 +64,47 @@ module.exports = {
         'design',
         'npm',
         'vuepress',
-        'babel'
+        'babel',
       ],
       // 后端编程
-      '/back-end/': ['daily', 'python'],
+      '/back-end/': ['daily', 'python', 'koa2'],
       // 项目实战
       '/practice/': ['Hilo', 'canvas', 'react'],
       // 高效办公
       '/office/': ['word', 'other'],
       // 通用技术
-      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide']
-    }
+      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide'],
+    },
   },
   // vuepress插件系统
   plugins: [
     [
       '@vuepress/search',
       {
-        searchMaxSuggestions: 5
-      }
+        searchMaxSuggestions: 5,
+      },
     ],
     [
       '@vuepress/active-header-links',
       {
         sidebarLinkSelector: '.sidebar-link',
-        headerAnchorSelector: '.header-anchor'
-      }
+        headerAnchorSelector: '.header-anchor',
+      },
     ],
-    ['@vuepress/back-to-top']
+    ['@vuepress/back-to-top'],
   ],
   // markdown增强
   markdown: {
-    extendMarkdown: md => {
+    extendMarkdown: (md) => {
       md.set({
         breaks: true,
-        html: true
-      });
-      md.use(require('markdown-it-katex'));
-      md.use(require('markdown-it-footnote'));
-      md.use(require('markdown-it-task-lists'));
-      md.use(require('markdown-it-mark'));
-      md.use(require('markdown-it-ins'));
-    }
-  }
-};
+        html: true,
+      })
+      md.use(require('markdown-it-katex'))
+      md.use(require('markdown-it-footnote'))
+      md.use(require('markdown-it-task-lists'))
+      md.use(require('markdown-it-mark'))
+      md.use(require('markdown-it-ins'))
+    },
+  },
+}
