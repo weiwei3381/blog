@@ -7,7 +7,29 @@
 - koa2 版本为`2.7.0`
 - node.js 版本为`12.14.0`
 
-使用`npm init -y`后, 安装 koa2`npm i koa2@2.7.0`
+依赖的所有模块:
+
+```json
+"dependencies": {
+    "axios": "^0.18.0",
+    "basic-auth": "^2.0.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.4.0",
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "koa-static": "^5.0.0",
+    "lodash": "^4.17.11",
+    "module-alias": "^2.2.0",
+    "mysql2": "^1.6.5",
+    "npm-check": "^5.9.0",
+    "require-directory": "^2.1.1",
+    "sequelize": "^5.6.1",
+    "validator": "^10.11.0"
+  }
+```
+
+使用`npm init -y`后, 安装所有模块使用`npm install`
 
 ### 最简单服务器
 
