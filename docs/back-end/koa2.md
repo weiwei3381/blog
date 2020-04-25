@@ -637,3 +637,118 @@ module.exports = catchError
 ```
 
 但是, 采用这种方式, 每次构造异常比较麻烦, 可以采用类的方式简化这种构建.
+
+### 使用类的方式改进异常生成
+
+在`core`文件夹下面新增`http-exception.js`, 写法如下:
+
+```js
+// 必须要继承内置类Error, 否则无法抛出自定义的这个类
+class HttpException extends Error {
+  // 设置默认值
+  constructor(msg = '服务器错误', errorCode = 10000, code = 400) {
+    super() // 调用父类的构造方法
+    this.errorCode = errorCode
+    this.code = code
+    this.msg = msg
+  }
+}
+
+// 使用对象的方式导出, 这样可以导出多个异常
+module.exports = {
+  HttpException,
+}
+```
+
+然后在`user.js`中, 就可以使用这个异常类构建 `httpException`.
+
+```js
+const Router = require('koa-router')
+// 导入自定义Http异常类
+const { HttpException } = require('../../../core/http-exception')
+
+const router = new Router() // 实例化router
+
+router.post('/v1/:id/test', (ctx, next) => {
+  const path = ctx.params
+  const query = ctx.request.query
+  const headers = ctx.request.header
+  const body = ctx.request.body
+
+  // 如果query为空对象, 则抛出相应错误
+  if (JSON.stringify(query) === '{}') {
+    // 创建error对象之后, 在上面挂载相应的状态
+    const error = new HttpException('参数错误', 10001, 400)
+    throw error
+  }
+  ctx.body = { key: '获取参数成功' }
+})
+
+module.exports = router
+```
+
+在全局异常处理`exception.js`里面, 对判断和 requestUrl 也进行了一定的改善, 代码如下:
+
+```js
+// 导入HttpException类, 以便进行判定
+const { HttpException } = require('../core/http-exception')
+
+const catchError = async (ctx, next) => {
+  try {
+    await next()
+  } catch (error) {
+    // 如果是httpException, 则属于已知错误
+    if (error instanceof HttpException) {
+      // 构造返回值
+      ctx.body = {
+        msg: error.msg,
+        errorCode: error.errorCode,
+        requestUrl: `${ctx.method} ${ctx.path}`,
+      }
+      // http状态码直接写到ctx上
+      ctx.status = error.code
+    }
+  }
+}
+
+module.exports = catchError
+```
+
+### 定义多种异常类方便使用
+
+采用类的方式定义了`HttpException`类之后, 可以再次基础上进行继承和派生类, 方便使用, 这也是使用类的方式进行代码编写的好处, 例如我们可以针对参数错误类, 定义一个`ParameterException`, 这时候`http-exception.js`改写为:
+
+```js
+class HttpException extends Error {
+  constructor(msg = '服务器错误', errorCode = 10000, code = 400) {
+    super()
+    this.errorCode = errorCode
+    this.code = code
+    this.msg = msg
+  }
+}
+
+// 新定义参数错误类, 继承自HttpException
+class ParameterException extends HttpException {
+  constructor(msg = '参数错误', errorCode = 10000) {
+    super()
+    this.code = 400
+    this.msg = msg
+    this.errorCode = errorCode
+  }
+}
+
+// 使用对象的方式导出多个异常
+module.exports = { HttpException, ParameterException }
+```
+
+在`user.js`代码中使用的时候只需要创建该异常即可:
+
+```js
+// 如果query为空对象, 则抛出参数错误类
+if (JSON.stringify(query) === '{}') {
+  // 新建参数错误异常类并抛出
+  const error = new ParameterException()
+  throw error
+}
+```
