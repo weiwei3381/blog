@@ -1534,3 +1534,79 @@ module.exports = router
 
 利用 postman 进行测试的时候, 需要选择`Authorization` 的`Basic Auth` 选项, 然后在`username`上传递之前生成的令牌, 如下图所示:
 ![postman测试basicAuth令牌](https://s1.ax1x.com/2020/04/27/JR8z7j.png)
+
+### 权限设计
+
+权限设计其实可以很简单, 就是用户给定一个权限值, 例如普通用户为 8, 管理员为 16, 然后给每个 api 一个权限数字, 如果用户权限大于 api 权限, 则可以查看, 否则没有权限, 这里设置不同用户的权限, 以及给 API 设置权限都在`middlewares/auth.js`类中, 其中加上注释的代码就是这次新增的.
+
+```js
+const basicAuth = require('basic-auth')
+const { Forbbiden } = require('../core/http-exception')
+const jwt = require('jsonwebtoken')
+
+class Auth {
+  // 设置Auth的不同用户的常量权限, 以及传入api的权限等级
+  constructor(level) {
+    this.level = level || 1 // api的权限等级, 默认为1
+    Auth.USER = 8
+    Auth.ADMIN = 16
+    Auth.SUPER_ADMIN = 32
+  }
+
+  get m() {
+    return async (ctx, next) => {
+      const userToken = basicAuth(ctx.req)
+      let errMsg = 'token不合法'
+      if (!userToken || !userToken.name) {
+        throw new Forbbiden(errMsg)
+      }
+      try {
+        var decode = jwt.verify(
+          userToken.name,
+          global.config.security.secretKey
+        )
+      } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+          errMsg = '令牌已过期'
+        }
+        throw new Forbbiden(errMsg)
+      }
+      // 进行权限管理
+      // 如果用户权限小于当前api的权限范围, 则抛出权限不足的错误
+      if (decode.scope < this.level) {
+        errMsg = '权限不足'
+        throw new Forbbiden(errMsg)
+      }
+      ctx.auth = {
+        uid: decode.uid,
+        scope: decode.scope,
+      }
+      await next()
+    }
+  }
+}
+module.exports = { Auth }
+```
+
+使用过程中,首先颁布令牌的时候,对于普通用户就要赋予`Auth.USER`的权限, 在`api/token.js`中,验证身份后, 生成令牌就可以填写`Auth.USER`值.
+
+```js
+const { Auth } = require('../../../middlewares/auth')
+
+async function emailLogin(account, secret) {
+  const user = await User.verifyEmailPassword(account, secret)
+  // 获得用户后生成令牌
+  return generateToken(user.id, Auth.USER)
+}
+```
+
+用的时候也很简单, 在`deploy.js`中, 增加`Auth()`类实例化时传参即可.
+
+```js
+// Auth中可以传入api的权限等级, 等级越高, 所需的权限就越高
+router.get('/getSetting', new Auth(12).m, async (ctx) => {
+  ctx.body = ctx.auth
+})
+
+module.exports = router
+```
