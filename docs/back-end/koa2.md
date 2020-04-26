@@ -811,12 +811,14 @@ const catchError = async (ctx, next) => {
   try {
     await next()
   } catch (error) {
-    // 区分开发环境和生产环境, 如果是开发环境则抛出错误信息
-    if (global.config.enviroment === 'dev') {
+    // 区分开发环境和生产环境, 如果是开发环境, 而且不属于HttpException, 则提示错误信息
+    const isHttpException = error instanceof HttpException
+    const isDev = global.config.enviroment === 'dev'
+    if (!isHttpException && isDev) {
       throw error
     }
-    // 处理错误代码, 这里省略了
-    if (error instanceof HttpException) {...} else {...}
+    // 如果是httpException, 则属于已知错误
+    if (isHttpException) {...} else {...}
   }
 }
 
@@ -1042,4 +1044,209 @@ User.init(
 require('./app/models/user')
 
 const app = new Koa()
+```
+
+### User 表注册功能验证相关信息
+
+在`app/validators/validator.js`中增加用户注册的验证器:
+
+```js
+const { LinValidator, Rule } = require('../../core/lin-validator')
+
+class RegisterValidator extends LinValidator {
+  constructor() {
+    super()
+    this.email = [new Rule('isEmail', '不符合email规范')]
+    // 密码1的校验规则
+    this.password1 = [
+      new Rule('isLength', '密码至少6个字符, 最多32个', { min: 6, max: 32 }),
+      new Rule(
+        'matches',
+        '密码不符合规范',
+        '^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]'
+      ),
+    ]
+    // 由于校验规则与pwd1相同,直接复制
+    this.password2 = this.password1
+    this.nickname = [
+      new Rule('isLength', '昵称至少4个字符, 最多32个', { min: 4, max: 32 }),
+    ]
+  }
+
+  // 自定义校验规则, 函数必须以validate开头
+  // 判断两个密码是否相同
+  validatePassword(vals) {
+    const pw1 = vals.body.password1
+    const pw2 = vals.body.password2
+    if (pw1 !== pw2) {
+      // 抛出普通异常, 由LinValidator来进行处理
+      throw new Error('两个密码必须相同')
+    }
+  }
+}
+
+module.exports = {
+  RegisterValidator,
+}
+```
+
+修改`user.js`, 增加注册的接口:
+
+```js
+const Router = require('koa-router')
+const { RegisterValidator } = require('../../validators/validator')
+
+// 设定路由前缀, 这样写路由可以避免重复前面的地址
+const router = new Router({
+  prefix: '/v1/user',
+})
+
+// 注册, 不需要next, 所以没传
+// 编写一个接口需要利用validator接收参数
+router.post('/register', async (ctx) => {
+  const v = new RegisterValidator().validate(ctx)
+})
+
+module.exports = router
+```
+
+### 增加 email 规则校验
+
+为了保证用户提交的 email 与其他用户不相同, 因此在验证时增加了自定义的 email 校验, 这里需要注意的是由于需要在数据库中进行查询, 所以使用了 async/await.
+
+```js
+const { LinValidator, Rule } = require('../../core/lin-validator')
+// 导入用户模块
+const { User } = require('../models/user')
+
+class PositiveIntegerValidator extends LinValidator {...}
+
+class RegisterValidator extends LinValidator {
+  constructor() {...}
+
+  validatePassword(vals) {...}
+
+  // 自定义email校验, 需要用validate开头, 保证email不与数据库中的值重复
+  // 数据库操作都是异步, 所以都需要加async/await
+  async validateEmail(vals) {
+    const email = vals.body.email
+    // 找到email相同的用户
+    const user = await User.findOne({
+      where: {
+        email: email,
+      },
+    })
+    if (user) {
+      throw new Error('email已经存在')
+    }
+  }
+}
+
+module.exports = {...}
+
+```
+
+### User 表保存信息到数据库
+
+拿到获取的到用户信息, 使用`User.create(user)`进行保存操作:
+
+```js
+const Router = require('koa-router')
+const { RegisterValidator } = require('../../validators/validator')
+// 引入User模块
+const { User } = require('../../models/user')
+
+const router = new Router({
+  prefix: '/v1/user',
+})
+
+router.post('/register', async (ctx) => {
+  // 由于email操作是异步的, 所以需要加上await
+  // 一般来说, 所有的validator都需要加上await
+  // validate需要放到代码的第一行, 否则起不到守门的作用
+  const v = await new RegisterValidator().validate(ctx)
+  // 获取用户参数信息, 由于已经验证过了, 所以直接可以用
+  const user = {
+    email: v.get('body.email'),
+    password: v.get('body.password1'),
+    nickname: v.get('body.email'),
+  }
+  // 把用户保存至User表中, create是异步调用, 返回一个promise对象, 需要用await接收
+  const newUser = await User.create(user)
+})
+
+module.exports = router
+```
+
+### 在模型中对 password 密码加密
+
+在`models/user.js`的用户模型类中,利用 `password`中的`set()` 方法, 始终观察 password 情况,进行加密. 加密采用的是`bcryptjs`模块, 因为采用了加盐处理, 所以即使相同的密码, 保存到数据库中都不一样, 其中*How bcryptjs works*这篇文章详细解释了它的工作原理
+
+```js
+const bcrypt = require('bcryptjs') // 导入加密模块
+const { Sequelize, Model } = require('sequelize')
+const { sequelize } = require('../../core/db')
+
+class User extends Model {}
+
+User.init(
+  {
+    id: {...},
+    nickname: Sequelize.STRING,
+    email: {
+      type: Sequelize.STRING(128),
+      unique: true,
+    },
+    password: {
+      type: Sequelize.STRING,
+      // set函数会在给password赋值的时候调用
+      // 这里相当于实现了一个观察者模式
+      set(val) {
+        // 传的参数表示生成盐的成本, 通常用10, 使用同步版本
+        const salt = bcrypt.genSaltSync(10)
+        // 两个用户密码即使一样, 加密后的密码也应该不一样, 以防止彩虹攻击
+        const psw = bcrypt.hashSync(val, salt)
+        // 将加密过后的密码存入数据库
+        // setDataValue是Model模型中的方法, 第一个参数表示给哪个参数赋值
+        this.setDataValue('password', psw)
+      },
+    },
+    openid: {...},
+  },
+  { sequelize, tableName: 'user' }
+)
+
+module.exports = { User }
+```
+
+### 处理操作成功(Success)的返回情况
+
+在`http-exception.js`中, 增加`Success`的异常类, 如果成功则直接由它返回.
+
+```js
+// 处理成功的信息
+class Success extends HttpException {
+  constructor(msg, errorCode) {
+    super()
+    this.code = 200
+    this.msg = msg || '操作成功'
+    this.errorCode = errorCode || 0
+  }
+}
+```
+
+在 api 的`user.js`中, 处理成功后直接抛出成功的类
+
+```js
+router.post('/register', async (ctx) => {
+  const v = await new RegisterValidator().validate(ctx)
+  const user = {
+    email: v.get('body.email'),
+    password: v.get('body.password1'),
+    nickname: v.get('body.email'),
+  }
+  // create是异步调用, 返回一个promise对象, 需要用await接收
+  await User.create(user)
+  // 抛出成功的情况
+  throw new Success()
 ```
