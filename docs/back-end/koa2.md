@@ -1,6 +1,6 @@
 # 使用 koa2 开发服务端
 
-> Koa -- 基于 Node.js 平台的下一代 web 开发框架, 查阅[Koa2 文档](https://koa.bootcss.com/).
+> Koa -- 基于 Node.js 平台的下一代 web 开发框架, 可查阅[Koa2 文档](https://koa.bootcss.com/), 项目参考了 [Lin-CMS-Koa](https://github.com/TaleLin/lin-cms-koa), 并且也大量使用了[慕课网](http://www.imooc.com)课程[Koa2 服务端开发](https://coding.imooc.com/class/342.html), 感谢**林间有风**团队, 特别是慕课网[七月](http://www.imooc.com/t/4294850)老师, 欢迎大家支持正版.
 
 ## 初始化与基本概念
 
@@ -257,7 +257,7 @@ console.log('在3000端口服务端启动成功!')
 
 将原本在 app.js 中的路由放到 api 文件中,整体代码结构如下所示:
 
-```batch
+```bash
 my-koa2
  ├── api
  │   ├── v1
@@ -339,7 +339,7 @@ console.log('Server Start in port 3000!')
 
 重构后的项目结构如下所示:
 
-```batch
+```bash
 my-koa2
  ├── app
  │   └── api
@@ -518,7 +518,7 @@ javascript 中`1/0`不会报错, 会返回一个值`Infinity`的值, 表示无�
 主要思想是增加一个中间件, 把所有函数都放到中间件的 try/catch 中去, 如果出现问题则修改 body.
 新增中间件`middlewares`文件夹, 编写`exception.js`文件
 
-```batch
+```bash
 my-koa2
  ├── app
  │   └── api
@@ -707,6 +707,14 @@ const catchError = async (ctx, next) => {
       }
       // http状态码直接写到ctx上
       ctx.status = error.code
+    } else {
+      // 处理未知异常
+      ctx.body = {
+        msg: '服务器错误',
+        errorCode: 999,
+        requestUrl: `${ctx.method} ${ctx.path}`,
+      }
+      ctx.status = 500
     }
   }
 }
@@ -751,4 +759,173 @@ if (JSON.stringify(query) === '{}') {
   const error = new ParameterException()
   throw error
 }
+```
+
+### 区分生产环境和开发环境
+
+在开发环境中, 对于未知异常, 我们期望程序抛出它并可以给我们查看, 但是在生产环境中则不需要这样, 因此需要新建配置文件来区分这两种开发环境.
+在根目录中新建`config/config.js`, 写入配置:
+
+```js
+module.exports = {
+  // 如果prod则是生产环境, 如果是dev则是开发环境
+  enviroment: 'dev',
+}
+```
+
+在项目初始化时将配置加载到全局变量`global`中, 需要改写`core/init.js`代码
+
+```js
+const requireDirectory = require('require-directory')
+const Router = require('koa-router')
+
+class InitManager {
+  // 初始化类
+  static initCore(app) {
+    InitManager.app = app
+    InitManager.initLoadRouters()
+    // 初始化时加载全局配置
+    InitManager.loadConfig()
+  }
+  // 加载路由
+  static initLoadRouters() {...}
+
+  // 在全局变量中加载config
+  static loadConfig(path = '') {
+    const configPath = path || process.cwd() + '/config/config.js'
+    const config = require(configPath)
+    global.config = config
+  }
+}
+
+module.exports = InitManager
+
+```
+
+然后在`middlewares/exception.js`中, 加入当前代码环境的判断
+
+```js
+const { HttpException } = require('../core/http-exception')
+
+const catchError = async (ctx, next) => {
+  try {
+    await next()
+  } catch (error) {
+    // 区分开发环境和生产环境, 如果是开发环境则抛出错误信息
+    if (global.config.enviroment === 'dev') {
+      throw error
+    }
+    // 处理错误代码, 这里省略了
+    if (error instanceof HttpException) {...} else {...}
+  }
+}
+
+module.exports = catchError
+
+```
+
+## 使用校验器
+
+koa2 没有特别好的校验器, 目前使用的是[lin-mizar](https://github.com/hpmax00/lin-mizar)提供的 validator 类, lin-mizar 是[LinCms](https://github.com/TaleLin/lin-cms-koa)的核心库, 首先下载<a :href="$withBase('/lin-validator.zip')" >lin-validator.zip</a>, 解压之后放到`core`文件夹下, 然后在`app`目录新建`validators`目录及`validator.js`文件, 目录结构如下:
+
+```bash
+my_koa2
+ ├── app
+ │   ├── api
+ │   │   └── v1
+ │   │       ├── deploy.js
+ │   │       └── user.js
+ │   ├── lib
+ │   └── validators
+ │       └── validator.js
+ ├── app.js
+ ├── config
+ │   └── config.js
+ ├── core
+ │   ├── http-exception.js
+ │   ├── init.js
+ │   ├── lin-validator.js
+ │   └── util.js
+ └── middlewares
+     └── exception.js
+```
+
+`validator.js`中写校验器代码:
+
+```js
+const { LinValidator, Rule } = require('../../core/lin-validator')
+
+// 正整数校验器
+class PositiveIntegerValidator extends LinValidator {
+  constructor() {
+    super()
+    // this.id值表示校验的是id参数,
+    // 由于是数组, 所以可以定义多个校验规则, 它们是"且"关系
+    this.id = [new Rule('isInt', '需要正整数', { min: 1 })]
+  }
+}
+
+module.exports = {
+  PositiveIntegerValidator,
+}
+```
+
+在`user.js`中使用也比较简单
+
+```js
+const Router = require('koa-router')
+// 导入正整数校验器
+const { PositiveIntegerValidator } = require('../../validators/validator')
+
+const router = new Router() // 实例化router
+
+router.post('/v1/:id/test', (ctx, next) => {
+  // 实例化校验器后, 校验时需传入ctx参数
+  // 因为所有的参数都保存在ctx中,所以必须要传入ctx
+  const v = new PositiveIntegerValidator().validate(ctx)
+
+  ctx.body = { key: '获取参数成功' }
+})
+
+module.exports = router
+```
+
+这时, 使用 postman 发送请求`localhost:3000/v1/-1/test?param=weiwei`, 由于 id 给了-1, 则自动返回错误提示信息
+
+```json
+{
+  "msg": ["id需要正整数"],
+  "errorCode": 10000,
+  "requestUrl": "POST /v1/-1/test"
+}
+```
+
+:::warning 注意
+由于我们要校验的是 id 参数, 所以在创建`PositiveIntegerValidator`时对`this.id`赋予了校验规则.
+校验规则, 例如"isInt", 来自于[validator.js](https://github.com/validatorjs/validator.js)开源库.
+:::
+
+### 使用校验器获取参数
+
+在`user.js`中使用校验器, 然后在校验器中获取定义的参数
+
+```js
+const Router = require('koa-router')
+const { PositiveIntegerValidator } = require('../../validators/validator')
+
+const router = new Router()
+
+router.post('/v1/:id/test', (ctx, next) => {
+  const v = new PositiveIntegerValidator().validate(ctx)
+  // 如果校验器通过了, 可以利用校验器获取参数,
+  // 分别用path,query,head,body代表路径,查询,head和body中的参数
+  // 例如path.id代表获取路径中的id参数
+  // validator会自动进行转型, 如果不需要转型则第2个参数传false
+  // 也能获取嵌套层级, 例如'body.a.b'
+  const id = v.get('path.id', false)
+
+  ctx.body = { key: '获取参数成功' }
+})
+
+module.exports = router
 ```

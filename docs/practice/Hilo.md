@@ -14,7 +14,7 @@ Flappy Bird 是一款前不久风靡世界的休闲小游戏。虽然它难度�
 
 大家可以先下载 <a :href="$withBase('/flappybird.zip')" >Flappy Bird 的项目源文件</a>作为参考，以下是整个项目的文件结构：
 
-```txt
+```bash
 flappybird/
 ├── index.html //游戏主页面
 ├── js/
@@ -222,13 +222,13 @@ var ReadyScene = Hilo.Class.create({
     //准备Get Ready!
     var getready = new Hilo.Bitmap({
       image: properties.image,
-      rect: [0, 0, 508, 158]
+      rect: [0, 0, 508, 158],
     })
 
     //开始提示tap
     var tap = new Hilo.Bitmap({
       image: properties.image,
-      rect: [0, 158, 286, 246]
+      rect: [0, 158, 286, 246],
     })
 
     //确定getready和tap的位置
@@ -238,7 +238,7 @@ var ReadyScene = Hilo.Class.create({
     getready.y = (tap.y - getready.height) >> 0
 
     this.addChild(tap, getready)
-  }
+  },
 })
 ```
 
@@ -248,7 +248,7 @@ var ReadyScene = Hilo.Class.create({
 this.readyScene = new game.ReadyScene({
   width: this.width,
   height: this.height,
-  image: this.asset.ready
+  image: this.asset.ready,
 }).addTo(this.stage)
 ```
 
@@ -269,28 +269,28 @@ var OverScene = (ns.OverScene = Hilo.Class.create({
     var gameover = (this.gameover = new Hilo.Bitmap({
       id: 'gameover',
       image: properties.image,
-      rect: [0, 298, 508, 158]
+      rect: [0, 298, 508, 158],
     }))
 
     //结束面板
     var board = (this.board = new Hilo.Bitmap({
       id: 'board',
       image: properties.image,
-      rect: [0, 0, 590, 298]
+      rect: [0, 0, 590, 298],
     }))
 
     //开始按钮
     var startBtn = (this.startBtn = new Hilo.Bitmap({
       id: 'start',
       image: properties.image,
-      rect: [590, 0, 290, 176]
+      rect: [590, 0, 290, 176],
     }))
 
     //等级按钮
     var gradeBtn = (this.gradeBtn = new Hilo.Bitmap({
       id: 'grade',
       image: properties.image,
-      rect: [590, 176, 290, 176]
+      rect: [590, 176, 290, 176],
     }))
 
     //玩家当前分数
@@ -300,7 +300,7 @@ var OverScene = (ns.OverScene = Hilo.Class.create({
       scaleX: 0.5,
       scaleY: 0.5,
       letterSpacing: 4,
-      text: 0
+      text: 0,
     }))
 
     //玩家最好成绩
@@ -310,7 +310,7 @@ var OverScene = (ns.OverScene = Hilo.Class.create({
       scaleX: 0.5,
       scaleY: 0.5,
       letterSpacing: 4,
-      text: 0
+      text: 0,
     }))
 
     //白色的遮罩效果
@@ -318,7 +318,7 @@ var OverScene = (ns.OverScene = Hilo.Class.create({
       id: 'mask',
       width: this.width,
       height: this.height,
-      alpha: 0
+      alpha: 0,
     }).setBgFill('#fff'))
 
     //设置各个元素的坐标位置
@@ -344,7 +344,7 @@ var OverScene = (ns.OverScene = Hilo.Class.create({
       bestLabel,
       whiteMask
     )
-  }
+  },
 }))
 ```
 
@@ -374,7 +374,7 @@ this.gameOverScene = new game.OverScene({
   height: this.height,
   image: this.asset.over,
   numberGlyphs: this.asset.numberGlyphs,
-  visible: false
+  visible: false,
 }).addTo(this.stage)
 ```
 
@@ -408,7 +408,7 @@ var Bird = (ns.Bird = Hilo.Class.create({
     //设置小鸟的中心点位置
     this.pivotX = 43
     this.pivotY = 30
-  }
+  },
 }))
 ```
 
@@ -529,7 +529,7 @@ var Holdbacks = (ns.Holdbacks = Hilo.Class.create({
   constructor: function(properties) {
     Holdbacks.superclass.constructor.call(this, properties)
     this.init(properties)
-  }
+  },
 }))
 ```
 
@@ -616,7 +616,7 @@ placeHose: function(down, up, index){
 
 ```js
 this.moveTween = new Hilo.Tween(this, null, {
-  onComplete: this.resetHoses.bind(this)
+  onComplete: this.resetHoses.bind(this),
 })
 ```
 
