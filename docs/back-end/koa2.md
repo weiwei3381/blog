@@ -2,7 +2,7 @@
 
 > Koa -- 基于 Node.js 平台的下一代 web 开发框架, 可查阅[Koa2 文档](https://koa.bootcss.com/), 项目参考了 [Lin-CMS-Koa](https://github.com/TaleLin/lin-cms-koa), 并且也大量使用了[慕课网](http://www.imooc.com)课程[Koa2 服务端开发](https://coding.imooc.com/class/342.html), 感谢**林间有风**团队, 特别是慕课网[七月](http://www.imooc.com/t/4294850)老师, 欢迎大家支持正版.
 
-## 初始化与基本概念
+## 初始化与基本概念(init)
 
 依赖环境:
 
@@ -184,7 +184,7 @@ app.listen(3000)
 console.log('在3000端口服务端启动成功!')
 ```
 
-## 改造路由系统
+## 路由系统(Router)
 
 ### 不使用路由的 koa2
 
@@ -331,7 +331,7 @@ console.log('Server Start in port 3000!')
 需要确保路由模块都是采用 default 形式进行导出, 即`module.exports = router`.
 :::
 
-### 增加初始化管理器,并使用绝对路径
+### 增加初始化管理器(InitManager)
 
 :::tip 小技巧
 `process.cwd()`能显示当前项目的绝对路径, 例如`"D:\js_projects\my-koa2"`
@@ -412,7 +412,7 @@ console.log('Server Start in port 3000!')
 由于`process.cwd()`能显示当前项目的绝对路径, 通过与绝对路径修改 api 文件夹位置, 这样无论怎么修改`init.js`文件位置都没关系,但是**必须保证**`api`文件夹的位置始终位于项目工程根目录的`./app/api`中.
 :::
 
-## 参数传递
+## 异常处理(HttpException)
 
 ### koa2 获取 4 种类型的参数
 
@@ -513,7 +513,7 @@ javascript 中`1/0`不会报错, 会返回一个值`Infinity`的值, 表示无�
 如果 promise 的异常没有处理, 例如没有用 await 来接收, 则会报"UnhandledPromiseRejectionWarning"错误
 :::
 
-### 增加全局异常处理
+### 增加全局异常处理(catchError)
 
 主要思想是增加一个中间件, 把所有函数都放到中间件的 try/catch 中去, 如果出现问题则修改 body.
 新增中间件`middlewares`文件夹, 编写`exception.js`文件
@@ -824,7 +824,9 @@ module.exports = catchError
 
 ```
 
-## 使用校验器
+## 参数校验(Validator)
+
+### 使用校验器
 
 koa2 没有特别好的校验器, 目前使用的是[lin-mizar](https://github.com/hpmax00/lin-mizar)提供的 validator 类, lin-mizar 是[LinCms](https://github.com/TaleLin/lin-cms-koa)的核心库, 首先下载<a :href="$withBase('/lin-validator.zip')" >lin-validator.zip</a>, 解压之后放到`core`文件夹下, 然后在`app`目录新建`validators`目录及`validator.js`文件, 目录结构如下:
 
@@ -929,3 +931,11 @@ router.post('/v1/:id/test', (ctx, next) => {
 
 module.exports = router
 ```
+
+## 数据持久化
+
+### 安装 mysql 与 navicat
+
+通过访问[XAMPP](https://www.apachefriends.org/zh_cn/index.html), 下载安装 XAMPP, 即自带 MariaDB. [MariaDB](https://mariadb.org/) 数据库管理系统是 MySQL 的一个分支，主要由开源社区在维护，采用 GPL 授权许可 MariaDB 的目的是完全兼容 MySQL，包括 API 和命令行，使之能轻松成为 MySQL 的代替品。
+
+此外, 还需要安装[navicat for mysql](https://navicat.com.cn/), 他是一个数据库可视化管理工具.
