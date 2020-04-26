@@ -1331,9 +1331,9 @@ const router = new Router({
 // 颁布令牌
 router.post('/', async (ctx) => {
   const v = await new TokenValidator().validate(ctx)
-  const account = v.get('body.account')
-  const secret = v.get('body.secret')
-  const type = v.get('body.type')
+  const account = v.get('body.account') // 用户账户名
+  const secret = v.get('body.secret') // 用户密码
+  const type = v.get('body.type') // 用户登录方式
   // 使用jwt令牌, 是随机字符串并可携带数据
   switch (type) {
     case LoginType.USER_EMAIL:
@@ -1384,3 +1384,153 @@ class User extends Model {
 :::warning 注意
 由于很多函数都需要异步进行数据库操作, 因此大量用到了`async/await`, 这块千万要注意!
 :::
+
+### 生成 jwt 令牌(token)
+
+生成令牌需要用到私有 key 和过期时间, 这里我们配置到`config.js`中:
+
+```js
+module.exports = {
+  enviroment: 'dev',
+  database: {...},
+  security: {
+    // 生成令牌所需的私有key
+    secretKey: 'asdc123dad',
+    // 令牌的过期时间, 以秒为单位, 这里用1个小时
+    expiresIn: 60 * 60,
+  },
+}
+```
+
+然后在`core/util.js`中增加生成令牌的`generateToken`方法, 在令牌中写入用户 id 和用户权限范围(scope)
+
+```js
+// 导入jsonwebtoken模块, 用以生成令牌
+const jwt = require('jsonwebtoken')
+
+// 颁发令牌
+const generateToken = function(uid, scope) {
+  // 从配置项中读取私有key和过期时间
+  const secretKey = global.config.security.secretKey
+  const expiresIn = global.config.security.expiresIn
+  // 第1个参数放置我们需要令牌携带的内容,包括用户id和权限范围
+  // 第2个参数传入私有key,
+  // 第3个参数放置令牌的配置项, 这里传入了过期时间
+  // 然后利用jwt进行签名生成令牌
+  const token = jwt.sign({ uid, scope }, secretKey, { expiresIn })
+  return token
+}
+```
+
+最后, 在`api`的`token.js`中使用该方法生成令牌
+
+```js
+// 导入生成令牌的方法
+const { generateToken } = require('../../../core/util')
+
+// 颁布令牌
+router.post('/', async (ctx) => {
+  const v = await new TokenValidator().validate(ctx)
+  const account = v.get('body.account')
+  const secret = v.get('body.secret')
+  const type = v.get('body.type')
+  let token // token默认为空
+
+  switch (type) {
+    case LoginType.USER_EMAIL:
+      // 返回jwt令牌
+      token = await emailLogin(account, secret)
+      break
+    default:
+      throw new ParameterException('没有相应的处理函数')
+  }
+  // 将token传递给前端
+  ctx.body = { token }
+})
+
+async function emailLogin(account, secret) {
+  const user = await User.verifyEmailPassword(account, secret)
+  // 获得用户后生成令牌
+  return generateToken(user.id, 2)
+}
+```
+
+### jwt 令牌校验与取值
+
+因为令牌用的比较多, 所以可以采用中间件的形式进行编写, 在`middlewares`文件夹下新建`auth.js`文件, 这里采用 basicAuth 的授权方式, 用类的方式返回一个中间件函数.
+返回的中间件函数使用 jwt 的`verify()`方法对令牌值进行验证, 验证通过则把解码后的值保存在`ctx.auth`属性上
+:::warning 注意
+类中的 m 是用`get`修饰, 因此它是一个**属性**, 只是在取`m`属性的时候会调用定义的 m()方法, 获取返回值. 返回值是一个中间件函数. 因此在用的时候, 应该是`new Auth().m`即可获取中间件函数
+:::
+
+```js
+// 导入basicAuth相关的包
+const basicAuth = require('basic-auth')
+const { Forbbiden } = require('../core/http-exception')
+const jwt = require('jsonwebtoken')
+
+class Auth {
+  constructor() {}
+
+  // 注意,m是一个属性, 这里用get修饰符
+  get m() {
+    // token进行检查, 使用httpBasicAuth进行身份验证, 在username中传递令牌
+    return async (ctx, next) => {
+      // ctx.req获得的是node.js原生的request对象,
+      // ctx.request获取的则是koa2中封装的request对象
+      // 将request对象传入, 即可得到basicAuth的令牌
+      // basicAuth的令牌包括2个部分,一个是name, 一个是pass
+      const userToken = basicAuth(ctx.req)
+      let errMsg = 'token不合法'
+      // 如果令牌不存在, 或者没有那么属性, 则抛出异常
+      if (!userToken || !userToken.name) {
+        throw new Forbbiden(errMsg)
+      }
+      try {
+        // 验证令牌是否合法, 其中userToken.name是令牌字符串, secretKey是用户私有key
+        // 如果验证通过, 则会返回我们给令牌传的值
+        // 这里decode需要用var关键词, 否则后续拿不到该值
+        var decode = jwt.verify(
+          userToken.name,
+          global.config.security.secretKey
+        )
+      } catch (error) {
+        if (error.name === 'TokenExpiredError') {
+          errMsg = '令牌已过期'
+        }
+        throw new Forbbiden(errMsg)
+      }
+      // 将验证后的值统一保存到ctx的auth属性中
+      ctx.auth = {
+        uid: decode.uid,
+        scope: decode.scope,
+      }
+      // 调用后续的中间件函数
+      await next()
+    }
+  }
+}
+module.exports = { Auth }
+```
+
+然后我们在`api`文件中新建`deploy.js`进行测试, 这里的 Auth 中间件需要放到我们自己使用的中间件前面, 先行进行调用, 如果不出问题, 则会在`ctx.auth`中找到传入值
+
+```js
+const Router = require('koa-router')
+const { Auth } = require('../../../middlewares/auth')
+
+const router = new Router({
+  prefix: '/v1/deploy',
+})
+
+// 将Auth中间件加入到router中
+router.get('/getSetting', new Auth().m, async (ctx) => {
+  // 将保存的值显示出来
+  ctx.body = ctx.auth
+})
+
+module.exports = router
+```
+
+利用 postman 进行测试的时候, 需要选择`Authorization` 的`Basic Auth` 选项, 然后在`username`上传递之前生成的令牌, 如下图所示:
+![postman测试basicAuth令牌](https://s1.ax1x.com/2020/04/27/JR8z7j.png)
