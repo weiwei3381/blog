@@ -1250,3 +1250,137 @@ router.post('/register', async (ctx) => {
   // 抛出成功的情况
   throw new Success()
 ```
+
+## 令牌发放
+
+### 定义 Type 相关枚举类型(Enum)
+
+在`app/lib`文件夹下新建一个枚举功能类`enum.js`, 内容如下:
+
+```js
+// 判断val是否存在各类Type中
+function isThisType(val) {
+  for (let key in this) {
+    if (this[key] === val) {
+      return true
+    }
+  }
+  return false
+}
+// 定义登录类型
+// 其中增加isThisType的判定,
+// 例如用户传100, 通过这个方法即可判断是否为可用值
+const LoginType = {
+  USER_MINI_PROGRAM: 100,
+  USER_EMAIL: 101,
+  USER_MOBILE: 102,
+  ADMIN_EMAIL: 200,
+  isThisType,
+}
+
+module.exports = {
+  LoginType,
+}
+```
+
+### 验证用户邮箱和密码是否正确
+
+在`app/api/v1`下新建`token.js`的令牌相关 api 类, 里面主要写颁布令牌的功能, 首先需要在`validator.js`中增加`TokenValidator.js`的验证类.这里的关键在于**可选值**的验证, 以及必须在枚举类型中的验证方法.
+
+```js
+class TokenValidator extends LinValidator {
+  constructor() {
+    super()
+    // 账号传入校验
+    this.account = [new Rule('isLength', '不符合账号规则', { min: 4, max: 32 })]
+    // 密码是可选校验
+    // isOptional表示可选参数, 这是lin-validator自带的
+    // 如果传入了, 则需要保证`isLength`规定的校验规则
+    this.secret = [
+      new Rule('isOptional'),
+      new Rule('isLength', '至少6个字符', { min: 6, max: 128 }),
+    ]
+  }
+
+  // 自定义验证器验证type情况, 需要保证在LoginType枚举中
+  validateLoginType(vals) {
+    if (!vals.body.type) {
+      throw new Error('type是必填项')
+    }
+    if (!LoginType.isThisType(vals.body.type)) {
+      throw new Error('type参数不合法')
+    }
+  }
+}
+```
+
+使用`TokenValidator`验证之后, 根据`type`不同, 需要调用不同的处理函数, 如果都没有,则需要抛出异常.
+以邮箱和密码验证为例, 这里需要验证邮箱对应的用户是否存在, 以及用户传入的密码是否正确, 这里由于跟数据库操作相关, 因此放到模型`User`中进行.
+
+```js
+const Router = require('koa-router')
+const { TokenValidator } = require('../../validators/validator')
+const { LoginType } = require('../../lib/enum')
+const { User } = require('../../models/user')
+const { ParameterException } = require('../../../core/http-exception')
+
+const router = new Router({
+  prefix: '/v1/token',
+})
+
+// 颁布令牌
+router.post('/', async (ctx) => {
+  const v = await new TokenValidator().validate(ctx)
+  const account = v.get('body.account')
+  const secret = v.get('body.secret')
+  const type = v.get('body.type')
+  // 使用jwt令牌, 是随机字符串并可携带数据
+  switch (type) {
+    case LoginType.USER_EMAIL:
+      await emailLogin(account, secret)
+      break
+    case LoginType.USER_MINI_PROGRAM:
+      break
+    default:
+      // 如果都没有处理, 则抛出异常
+      throw new ParameterException('没有相应的处理函数')
+  }
+})
+
+async function emailLogin(account, secret) {
+  // 校验用户email和密码的信息, 放到模型User类中
+  const user = await User.verifyEmailPassword(account, secret)
+}
+
+module.exports = router
+```
+
+模型`User`中关于校验用户 email 和密码的信息, 之前`User`类只是继承`Model`类, 里面一直没有写方法, 这里加入邮箱密码是否正确的方法, 该方法为静态方法, 不需要实例化对象, 另外异常类由于内容都差不多, 这里就不展开了, `User`类中的写法如下:
+
+```js
+class User extends Model {
+  // 验证用户密码是否正确, 静态方法, 方便调用
+  static async verifyEmailPassword(email, plainPassword) {
+    // 判断用户名是这个邮箱的用户存在否
+    const user = await this.findOne({
+      where: {
+        email: email,
+      },
+    })
+    if (!user) {
+      throw new AuthFailed('账号不存在')
+    }
+    // 使用bcrypt进行密码比对
+    const correct = bcrypt.compareSync(plainPassword, user.password)
+    if (!correct) {
+      throw new AuthFailed('密码错误')
+    }
+    // 如果不出问题, 则返回该用户信息
+    return user
+  }
+}
+```
+
+:::warning 注意
+由于很多函数都需要异步进行数据库操作, 因此大量用到了`async/await`, 这块千万要注意!
+:::
