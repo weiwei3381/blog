@@ -939,3 +939,107 @@ module.exports = router
 通过访问[XAMPP](https://www.apachefriends.org/zh_cn/index.html), 下载安装 XAMPP, 即自带 MariaDB. [MariaDB](https://mariadb.org/) 数据库管理系统是 MySQL 的一个分支，主要由开源社区在维护，采用 GPL 授权许可 MariaDB 的目的是完全兼容 MySQL，包括 API 和命令行，使之能轻松成为 MySQL 的代替品。
 
 此外, 还需要安装[navicat for mysql](https://navicat.com.cn/), 他是一个数据库可视化管理工具.
+
+安装 XAMPP 完毕后, 登陆 XAMPP 管理控制台, 开启 mysql 数据库.
+![XAMPP管理控制台](https://s1.ax1x.com/2020/04/26/JcdLvV.png)
+这时,我们需要使用 navicat 修改`root`用户的密码, 用 navicat 首次登陆不输入密码, 点击[用户]菜单, 修改所有 root 开头的用户名, 然后就可以按照新密码进行登陆了.
+![navicat修改用户密码](https://s1.ax1x.com/2020/04/26/Jcd4Hg.png)
+
+### 使用 Sequelize 创建 User 表
+
+首先在配置文件中设置数据库用户名, 密码, 地址等参数:
+
+```js
+module.exports = {
+  // 如果prod则是生产环境, 如果是dev则是开发环境
+  enviroment: 'dev',
+  database: {
+    dbName: 'filemsg',
+    host: '127.0.0.1',
+    port: 3306,
+    user: 'root',
+    password: '123456',
+  },
+}
+```
+
+在`core`文件夹下面新建`db.js`文件夹, 这里使用的 ORM 库是[sequelize](https://sequelize.org/v5/), 该文件主要完成配置数据库连接以及初始化等一系列操作:
+
+```js
+// 引入sequelize
+const Sequelize = require('sequelize')
+
+// 从配置文件中解构获取database参数
+const {
+  dbName,
+  host,
+  port,
+  user,
+  password,
+} = require('../config/config').database
+// 创建Sequelize实例
+const sequelize = new Sequelize(dbName, user, password, {
+  dialect: 'mysql', // 设置数据库语言别名为"mysql"
+  host,
+  port,
+  logging: true, // 显示日志, 包括操作的SQL语句
+  timezone: '+8:00',
+  define: {
+    // 是否显示createdAt和updateAt时间戳字段
+    timestamps: true,
+    paranoid: true, // 会增加deleteAt字段, 实现假删除
+    // 下面3项是更改别名
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
+    deletedAt: 'deleted_at',
+    // 默认命名使用驼峰式命名，该配置则使用蛇型命名。
+    underscored: true,
+  },
+})
+
+// 将定义的模型同步到数据库上, force表示强制更新, 会丢失数据
+sequelize.sync({
+  force: true,
+})
+// 导出模型
+module.exports = { sequelize }
+```
+
+在配置好`core/db.js`之后, 可以在`app`下新建`models`文件夹, 用来存放所有的数据库模型类, 这里新建`models/user.js`:
+
+```js
+const { Sequelize, Model } = require('sequelize')
+const { sequelize } = require('../../core/db')
+
+class User extends Model {}
+
+User.init(
+  {
+    // 主键ID
+    id: {
+      type: Sequelize.INTEGER, // 整型
+      primaryKey: true, // 是否主键
+      autoIncrement: true, // 自增
+    },
+    nickname: Sequelize.STRING, // 昵称
+    email: Sequelize.STRING, // 电子邮箱
+    password: Sequelize.STRING, // 密码
+    openid: {
+      // 更加详细的设置每个属性, 包括长度, 是否唯一等
+      type: Sequelize.STRING(64),
+      unique: true,
+    },
+  },
+  // 第二个参数传递sequelize实例, 以及表名称
+  { sequelize, tableName: 'user' }
+)
+```
+
+如果需要系统在运行之初执行数据代码的话, 还需要在`app.js`中引用`user.js`.
+
+```js
+// 在创建app之初, 先引用user.js
+require('./app/models/user')
+
+const app = new Koa()
+```
