@@ -1610,3 +1610,7 @@ router.get('/getSetting', new Auth(12).m, async (ctx) => {
 
 module.exports = router
 ```
+
+### 业务逻辑编写位置
+
+业务逻辑可以在 API 接口或者 Model 模型中: 如果业务**很简单**, 可以写到 api 中, 否则应该写到 model 层中. 如果业务很复杂, 则可以分为三层, 分别是 api(controller)/services/model, 其中 services 存放业务比较复杂的代码.
