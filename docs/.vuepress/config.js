@@ -64,6 +64,7 @@ module.exports = {
       // 前端技术
       '/front-end/': [
         'javascript',
+        'pattern',
         'typescript',
         'es6',
         'css',

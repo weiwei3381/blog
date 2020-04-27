@@ -6,6 +6,7 @@
 
 ## 文章目录
 
+- :owl: [前端设计模式](./pattern.md)
 - :pencil2::smile:[恶补 css](./css.md)
 - :pencil2::joy:[可视化与设计资源](./css.md)
 - :100: [npm 常用命令](./npm.md)
