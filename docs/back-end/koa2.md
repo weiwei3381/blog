@@ -1614,3 +1614,23 @@ module.exports = router
 ### 业务逻辑编写位置
 
 业务逻辑可以在 API 接口或者 Model 模型中: 如果业务**很简单**, 可以写到 api 中, 否则应该写到 model 层中. 如果业务很复杂, 则可以分为三层, 分别是 api(controller)/services/model, 其中 services 存放业务比较复杂的代码.
+
+node.js 提供了一个帮助工具`util`, [util 文档](https://nodejs.org/docs/latest-v12.x/api/util.html)里面提供了很多帮助函数, 其中有本文格式化的函数, 还有类似于深比较`util.isDeepStrictEqual(val1, val2)`,`util.types`提供各种类型的内置对象的类型检查,字符编码`util.TextDecoder`和`util.TextEncoder`, `util.inspect()`方法返回`object`用于调试的字符串表示形式。
+
+```js
+const util = require('util')
+// 文本格式化
+const url = util.format('测试%s', id)
+```
+
+但是如果跟数据交互相关, 代码应该写到`model`模型类中, 例如微信小程序提供了 openId, 我们要查询 openId 是否已经存在, 那么这个方法应该写到模型类`User`当中.
+
+## 数据库设计
+
+### 实体表和业务表概念
+
+实体表是实体, 而业务表是虚表, 通过与实体的联系并附加一些信息, 从而方便业务操作.
+
+使用概括的单词来描述一些实体类, 这样可以方便文件命名, 例如`classic.js`用来包括`book`, `music`等, 这样 classic 可以作为基类.
+
+但是 javascript 中的 orm 框架中不能使用继承来实现.
