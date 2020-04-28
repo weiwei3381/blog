@@ -1535,6 +1535,32 @@ module.exports = router
 利用 postman 进行测试的时候, 需要选择`Authorization` 的`Basic Auth` 选项, 然后在`username`上传递之前生成的令牌, 如下图所示:
 ![postman测试basicAuth令牌](https://s1.ax1x.com/2020/04/27/JR8z7j.png)
 
+### 前端获取令牌 token
+
+在前端使用 httpAuth 的方式传递令牌, 需要进行 base64 加密, 先在前端安装 base64.js, `npm i js-base64 --save`, 示例代码如下:
+
+```js
+// 导入base64包
+import {Base64} from 'js-base64'
+
+const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjEsInNjb3BlIjo4LCJpYXQiOjE1ODgwNTg4OTQsImV4cCI6MTU4ODA2MjQ5NH0.kgU351Gvedl3gvPmvb4iW1UrsIKQUM9thWtbr7ltIsA
+axios({
+  method: 'POST',
+  url: '/user/token',
+  header:{
+    Authorization:_encode(token)
+  }
+})
+// 进行base64加密
+const _encode = (token)=>{
+  // 一般加密的是username:password字符串形式,
+  // 但是因为这里只传递令牌, 所以把令牌放到username中, password部分为空
+  const base64 = Base64.encode(`${token}:`)
+  // 标准的basicAuth需要在前面增加`Basic `, 所以这里需要加上
+  return "Basic " + base64
+}
+```
+
 ### 权限设计
 
 权限设计其实可以很简单, 就是用户给定一个权限值, 例如普通用户为 8, 管理员为 16, 然后给每个 api 一个权限数字, 如果用户权限大于 api 权限, 则可以查看, 否则没有权限, 这里设置不同用户的权限, 以及给 API 设置权限都在`middlewares/auth.js`类中, 其中加上注释的代码就是这次新增的.
@@ -1631,6 +1657,123 @@ const url = util.format('测试%s', id)
 
 实体表是实体, 而业务表是虚表, 通过与实体的联系并附加一些信息, 从而方便业务操作.
 
-使用概括的单词来描述一些实体类, 这样可以方便文件命名, 例如`classic.js`用来包括`book`, `music`等, 这样 classic 可以作为基类.
+使用概括的单词来描述一些实体类, 这样可以方便文件命名, 例如`classic.js`用来包括`sentence`, `music`等, 这样 classic 可以作为基类.
 
-但是 javascript 中的 orm 框架中不能使用继承来实现.
+但是 javascript 中的 orm 框架中不能使用继承来实现.因此只能采用折中的办法进行设计, 例如`classic.js`写法如下:
+
+```js
+const { Sequelize, Model } = require('sequelize')
+const { sequelize } = require('../../core/db')
+
+// 由于sequelize不能采用类属性的方式定义字段
+// 所以这里单独声明一个classic字段对象
+const classicFields = {
+  image: Sequelize.STRING,
+  content: Sequelize.STRING,
+  pubdate: Sequelize.DATEONLY,
+  favNums: Sequelize.INTEGER,
+  title: Sequelize.STRING,
+  type: Sequelize.TINYINT,
+}
+// 定义电影的模型类
+class Movie extends Model {}
+
+// 电影模型类进行初始化, 第1个参数是classic模型的属性,使用classicFields
+// 第2个参数传递一些参数, 包括sequelize实例和表名
+Movie.init(classicFields, {
+  sequelize,
+  tableName: 'movie',
+})
+
+// 与电影一样, 定义名句的模型类
+class Sentence extends Model {}
+// 初始化电影
+Sentence.init(classicFields, {
+  sequelize,
+  tableName: 'sentence',
+})
+
+// 与电影一样, 定义音乐的模型类
+class Music extends Model {}
+
+// 需要注意的是, 音乐多了一个字段, 叫做musicUrl
+// 使用Object.assign在classicFields的基础上增加url字段
+const musicFields = Object.assign({ url: Sequelize.STRING }, classicFields)
+Music.init(musicFields, {
+  sequelize,
+  tableName: 'music',
+})
+
+module.exports = {
+  Movie,
+  Sentence,
+  Music,
+}
+```
+
+而相关的业务表`flow.js`写法如下:
+
+```js
+const { Sequelize, Model } = require('sequelize')
+const { sequelize } = require('../../core/db')
+
+class Flow extends Model {}
+
+Flow.init(
+  {
+    index: Sequelize.INTEGER,
+    artId: Sequelize.INTEGER,
+    // type是表示每天展现的形式
+    // 100表示电影,200表示句子,300表示音乐
+    type: Sequelize.INTEGER,
+  },
+  {
+    sequelize,
+    tableName: 'flow',
+  }
+)
+
+module.exports = {
+  Flow,
+}
+```
+
+### 数据排序 order
+
+排序使用 order 属性进行
+
+```js
+// flow按照index进行倒序, 取第一个
+const flow = Flow.findOne({
+  order: [['index', 'DESC']],
+})
+```
+
+### 模型序列化
+
+首先添加`增加电影`和`读取电影`的 api, 由于返回给用户的信息需要增加或者删除某些字段, 因此这里对返回属性进行了一定的修改
+
+```js
+// 增加电影情况
+router.post('/movie/add', new Auth(2).m, async (ctx) => {
+  const v = await new MovieAddValidator().validate(ctx)
+  const movie = {
+    title: v.get('body.title'),
+    content: v.get('body.content'),
+  }
+  await Movie.create(movie)
+  throw new Success()
+})
+
+// 返回指定id的电影
+router.get('/movie/:id', new Auth(2).m, async (ctx) => {
+  const v = await new MovieGetValidator().validate(ctx)
+  const queryId = v.get('path.id')
+  const movie = await Movie.getMovieById(queryId)
+  // 在返回结果中增加某个属性, 需要加到dataValues中去
+  // movie.dataValues.addAttrib = '增加的属性'
+  // 但是不推荐这种写法, sequlize提供了增加属性的方法时
+  movie.setDataValue('addAttrib', '增加的属性')
+  ctx.body = movie
+})
+```
