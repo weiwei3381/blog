@@ -1651,7 +1651,7 @@ const url = util.format('测试%s', id)
 
 但是如果跟数据交互相关, 代码应该写到`model`模型类中, 例如微信小程序提供了 openId, 我们要查询 openId 是否已经存在, 那么这个方法应该写到模型类`User`当中.
 
-## 数据库设计
+## 数据库(database)操作
 
 ### 实体表和业务表概念
 
@@ -1738,15 +1738,46 @@ module.exports = {
 }
 ```
 
-### 数据排序 order
+### 数据排序(order), 删除(destory), 高级查找(find)
 
-排序使用 order 属性进行
+排序使用 order 属性进行排序操作:
 
 ```js
 // flow按照index进行倒序, 取第一个
 const flow = Flow.findOne({
   order: [['index', 'DESC']],
 })
+```
+
+利用事务进行删除操作, 分为硬删除和软删除两种模式:
+
+```js
+await flow.destory({
+  // 表明是硬删除还是软删除, 如果true表示硬删除,
+  // false表示只是增加了一个delete_time, 数据还在
+  force: false,
+  // 传递的事务t
+  transaction: t,
+})
+```
+
+高级查找功能:
+
+```js
+const { Op } = require('sequelize')
+// 找到所有id为uid, 年龄在16,17,18, 且type值不等于400的值
+Favor.findAll(
+  (where: {
+    id: 'uid',
+    ages: {
+      [Op.in]: [16, 17, 18],
+    },
+    type: {
+      // [Op.not]会转成一个字符串, 也就是说a可以是表达式进行运算,[a]会变为一个字符串
+      [Op.not]: 400,
+    },
+  })
+)
 ```
 
 ### 模型序列化
@@ -1775,5 +1806,23 @@ router.get('/movie/:id', new Auth(2).m, async (ctx) => {
   // 但是不推荐这种写法, sequlize提供了增加属性的方法时
   movie.setDataValue('addAttrib', '增加的属性')
   ctx.body = movie
+})
+```
+
+### 数据库事务(Transaction)
+
+默认情况下，Sequelize 不使用事务。但是，对于 Sequelize 的生产使用，应该将 Sequelize 配置为使用事务, [示例说明文档](https://sequelize.org/master/manual/transactions.html)叙述的非常详细.
+Sequelize 支持两种使用事务的方式：
+
+- 非托管事务：提交和回滚事务应由用户手动完成（通过调用适当的 Sequelize 方法）。
+- 托管事务：如果引发任何错误，Sequelize 将自动回滚事务，否则将提交事务。
+
+```js
+return sequelize.transaction(async (t) => {
+  await Favor.create({ art_id, type, uid }, { transaction: t })
+  const art = await Art.getData(art_id, type)
+  // 利用increment方法可以给某个值增加一个数, 后面传的by后面就是增加的值
+  // decrement表示减去一个数
+  await art.increment('fav_num', { by: 1, transaction: t })
 })
 ```
