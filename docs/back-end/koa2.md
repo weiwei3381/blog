@@ -1296,8 +1296,9 @@ class TokenValidator extends LinValidator {
     // 密码是可选校验
     // isOptional表示可选参数, 这是lin-validator自带的
     // 如果传入了, 则需要保证`isLength`规定的校验规则
+    // 如果不传 则默认值就是123456
     this.secret = [
-      new Rule('isOptional'),
+      new Rule('isOptional', '', '123456'),
       new Rule('isLength', '至少6个字符', { min: 6, max: 128 }),
     ]
   }
@@ -1726,6 +1727,11 @@ Flow.init(
     // type是表示每天展现的形式
     // 100表示电影,200表示句子,300表示音乐
     type: Sequelize.INTEGER,
+    fav_num: {
+      type: Sequelize.INTEGER,
+      // 可以设置默认值
+      default: 0,
+    },
   },
   {
     sequelize,
@@ -1765,10 +1771,9 @@ await flow.destory({
 
 ```js
 const { Op } = require('sequelize')
-// 找到所有id为uid, 年龄在16,17,18, 且type值不等于400的值
-Favor.findAll(
-  (where: {
-    id: 'uid',
+// 找到所有年龄在16,17,18, 且type值不等于400的值, 并按照art_id进行分组
+Favor.findAll({
+  where: {
     ages: {
       [Op.in]: [16, 17, 18],
     },
@@ -1776,8 +1781,12 @@ Favor.findAll(
       // [Op.not]会转成一个字符串, 也就是说a可以是表达式进行运算,[a]会变为一个字符串
       [Op.not]: 400,
     },
-  })
-)
+  },
+  // 分组情况
+  group: ['art_id'],
+  // 返回的属性
+  attributes: ['art_id', [Sequelize.fn('COUNT', '*'), 'count']],
+})
 ```
 
 ### 模型序列化
@@ -1809,6 +1818,55 @@ router.get('/movie/:id', new Auth(2).m, async (ctx) => {
 })
 ```
 
+通过在电影模型的序列化时指定导出的属性, 可以有效控制前端展现的情况:
+
+```js
+// 定义电影的模型类
+class Movie extends Model {
+  static async getMovieById(id) {
+    const movie = await Movie.findOne({
+      where: { id },
+    })
+    if (!movie) {
+      throw new NotFound('未能找到指定id的电影')
+    }
+    return movie
+  }
+
+  // 利用toJson方法, 返回指定数据
+  // 如果想排除某些数据, 可以先拷贝this.dataValue的所有值, 然后删除指定属性
+  toJSON() {
+    return {
+      title: this.getDataValue('title'),
+      content: this.getDataValue('content'),
+    }
+  }
+}
+```
+
+因此, 可以在 Model 基类上定义 toJSON, 可以全局排除
+
+```js
+// 导入lodash中的去除属性和浅拷贝方法
+const { unset, clone } = require('lodash')
+
+// 在Model基类上定义toJSON方法排除3个日期字段
+Model.prototype.toJSON = function() {
+  let data = clone(this.dataValues)
+  unset(data, 'updated_at')
+  unset(data, 'created_at')
+  unset(data, 'deleted_at')
+  // 如果对象有exclude数组, 则在序列化的时候排除指定属性
+  if (isArray(this.exclude)) {
+    this.exclude.forEach((value) => unset(data, value))
+  }
+
+  return data
+}
+```
+
+使用的时候也很简单,在 api 最终调用的时候, 对于模型返回的 sequelize 对象增加 exclude 数组, 即可排除指定属性, 例如`movie.exclude = ['pubdate']`
+
 ### 数据库事务(Transaction)
 
 默认情况下，Sequelize 不使用事务。但是，对于 Sequelize 的生产使用，应该将 Sequelize 配置为使用事务, [示例说明文档](https://sequelize.org/master/manual/transactions.html)叙述的非常详细.
@@ -1826,3 +1884,9 @@ return sequelize.transaction(async (t) => {
   await art.increment('fav_num', { by: 1, transaction: t })
 })
 ```
+
+## 其他需要注意的问题
+
+1. `axios`库对于中文不会自动进行编码, 因此需要用 node.js 内置的`encodeURI()`将可能为中文的字段进行转码.
+2. mysql 对于形如`%sql%`的模糊搜索, 会执行全表扫描, 不走索引, 所以速度比较慢.
+3. 在 Model 上不要定义构造函数, 否则会出错
