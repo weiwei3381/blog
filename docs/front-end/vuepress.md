@@ -26,7 +26,7 @@ module.exports = {
   description: '衣带渐宽终不悔',
   // 网站图标配置
   head: [
-    ['link', { rel: 'icon', href: '/fav.ico' }] // 增加一个自定义的 favicon(网页标签的图标)
+    ['link', { rel: 'icon', href: '/fav.ico' }], // 增加一个自定义的 favicon(网页标签的图标)
   ],
   // 设置输出目录, 默认为docs/.vuepress/dist目录, 改为根目录下的dist文件夹
   dest: './dist',
@@ -43,16 +43,16 @@ module.exports = {
         // 这里是下拉列表展现形式。
         items: [
           { text: '小鸟搜索', link: 'https://www.birdiesearch.com/' },
-          { text: '每天一本编程书', link: 'https://salttiger.com/' }
-        ]
-      }
+          { text: '每天一本编程书', link: 'https://salttiger.com/' },
+        ],
+      },
     ],
     // 为以下路由添加侧边栏
     sidebar: {
       '/前端/': ['vuepress', 'babel'],
-      '/通用/': ['vscode', 'guide']
-    }
-  }
+      '/通用/': ['vscode', 'guide'],
+    },
+  },
 }
 ```
 
@@ -79,18 +79,18 @@ module.exports = {
         items: [
           {
             text: 'focus-outside',
-            link: 'https://github.com/txs1992/focus-outside'
+            link: 'https://github.com/txs1992/focus-outside',
           },
           {
             text: 'stylus-converter',
-            link: 'https://github.com/txs1992/stylus-converter'
-          }
-        ]
-      }
+            link: 'https://github.com/txs1992/stylus-converter',
+          },
+        ],
+      },
     ],
     // 为以下路由添加侧边栏
-    sidebar: ['/', '/git', '/vue']
-  }
+    sidebar: ['/', '/git', '/vue'],
+  },
 }
 ```
 
@@ -117,9 +117,9 @@ module.exports = {
   themeConfig: {
     sidebar: {
       '/vue/': ['one', 'two'],
-      '/css/': ['three', 'four']
-    }
-  }
+      '/css/': ['three', 'four'],
+    },
+  },
 }
 ```
 
@@ -159,7 +159,7 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 ---
 ```
 
-## markdown 增强
+## markdown 插件
 
 ### 提示框
 
@@ -232,6 +232,66 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 VuePress 提供的代码块支持多种语言，例如`java`、`html`、`xml`等，其中有些语言可以简写，例如`js`(javascript)、`py`(python)、`vb`(Visual Basic)。
 另外，有些不常用语言也意外的支持:joy:，例如: `git`(git 代码)，`batch`(批处理文件)，`matlab`(Matlab)，`yaml`(Yaml), 所有支持的语言可以访问[支持列表](https://prismjs.com/)查看。
 
+### 脚注、高亮、下划线与待办事项(markdown 增强)
+
+[markdown-it-mark](https://github.com/markdown-it/markdown-it-mark)插件为 vuepress 增加了高亮的语法, 首先使用命令`npm install markdown-it-mark --save`进行安装, 安装完毕后在`config.js`中启用该插件, 使用语法是用两个`=`包裹需要高亮的语句, 但是包裹对象需要跟前后用空格隔开, 实现的效果就像这样: ==注意, markdown 与 plugins 是平级的.==
+
+```js
+markdown: {
+    extendMarkdown: (md) => {
+      md.set({
+        breaks: true,
+        html: true,
+      })
+      md.use(require('markdown-it-katex'))
+      md.use(require('markdown-it-footnote'))
+      md.use(require('markdown-it-task-lists'))
+      // 增加高亮
+      md.use(require('markdown-it-mark'))
+      md.use(require('markdown-it-ins'))
+    },
+  },
+```
+
+类似的还有脚注, 待办事项和下划线.
+
+```md
+1. 脚注:
+   这里主要用到了 PSO 算法[^1], 以及相应的改进算法[^2]
+   [^1]:PSO 算法情况，会自动拉到最后面排版
+   [^2]:PSO 改进算法
+
+2. 高亮共有两种写法：
+   使用<mark>html 标签</mark>进行高亮  
+   这是 ==一段高亮的句子==
+
+3. 下划线共有两种写法:
+   <ins>html 标签的下划线</ins>
+   ++下划线++
+
+4. 待办事项：
+
+- [ ] 旅行准备
+  - [x] 买好需要的衣服
+```
+
+**渲染为:**
+这里主要用到了 PSO 算法[^1], 以及相应的改进算法[^2]  
+[^1]:PSO 算法情况，会自动拉到最后面排版  
+[^2]:PSO 改进算法
+
+- [ ] 旅行准备
+  - [x] 买好需要的衣服
+
+使用<mark>html 标签</mark>进行高亮  
+这是 ==一段高亮的句子==
+
+<ins>html 标签的下划线</ins>
+++下划线++
+:::warning 注意
+使用`+`或者`=`的高亮和下划线一般在单行中使用, 如果在同一行使用则需要 ==在两边增加空格== 与其他字符隔开, 否则不起效果!
+:::
+
 ## 插件使用
 
 vuepress 自带插件有 2 项:
@@ -260,10 +320,10 @@ module.exports = {
     [
       '@vuepress/search',
       {
-        searchMaxSuggestions: 5
-      }
-    ]
-  ]
+        searchMaxSuggestions: 5,
+      },
+    ],
+  ],
 }
 ```
 
@@ -277,9 +337,9 @@ module.exports = {
     '@vuepress/active-header-links',
     {
       sidebarLinkSelector: '.sidebar-link',
-      headerAnchorSelector: '.header-anchor'
-    }
-  ]
+      headerAnchorSelector: '.header-anchor',
+    },
+  ],
 }
 ```
 
@@ -289,7 +349,7 @@ module.exports = {
 
 ```js
 module.exports = {
-  plugins: ['@vuepress/back-to-top']
+  plugins: ['@vuepress/back-to-top'],
 }
 ```
 
@@ -302,14 +362,14 @@ module.exports = {
 ```js
 module.exports = {
   markdown: {
-    extendMarkdown: md => {
+    extendMarkdown: (md) => {
       md.set({
         breaks: true,
-        html: true
+        html: true,
       })
       md.use(require('markdown-it-katex'))
-    }
-  }
+    },
+  },
 }
 ```
 
@@ -322,18 +382,19 @@ module.exports = {
       'link',
       {
         rel: 'stylesheet',
-        href: 'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css'
-      }
+        href:
+          'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css',
+      },
     ],
     [
       'link',
       {
         rel: 'stylesheet',
         href:
-          'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css'
-      }
-    ]
-  ]
+          'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css',
+      },
+    ],
+  ],
 }
 ```
 

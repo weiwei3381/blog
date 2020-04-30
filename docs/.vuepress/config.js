@@ -41,8 +41,9 @@ module.exports = {
       {
         text: '🦉近期重点',
         items: [
-          { text: 'koa2实战', link: '/back-end/koa2' },
-          { text: 'python常用模块', link: '/back-end/python' },
+          { text: '🍄koa2服务端框架', link: '/back-end/koa2' },
+          { text: '🐋antd实战前端', link: '/front-end/antd' },
+          { text: '🐇python常用模块', link: '/back-end/python' },
         ],
       },
       {
