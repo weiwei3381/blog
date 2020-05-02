@@ -949,7 +949,7 @@ module.exports = router
 
 ### 使用 Sequelize 创建 User 表
 
-首先在配置文件中设置数据库用户名, 密码, 地址等参数:
+Sequlize 是 node.js 的一个 ORM 框架, 详细信息可以查阅[v5 版本中文 api 文档](https://github.com/demopark/sequelize-docs-Zh-CN/tree/v5),首先在配置文件中设置数据库用户名, 密码, 地址等参数:
 
 ```js
 module.exports = {
