@@ -1,8 +1,6 @@
 # Javascript/ECMAScript 相关技术
 
-## JS 实用方法
-
-### 对象方法
+## 对象(Object)方法
 
 - 遍历对象属性名
   `Object.keys()`方法与`Object.getOwnPropertyNames()`方法很相似，一般用来遍历对象的（属性名，索引），并返回一个数组，该数组成员都是对象自身的（不是继承的），区别在于`Object.keys`方法只返回可枚举的属性，`Object.getOwnPropertyNames`方法还能返回不可枚举的属性名。
@@ -26,6 +24,62 @@ Object.assign(target, source1, source2)
    对于这种嵌套的对象，一旦遇到同名属性，`Object.assign`的处理方法是替换，而不是添加。
    该方法也可用于对象的浅拷贝：`let newObj = Object.assign({}, myObject)`, 即把需要拷贝的对象与空对象{}合并即可
    :::
+
+## 数组(Array)方法
+
+### Array.isArray()
+
+`Array.isArray()`用于确定传递的值是否是一个 Array。
+
+```js
+Array.isArray([1, 2, 3]) // true
+Array.isArray({ foo: 123 }) // false
+Array.isArray('foobar') // false
+Array.isArray(undefined) // false
+```
+
+### Array.prototype.find()
+
+`find()`方法返回数组中满足提供的测试函数的**第一个**元素的值。否则返回 undefined。
+
+```js
+const array1 = [5, 12, 8, 130, 44]
+const found = array1.find((element) => element > 10)
+console.log(found) // 输出结果: 12
+```
+
+### Array.prototype.findIndex()
+
+与`find()`类似,`findIndex()`方法返回数组中满足提供的测试函数的**第一个元素**的索引。否则返回-1。这里的索引是从 0 开始计算。
+
+```js
+const array1 = [5, 12, 8, 130, 44]
+const isLargeNumber = (element) => element > 13
+console.log(array1.findIndex(isLargeNumber)) // 输出结果: 3
+```
+
+### Array.prototype.map()
+
+`map()` 方法创建一个新数组，其结果是该数组中的每个元素都调用一次提供的函数后的返回值，**原数组保持不变**。
+
+```js
+const array1 = [1, 4, 9, 16]
+// map需要传递一个函数
+const map1 = array1.map((x) => x * 2)
+console.log(map1) // 输出值为[2, 8, 18, 32]
+```
+
+### Array.prototype.forEach()
+
+`forEach()`方法对数组的每个元素执行一次给定的函数，对原数组没有影响。
+
+```js
+const array1 = ['a', 'b', 'c']
+array1.forEach((element) => console.log(element))
+// 输出: "a"
+// 输出: "b"
+// 输出: "c"
+```
 
 ## 立即执行函数
 
