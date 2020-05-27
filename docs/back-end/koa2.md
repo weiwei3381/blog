@@ -1887,6 +1887,48 @@ return sequelize.transaction(async (t) => {
 
 ## 其他需要注意的问题
 
+### 常见问题
+
 1. `axios`库对于中文不会自动进行编码, 因此需要用 node.js 内置的`encodeURI()`将可能为中文的字段进行转码.
 2. mysql 对于形如`%sql%`的模糊搜索, 会执行全表扫描, 不走索引, 所以速度比较慢.
-3. 在 Model 上不要定义构造函数, 否则会出错
+3. 在 Model 上不要定义构造函数, 否则会出错.
+
+### 增加跨域中间件(cross-domain)
+
+在`middlewares`文件夹下新增`cross-domain.js`文件, 主要处理与前端项目的跨域请求问题, 前端项目的地址写到全局配置`config.js`中, 增加一行`frontServer: 'http://localhost:3000'`, `cross-domain.js`主要内容如下:
+
+```js
+const crossDomain = async (ctx, next) => {
+  const frontServer = global.config.frontServer
+  ctx.set('Access-Control-Allow-Origin', frontServer) // 配置跨域范围
+  ctx.set(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
+  )
+  ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS')
+  // 保证OPTIONS能返回200
+  if (ctx.method == 'OPTIONS') {
+    ctx.body = 200
+  } else {
+    await next()
+  }
+}
+
+module.exports = crossDomain
+```
+
+然后在 app.js 中增加跨域中间件
+
+```js
+const crossDomain = require('./middlewares/cross-domain')
+
+const app = new Koa()
+app.use(catchError)
+// 配置跨域设置
+app.use(crossDomain)
+app.use(parser())
+InitManager.initCore(app)
+
+app.listen(8080)
+console.log('Server Start in port 8080!')
+```
