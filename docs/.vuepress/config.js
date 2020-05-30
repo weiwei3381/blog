@@ -43,7 +43,6 @@ module.exports = {
         items: [
           { text: '🍄koa2服务端框架', link: '/back-end/koa2' },
           { text: '🐇python常用模块', link: '/back-end/python' },
-          { text: '🐋给忙碌者的骨科医学课', link: '/general/bone' },
         ],
       },
       {
@@ -64,16 +63,8 @@ module.exports = {
     sidebar: {
       // 前端技术
       '/front-end/': [
-        'javascript',
-        'pattern',
-        'typescript',
-        'es6',
-        'css',
-        'node',
-        'design',
-        'npm',
-        'vuepress',
-        'babel',
+        'javascript', 'pattern', 'typescript', 'es6', 'css',
+        'node', 'design', 'npm', 'vuepress', 'babel',
       ],
       // 后端编程
       '/back-end/': ['daily', 'python', 'koa2'],
@@ -82,7 +73,7 @@ module.exports = {
       // 高效办公
       '/office/': ['word', 'other'],
       // 通用技术
-      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide'],
+      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone',],
     },
   },
   // vuepress插件系统
