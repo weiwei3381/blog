@@ -6,7 +6,7 @@
 
 > Ant Design 是阿里巴巴出的一款前端 UI 框架, [Antd 色彩体系](https://ant.design/docs/spec/colors-cn)解读成两个层面：系统级色彩体系和产品级色彩体系.
 
-#### Antd 色系
+#### Antd 色板
 
 Ant Design 的基础色板共计 120 个颜色，包含 12 个主色以及衍生色。这些颜色基本可以满足中后台设计中对于颜色的需求。
 ![Antd色系1](https://s1.ax1x.com/2020/03/30/GmmRfO.png)

@@ -71,7 +71,7 @@ module.exports = {
       // 项目实战
       '/practice/': ['Hilo', 'canvas', 'react'],
       // 高效办公
-      '/office/': ['word', 'other'],
+      '/office/': ['word', 'excel', 'other'],
       // 通用技术
       '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone',],
     },

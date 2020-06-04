@@ -75,7 +75,45 @@ os.path.isdir(path)  # 返回值均为True或False
 
 requests 是 python 中爬虫使用最多的网络请求模块，api 比较友好，参考网址：[requests 快速上手](https://requests.readthedocs.io/zh_CN/latest/user/quickstart.html)、[requests 高级用法](https://requests.readthedocs.io/zh_CN/latest/user/advanced.html)。
 
+#### 常用操作
+
+**自定义请求头**
+服务器反爬虫机制会判断客户端请求头中的User-Agent是否来源于真实浏览器，所以，我们使用Requests经常会指定UA伪装成浏览器发起请求。
+
+```py
+url = 'https://httpbin.org/headers'
+headers = {'user-agent': 'Mozilla/5.0'}
+r = requests.get(url, headers=headers)
+```
+
+**参数传递**
+很多时候URL后面会有一串很长的参数，为了提高可读性，requests 支持将参数抽离出来作为方法的参数（params）传递过去，而无需附在 URL 后面，例如请求`http://bin.org/get?key=val` ，可使用：
+
+```py
+url = "http://httpbin.org/get"
+r = requests.get(url, params={"key":"val"})
+```
+
+**指定Cookie**
+Cookie 是web浏览器登录网站的凭证，虽然 Cookie 也是请求头的一部分，我们可以从中剥离出来，使用 Cookie 参数指定
+
+```py
+s = requests.get('http://httpbin.org/cookies', cookies={'from-my': 'browser'})
+s.text
+```
+
 #### 利用 session 登陆并访问网站
+
+如果想和服务器一直保持登录（会话）状态，而不必每次都指定 cookies，那么可以使用 session，Session 提供的API和 requests 是一样的。手动创建cookie的示例如下：
+
+```py
+s = requests.Session()
+s.cookies = requests.utils.cookiejar_from_dict({"a": "c"})
+r = s.get('http://httpbin.org/cookies')
+print(r.text)
+```
+
+登录后保存cookie至session的示例代码如下：
 
 ```py
 import requests
@@ -165,3 +203,7 @@ name = soup.find('h2')
 # 找到id为jm的对象
 volumn_node = soup.find(id="jm")  # 卷名
 ```
+
+## 面向对象编程
+
+
