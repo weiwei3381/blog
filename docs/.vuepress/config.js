@@ -38,6 +38,7 @@ module.exports = {
       { text: '🚀实战记录', link: '/practice/' },
       { text: '🏢高效办公', link: '/office/' },
       { text: '🍓通用知识', link: '/general/' },
+      { text: '🐸论文写作', link: '/paper/' },
       {
         text: '🦉近期重点',
         items: [
@@ -74,6 +75,8 @@ module.exports = {
       '/office/': ['word', 'excel', 'other'],
       // 通用技术
       '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone',],
+      // 论文
+      '/paper/': ['search', 'defense',],
     },
   },
   // vuepress插件系统

@@ -1,8 +1,8 @@
-# Katex公式格式速查
+# Katex 公式格式速查
 
-> [KaTeX](https://katex.org/)是目前*最快*的网络数学排版库, KaTeX的布局是基于Donald Knuth的TeX，这是数学排版的黄金标准。
+> [KaTeX](https://katex.org/)是目前*最快*的网络数学排版库, KaTeX 的布局是基于 Donald Knuth 的 TeX，这是数学排版的黄金标准。
 
-Katex数学公式语法的完全版见[KaTeX数学公式语法](https://blog.csdn.net/Leytton/article/details/103745169/), 本文仅列出使用频率比较高的部分.
+Katex 数学公式语法的完全版见[KaTeX 数学公式语法](https://blog.csdn.net/Leytton/article/details/103745169/), 本文仅列出使用频率比较高的部分.
 
 ## 公式格式
 
@@ -29,7 +29,7 @@ $$z = x^2 + y^2$$
 
 ## 四则运算
 
-- 加法`+`, 减法`-`, 点乘`\cdot`, 例如`x_2\cdot3y`渲染为: $x_2\cdot3y$, 叉乘`\times`, 例如`2\times3`渲染为$2\times3$. 
+- 加法`+`, 减法`-`, 点乘`\cdot`, 例如`x_2\cdot3y`渲染为: $x_2\cdot3y$, 叉乘`\times`, 例如`2\times3`渲染为$2\times3$.
 - 分子分母线`\frac{分子}{分母}`, 例如`\frac{a}{b}`渲染为: $\frac{a}{b}$.
 
 ## 指数对数
@@ -40,16 +40,17 @@ $$z = x^2 + y^2$$
 
 ## 表达式
 
-将整体作为上标或者下标, 在公式需要将整体用大括号`{}`包裹:  
+将整体作为上标或者下标, 在公式需要将整体用大括号`{}`包裹:
+
 - `$x_1$`: $x_1$
 - `$x^2$`: $x^2$
-- `$y^{2x}$`: $y^{2x}$  
+- `$y^{2x}$`: $y^{2x}$
 - `$a_1^2$`: $a_1^2$
 
 ## 计算式
 
 - 根号`\sqrt{n}`: $\sqrt{n}$
-- 大(小)于号`\geq  \leq`: $\geq  \leq$
+- 大(小)于号`\geq \leq`: $\geq  \leq$
 
 ## 累加累积
 
@@ -63,9 +64,15 @@ $$z = x^2 + y^2$$
 
 ## 强调与分隔
 
-- a一撇`a'`: $a'$, a两撇`a''`: $a''$
+- a 一撇`a'`: $a'$, a 两撇`a''`: $a''$
 - 括号`[]`: $[]$, `()`: $()$, `\{\}`: $\{\}$
 - 括号也可以用`\left`和`\right`来增强, 例如`\left( \right)`, 这种模式下括号大小会随内容变化, 例如`\left(\frac{1}{2}\right)`渲染为$\left(\frac{1}{2}\right)$
+
+## 二元运算符
+
+- `\in`: $\in$, `\ni`: $\ni$, `\notin`: $\notin$
+- `\subset`: $\subset$, `\subseteq`: $\subseteq$, `\supset`: $\supset$, `\supseteq`: $\supseteq$
+- `\le`:$\le$, `\ge`: $\ge$
 
 ## 希腊字母
 
@@ -73,4 +80,4 @@ $$z = x^2 + y^2$$
 - `\delta`: $\delta$, `\epsilon`: $\epsilon$, `\eta`: $\eta$
 - `\theta`: $\theta$, `\mu`: $\mu$, `\pi`: $\pi$
 - `\sigma`: $\sigma$, `\tau`: $\tau$, `\omega`: $\omega$
-- `\nabla`: $\nabla$
+- `\nabla`: $\nabla$, `\varphi`: $\varphi$
