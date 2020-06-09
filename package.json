@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vuepress dev docs",
+    "start": "vuepress dev docs",
     "build": "vuepress build docs",
     "github": "npm run build && deploy.bat",
     "gitee": "npm run build && deploy_gitee.bat"
