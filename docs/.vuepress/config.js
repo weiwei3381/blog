@@ -44,6 +44,7 @@ module.exports = {
         items: [
           { text: '🍄koa2服务端框架', link: '/back-end/koa2' },
           { text: '🐇python常用模块', link: '/back-end/python' },
+          { text: '🌹zrender源码解析', link: '/practice/zrender' },
         ],
       },
       {
@@ -70,7 +71,7 @@ module.exports = {
       // 后端编程
       '/back-end/': ['daily', 'python', 'koa2'],
       // 项目实战
-      '/practice/': ['Hilo', 'canvas', 'react'],
+      '/practice/': ['Hilo', 'canvas', 'react', 'zrender'],
       // 高效办公
       '/office/': ['word', 'excel', 'other'],
       // 通用技术

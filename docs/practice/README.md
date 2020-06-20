@@ -8,6 +8,7 @@
 - :pencil2::fire: [Html5 游戏入门记录](./canvas.md)
   这个框架主要是为了重构无人机仿真项目学习的, 想看看 Canvas 框架进行游戏开发怎么样.
 - [无人机仿真平台](./uav.md)
+- [zRender源码解析](./zrender.md)
 
 ## 参考书目与网站
 
