@@ -11,7 +11,7 @@ module.exports = {
       {
         rel: 'stylesheet',
         href:
-          'https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css',
+          '/css/katex.min.css',
       },
     ],
     [
@@ -19,7 +19,7 @@ module.exports = {
       {
         rel: 'stylesheet',
         href:
-          'https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/2.10.0/github-markdown.min.css',
+          '/css/github-markdown.min.css',
       },
     ],
   ],
