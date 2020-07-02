@@ -77,7 +77,7 @@ module.exports = {
       // 通用技术
       '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone',],
       // 论文
-      '/paper/': ['search', 'defense',],
+      '/paper/': ['search', 'defense', 'cover'],
     },
   },
   // vuepress插件系统
