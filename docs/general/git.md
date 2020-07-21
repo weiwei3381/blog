@@ -151,6 +151,10 @@ pandoc --print-default-data-file reference.docx > custom-reference.docx
 
 （二）修改`custom-reference.docx`格式，将其改为公文模板，这里已经修改好的公文模板`reference.docx`<a :href="$withBase('/reference.docx')" >格式文件</a>下载。
 
+::: tip 注意
+有些格式不是默认显示的，所以需要在 word 的样式栏中，点击右下角的箭头，展开全部样式才能找到，例如`图片`、`图注`、`源代码`等。
+:::
+
 （三）将公文模板放到 pandoc 的用户数据目录，使用`pandoc -v`查看目录的位置。
 
 ```python
