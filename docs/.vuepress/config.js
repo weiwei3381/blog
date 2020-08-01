@@ -75,7 +75,7 @@ module.exports = {
       // 高效办公
       '/office/': ['word', 'excel', 'other'],
       // 通用技术
-      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone',],
+      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone', 'reg'],
       // 论文
       '/paper/': ['search', 'defense', 'cover'],
     },
