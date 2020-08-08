@@ -42,7 +42,7 @@ module.exports = {
       {
         text: '🦉近期重点',
         items: [
-          { text: '🍄koa2服务端框架', link: '/back-end/koa2' },
+          { text: '🍄每天读SCI论文', link: '/paper/daily' },
           { text: '🐇python常用模块', link: '/back-end/python' },
           { text: '🌹zrender源码解析', link: '/practice/zrender' },
         ],
@@ -77,7 +77,7 @@ module.exports = {
       // 通用技术
       '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone', 'reg'],
       // 论文
-      '/paper/': ['search', 'defense', 'cover'],
+      '/paper/': ['search', 'defense', 'cover', 'daily'],
     },
   },
   // vuepress插件系统

@@ -4,6 +4,7 @@
 
 ## 文章目录
 
+- :smile: [每天一篇SCI论文](./daily.md)
 - :rainbow: [UAVs 搜索](./search.md)
 - :rice: [UAVs 防御](./defense.md)
 
