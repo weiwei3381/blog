@@ -103,7 +103,7 @@
 
 ## [2015]不确定条件下的多无人机多目标监视合作决策
 
-8月11日阅，论文名称: Cooperative Decision-Making Under Uncertainties for Multi-Target Surveillance with Multiples UAVs，2015年《Journal of Intelligent & Robotic Systems》，作者来自*西班牙奥拉维德大学*，<a :href="$withBase('/paper/不确定条件下的多无人机多目标监视合作决策.pdf')" >论文查看</a>。
+8月11日阅，论文名称: Cooperative Decision-Making Under Uncertainties for Multi-Target Surveillance with Multiples UAVs，2015年《Journal of Intelligent & Robotic Systems》，作者来自*西班牙奥拉维德大学*，[论文查看](https://wws.lanzous.com/i9DWgfs0dpg)。
 
 > **摘要**：监视是无人机（UAV）的有趣应用。如果考虑一队无人机，通常的目的是采取协作行动，从监视区域的一组移动目标中收集尽可能多的信息。这是一个决策问题，涉及很大的不确定性：依靠不完善的传感器和模型，无人机需要选择目标进行监视并确定跟踪它们的最佳措施。部分可观察的马尔可夫决策过程（Partially Observable Markov Decision Processes，POMDP）对于不确定性条件下的最佳决策来说已经足够了，但是在多无人机模式下它们缺乏可扩展性，仅对玩具问题具有吸引力。在本文中，我们向前迈出了一步，将POMDP方法应用于实际情况，在这种情况下，团队需要在执行任务期间适应环境并促进团队成员之间的合作。我们建议将原始问题分解为可以通过可伸缩的POMDP建模的更简单的行为。然后，这些行为将在执行任务期间在无人机之间拍卖，这些行为将根据所分配的行为遵循不同的策略。我们通过广泛的仿真评估了我们方法的性能，并提出了在测试平台场景中使用实际四轴飞行器的实施方案。
 
@@ -158,7 +158,7 @@
 
 ## [2016]小型机群协同监视与部署
 
-8月13日阅，论文名称:Swarm Distribution and Deployment for Cooperative Surveillance by Micro-Aerial Vehicles，2017年《Journal of Intelligent & Robotic Systems》，作者来自*捷克技术大学*，<a :href="$withBase('/paper/小型机群协同监视与部署.pdf')" >论文查看</a>。
+8月13日阅，论文名称:Swarm Distribution and Deployment for Cooperative Surveillance by Micro-Aerial Vehicles，2017年《Journal of Intelligent & Robotic Systems》，作者来自*捷克技术大学*，[论文查看](https://wws.lanzous.com/ihbTqfs0d8j)。
 
 > **摘要**：本文解决了由紧密协作的微型飞行器（Micro Aerial Vehicles，MAV）组在室外环境中对预选的关注区域（Areas of Interest ，AoI）进行协同监视的任务。在合作监视任务中，必须完成关键任务，即找到环境中的MAV分布以正确覆盖AoI，并找到可行的轨迹以从初始仓库到达获得的监视位置。另外，在规划过程中需要满足所采用的MAV的运动约束，环境约束（例如非飞行区）以及由组成员的本地化所施加的约束。我们将合作监视的任务表述为一个单一的高维优化问题，以便能够整合所有这些要求。由于必须满足许多约束，我们建议使用基于进化的优化技术来解决该问题。所提出的方法的一个重要方面是，相互协作的MAV相对于彼此定位，而不是使用全局定位系统。这在需要相对距离较短的MAV组的紧凑形状的情况下提高了系统的鲁棒性及其部署能力。
 
@@ -187,7 +187,7 @@
 
 ## [2016]一种适用于多机器人队伍范围搜索的分布式控制算法
 
-8月14日阅，论文名称:A distributed control algorithm for area search by a multi-robot team，2016年《Robotica》，作者来自*澳大利亚新南威尔士大学*，<a :href="$withBase('/paper/一种适用于多机器人队伍范围搜索的分布式控制算法.pdf')" >论文查看</a>。
+8月14日阅，论文名称:A distributed control algorithm for area search by a multi-robot team，2016年《Robotica》，作者来自*澳大利亚新南威尔士大学*，[论文查看](https://wws.lanzous.com/igg8mfs0dfg)。
 
 > **摘要**：在本文中，我们提出了一种使用移动机器人团队探索未知环境的新颖算法。所建议的算法是一种基于网格的搜索方法，该方法利用覆盖一个区域的三角形模式，从而确保了对整个区域的探索。所提出的算法包括两个阶段。在第一阶段，团队中的所有成员都创建一个共同的三角形网格，并将其放置在顶点上。在第二阶段，他们开始通过在网格的顶点之间移动来探索该区域。此外，假定机器人的通信范围是有限的，并且该算法基于机器人的最近邻居的信息。此外，我们在搜索操作中应用了机器人采用的新映射方法。给出了算法严格度为1的严格数学收敛证明。此外，我们的算法是使用真实机器人和环境的模拟器来实现和仿真的，还通过Adept Pioneer 3DX轮式移动机器人的实验进行了测试。
 
@@ -228,7 +228,7 @@
 
 ## [2015]将时间计划与概率推理相结合进行自主监视任务
 
-8月15日阅，论文名称：Combining temporal planning with probabilistic reasoning for autonomous surveillance missions，2015年，《Auton Robot》，作者来自*伦敦大学*，<a :href="$withBase('/paper/将时间计划与概率推理相结合进行自主监视任务.pdf')" >论文查看</a>。
+8月15日阅，论文名称：Combining temporal planning with probabilistic reasoning for autonomous surveillance missions，2015年，《Auton Robot》，作者来自*伦敦大学*，[论文查看](https://wws.lanzous.com/ie9iFfs0d0b)。
 
 > **摘要**：设计支撑监视任务中的无人机行为的技术尤其具有挑战性，因为这些无人机在不确定和不可预测的环境中运行，尽管资源有限，但它们必须应付很低稳定性和紧迫的期限。最先进的技术通常使用**概率算法**，这些算法在复杂的实际场景中会承受**较高的计算成本**。为了克服这些限制，我们提出了一种混合方法，该方法将基于蒙特卡洛模拟提供的目标运动模型的概率推理与自动任务计划提供的长期战略能力相结合。我们通过专注于一个特定的监视任务，搜索和跟踪，以及使用两种不同的无人机，在仿真中部署的固定翼无人机和在物理环境中部署的“Parrot AR.Drone2.0”四轴飞行器，来展示我们的方法。我们的实验结果表明，当我们处理现实任务时，我们独特的将概率推理和确定性推理相结合的方式将获得回报。
 
@@ -300,7 +300,7 @@
 
 ## [2015]使用多机器人网络进行分散式多目标搜索
 
-8月16日阅，论文名称：Decentralized simultaneous multi-target exploration using a connected network of multiple robots，2015年，《Auton Robot》，作者来自*德国马克斯·普朗克智能系统研究所*，<a :href="$withBase('/paper/使用多机器人网络进行分散式多目标搜索.pdf')" >论文查看</a>。
+8月16日阅，论文名称：Decentralized simultaneous multi-target exploration using a connected network of multiple robots，2015年，《Auton Robot》，作者来自*德国马克斯·普朗克智能系统研究所*，[论文查看](https://wws.lanzous.com/iDk9Tfs0d1c)。
 
 > **摘要**：本文提出了一种用于多机器人系统的新型分散控制策略，该策略可实现并行多目标探索，同时确保杂乱的3D环境中的时变连接拓扑。通过基于最新的连接维护方法，可以确保灵活的连续连接，该方法同时考虑了有限的范围，视线可见性和避免碰撞。通过在探索任务期间动态分配具有不同运动行为的机器人，可以确保分散式多目标探索算法的完整性。一个主要类别要根据当前领导者的行进效率以及行进力和连接力之间的方向对齐，对主行进力进行适当的缩减。这支持领导者始终达到其当前目标，并且在更大的时间范围内，整个团队可以在有限的时间内实现整体任务。一组由多个四旋翼无人机组成的广泛的蒙特卡洛模拟显示了所提方法的可扩展性和有效性，并且实验验证了其实用性。
 
