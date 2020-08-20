@@ -130,7 +130,7 @@
 
 ## [2017]协作多移动传感器代理多目标跟踪与监视
 
-8月12日阅，论文名称: Collaborative Multi-MSA Multi-Target Tracking and Surveillance: a Divide & Conquer Method Using Region Allocation Trees，2017年《Journal of Intelligent & Robotic Systems》，作者来自*美国俄亥俄州立大学*，<a :href="$withBase('/paper/协作多移动传感器代理多目标跟踪与监视.pdf')" >论文查看</a>。
+8月12日阅，论文名称: Collaborative Multi-MSA Multi-Target Tracking and Surveillance: a Divide & Conquer Method Using Region Allocation Trees，2017年《Journal of Intelligent & Robotic Systems》，作者来自*美国俄亥俄州立大学*，[论文查看](https://wws.lanzous.com/iOJPjfs0dbc)。
 
 > **摘要**：本文提出了一种并行区域分解和分配算法，可以解决多目标跟踪和监视任务中的多移动传感器代理（Mobile sensor agents, MSA）协调问题。与它的替代方法相比，我们的协作方法通过利用我们称为区域分配树的数据结构及其允许的递归处理策略，实现了令人满意的计算特性。区域分配树数据结构标识候选区域，组织与跟踪不确定性和移动传感器代理分配有关的信息，并允许在一次深度优先扫描中同时进行区域分解和分配。我们的协作方法与贝叶斯跟踪算法结合使用，因为决策是在信念空间中进行的。我们的贡献也位于有关多机器人协调的更广泛讨论中。仿真结果证明了我们的多移动传感器代理协作方法的有效性。
 
@@ -341,7 +341,7 @@
 
 ## [2016]在循环追踪中使用代理捕获目标
 
-8月17日阅，论文名称：Target Capturability Using Agents in Cyclic Pursuit，2016年，《Journal of guidance, control, and dynamics》，作者来自*印度科学研究所*，<a :href="$withBase('/paper/在循环追踪中使用代理捕获目标.pdf')" >论文查看</a>。
+8月17日阅，论文名称：Target Capturability Using Agents in Cyclic Pursuit，2016年，《Journal of guidance, control, and dynamics》，作者来自*印度科学研究所*，[论文查看](https://wws.lanzous.com/i6bcVfs0dij)。
 
 > **摘要**：在文献中，已经讨论了常规循环追踪法的几种变型。在本文中，已经提出了一种这样的变体，一种改进的异构循环跟踪方案，以捕获运动目标。作为特殊情况，当目标静止时，捕获目标的问题与会合问题相同。此处提出的控制法则确保始终可以集体捕获（达到）这样的固定目标（点），并且可以捕获机动目标，前提是代理可以在其初始位置会合。还考虑了具有双重积分器动力学的智能体，并提出了合适的循环追踪定律，以确保有界目标机动的全局可达性和目标可捕获性。理论结果得到仿真结果的支持。
 
