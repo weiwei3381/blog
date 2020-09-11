@@ -830,7 +830,7 @@ module.exports = catchError
 
 ### 使用校验器
 
-koa2 没有特别好的校验器, 目前使用的是[lin-mizar](https://github.com/hpmax00/lin-mizar)提供的 validator 类, lin-mizar 是[LinCms](https://github.com/TaleLin/lin-cms-koa)的核心库, 首先下载<a :href="$withBase('/lin-validator.zip')" >lin-validator.zip</a>, 解压之后放到`core`文件夹下, 然后在`app`目录新建`validators`目录及`validator.js`文件, 目录结构如下:
+koa2 没有特别好的校验器, 目前使用的是[lin-mizar](https://github.com/hpmax00/lin-mizar)提供的 validator 类, lin-mizar 是[LinCms](https://github.com/TaleLin/lin-cms-koa)的核心库, 首先下载[lin-validator.zip](https://wws.lanzous.com/inTEFgja8cf), 解压之后放到`core`文件夹下, 然后在`app`目录新建`validators`目录及`validator.js`文件, 目录结构如下:
 
 ```bash
 my_koa2

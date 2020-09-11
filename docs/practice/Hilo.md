@@ -12,7 +12,7 @@ Flappy Bird 是一款前不久风靡世界的休闲小游戏。虽然它难度�
 
 ### 源文件结构
 
-大家可以先下载 <a :href="$withBase('/flappybird.zip')" >Flappy Bird 的项目源文件</a>作为参考，以下是整个项目的文件结构：
+大家可以先下载 [Flappy Bird 的项目源文件](https://wws.lanzous.com/iXpmKgja8oh)作为参考，以下是整个项目的文件结构：
 
 ```bash
 flappybird/

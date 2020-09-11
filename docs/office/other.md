@@ -87,7 +87,7 @@ pause
 
 ## windows保存窗口布局
 
-下载windows布局管理器（<a :href="$withBase('/winlayoutmanager.zip')" >Windows Layout Manager</a>），解压后运行即可。
+下载windows布局管理器（[Windows Layout Manager](https://wws.lanzous.com/i8RKsgja5bg)），解压后运行即可。
 
 **1. 捕获布局**，进入软件之后，使用`capture`按钮可以捕获当前布局，然后删除不需要布局的软件，如下图所示。
 
