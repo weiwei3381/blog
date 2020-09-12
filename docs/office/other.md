@@ -42,7 +42,7 @@
 1. 使用批处理命令：`start /d "程序所在路径" 程序名称.exe`，启动对应的软件。
 2. 新建`bat`文件，写多条语句，同时启动多个程序
 
-```bat
+```batch
 :: 启动复制翻译软件
 start /d "C:\Users\weiwe\AppData\Local\Programs\copytranslator\" copytranslator.exe
 :: 启动VScode
@@ -56,14 +56,14 @@ start /d "D:\Program Files\MDictPC\" MDict.exe
 3.双击该bat文件，即可批量启动多个程序。
 4.也可以使用批处理命令判断程序是否已经运行，例如判断vscode是否运行的代码如下：
 
-```bat
+```batch
 tasklist /nh|find /i "Code.exe"
 if ERRORLEVEL 1 (echo Code.exe not exist) else (echo Code.exe exists)
 ```
 
 因此，可以修改bat文件，使得它先判断该组程序是否运行，如果没有运行则进行运行。含有4个程序的示例代码如下：
 
-```bat
+```batch
 %echo off
 
 :: 启动复制翻译软件
