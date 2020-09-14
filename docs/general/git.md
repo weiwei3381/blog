@@ -103,7 +103,7 @@ git push -u origin master  // 把本地仓库的文件推送到远程仓库
 
 ## pandoc 配合 git 实现文档版本化管理
 
-> git 可以进行版本管理，但是只能针对纯文本，对于 docx 等二进制文件无法准确查看每次修改位置，那么如果用 markdown 文本文件管理文件内容，使用某种转换工具将 markdown 文件转换，就可以实现文档版本化管理。[pandoc](https://pandoc.org/)是一种将各类文件互相转换的工具，例如 docx、html、markdown、epub、pdf 等，在一些 markdown 写作工具中，它常被用作导出工具的一种，项目源代码托管于[github](https://github.com/jgm/pandoc)，可以在[此处](https://github.com/jgm/pandoc/releases)下载最新版本，2.1 版本的 win_x64 的安装文件也永久分享在[百度云](https://pan.baidu.com/s/1O9qzcftRTCP7phYqJgIPiQ)上，提取码：8888。
+> git 可以进行版本管理，但是只能针对纯文本，对于 docx 等二进制文件无法准确查看每次修改位置，那么如果用 markdown 文本文件管理文件内容，使用某种转换工具将 markdown 文件转换，就可以实现文档版本化管理。[pandoc](https://pandoc.org/)是一种将各类文件互相转换的工具，例如 docx、html、markdown、epub、pdf 等，在一些 markdown 写作工具中，它常被用作导出工具的一种，项目源代码托管于[github](https://github.com/jgm/pandoc)，可以在[此处](https://github.com/jgm/pandoc/releases)下载最新版本，2.1 版本的 win_x64 的安装文件[下载](https://wws.lanzous.com/i0lOmgja7na)。
 
 ### pandoc 基本命令
 
