@@ -69,7 +69,7 @@ module.exports = {
         'node', 'design', 'npm', 'vuepress', 'babel',
       ],
       // 后端编程
-      '/back-end/': ['daily', 'python', 'koa2'],
+      '/back-end/': ['daily', 'python', 'koa2', 'numpy'],
       // 项目实战
       '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search'],
       // 高效办公
@@ -77,7 +77,7 @@ module.exports = {
       // 通用技术
       '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone', 'reg'],
       // 论文
-      '/paper/': ['search', 'defense', 'cover','2020Auguest','daily','technology'],
+      '/paper/': ['search', 'defense', 'cover','2020Auguest','daily','technology','strategy', 'mpc','MARL'],
     },
   },
   // vuepress插件系统
