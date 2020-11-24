@@ -75,9 +75,9 @@ module.exports = {
       // 高效办公
       '/office/': ['word', 'excel', 'other','software'],
       // 通用技术
-      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'bone', 'reg'],
+      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'reg'],
       // 论文
-      '/paper/': ['search', 'defense', 'cover','2020Auguest','daily','technology','strategy', 'mpc','MARL'],
+      '/paper/': ['search', 'defense', 'cover','2020Auguest','daily','technology','strategy', 'mpc','MARL','UAV'],
     },
   },
   // vuepress插件系统
