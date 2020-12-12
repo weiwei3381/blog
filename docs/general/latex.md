@@ -23,6 +23,15 @@ $$z = x^2 + y^2$$
 渲染为:
 $$z = x^2 + y^2$$
 
+加粗字母一般使用`\mathbf{}`包裹
+
+```tex
+$\mathbf{JKLMNOPQR \Delta}$
+```
+
+渲染为：
+$\mathbf{JKLMNOPQR \Delta}$
+
 :::warning 注意
 块公式必须要单起一行进行书写, 否则无法解析
 :::
@@ -81,3 +90,166 @@ $$z = x^2 + y^2$$
 - `\theta`: $\theta$, `\mu`: $\mu$, `\pi`: $\pi$
 - `\sigma`: $\sigma$, `\tau`: $\tau$, `\omega`: $\omega$
 - `\nabla`: $\nabla$, `\varphi`: $\varphi$
+
+## Latex常用大型公式模板
+
+Latex条件公式显示如下:
+
+$$
+a_{ij}=
+\begin{cases}
+  1, \quad d_{ij} \le r^{coor}_i
+  \\  
+  0, \quad d_{ij} > r^{coor}_i
+\end{cases}
+$$
+
+这种公式有两种写法，一种是使用`matrix`标签，另一种是使用`cases`标签，其中`cases`标签更加简洁。
+
+`cases`标签的写法如下:
+
+```latex
+$$
+a_{ij}=
+\begin{cases}
+  1, \quad d_{ij} \le r^{coor}_i
+  \\  
+  0, \quad d_{ij} > r^{coor}_i
+\end{cases}
+$$
+```
+
+`matrix`标签的写法如下：
+
+```latex
+$$
+a_{ij} = \left\{
+  \begin{matrix}
+    1, \quad d_{ij} \le r^{coor}_i
+    \\  
+    0, \quad d_{ij} > r^{coor}_i
+    \end{matrix}\right.
+$$
+```
+
+更复杂的多条件公式，实例1:
+
+$$
+\begin{array}{lcl}
+  u^{R*}(k)=\arg\max\limits_{u^R(k)} J_r^R\big(x^R(k),u^R(k) \big)
+  \\
+  \text{s.t.}
+  \\
+  \begin{cases}
+    x^R(k+1)=f(x^R(k), u^R(k))
+    \\
+    i=1,2,\ldots,N_R
+    \\
+    G^R\Big(x^R(k), u^R(k) \Big) \le 0
+  \end{cases}
+\end{array}
+$$
+
+**实例1**代码如下：
+
+```latex
+$$
+\begin{array}{lcl}
+  u^{R*}(k)=\arg\max\limits_{u^R(k)} J_r^R\big(x^R(k),u^R(k) \big)
+  \\
+  \text{s.t.}
+  \\
+  \begin{cases}
+    x^R(k+1)=f(x^R(k), u^R(k))
+    \\
+    i=1,2,\ldots,N_R
+    \\
+    G^R\Big(x^R(k), u^R(k) \Big) \le 0
+  \end{cases}
+\end{array}
+$$
+```
+
+实例2：
+
+$$
+p_{mn}^{RA}(k+1)=
+\begin{cases}
+  \tau p_{mn}^{RA}(k)  & (\text{未探测})
+  \\
+  \frac{P_D^{RA} \cdot p_{mn}^{RA}(k)}{P_F^{RA} + (P_D^{RA} - P_F^{RA}) \cdot p_{mn}^{RA} i(k)} & (\text{已探测且}b(k)=1)
+  \\
+  \frac{(1-P_D^{RA}) \cdot p_{mn}^{RA}(k)}{1 - P_F^{RA} + (P_F^{RA} - P_D^{RA}) \cdot p_{mn}^{RA}(k)} & (\text{已探测且} b(k)=0)
+\end{cases}
+$$
+
+**实例2**代码如下：
+
+```latex
+$$
+p_{mn}^{RA}(k+1)=
+\begin{cases}
+  \tau p_{mn}^{RA}(k)  & (\text{未探测})
+  \\
+  \frac{P_D^{RA} \cdot p_{mn}^{RA}(k)}{P_F^{RA} + (P_D^{RA} - P_F^{RA}) \cdot p_{mn}^{RA} i(k)} & (\text{已探测且}b(k)=1)
+  \\
+  \frac{(1-P_D^{RA}) \cdot p_{mn}^{RA}(k)}{1 - P_F^{RA} + (P_F^{RA} - P_D^{RA}) \cdot p_{mn}^{RA}(k)} & (\text{已探测且} b(k)=0)
+\end{cases}
+$$
+```
+
+大型矩阵显示如下：
+
+$$
+A_{m\times n}=  
+\begin{bmatrix}  
+  a_{11} & a_{12} & \cdots  & a_{1n} \\  
+  a_{21} & a_{22} & \cdots  & a_{2n} \\  
+  \vdots & \vdots & \ddots & \vdots \\  
+  a_{m1} & a_{m2} & \cdots  & a_{mn}  
+\end{bmatrix}  
+=\left [ a_{ij}\right ]
+$$
+
+大型矩阵的写法如下所示：
+
+```latex
+$$
+A_{m\times n}=  
+\begin{bmatrix}  
+  a_{11} & a_{12} & \cdots  & a_{1n} \\  
+  a_{21} & a_{22} & \cdots  & a_{2n} \\  
+  \vdots & \vdots & \ddots & \vdots \\  
+  a_{m1} & a_{m2} & \cdots  & a_{mn}  
+\end{bmatrix}  
+=\left [ a_{ij}\right ] 
+$$
+```
+
+多行等式一般显示如下:
+
+$$
+\begin{aligned}
+  3^{6n+3}+4^{6n+3}
+  & \equiv (3^3)^{2n+1}+(4^3)^{2n+1} \\  
+  & \equiv 27^{2n+1}+64^{2n+1} \\  
+  & \equiv 27^{2n+1}+(-27)^{2n+1} \\
+  & \equiv 27^{2n+1}-27^{2n+1} \\
+  & \equiv 0 \pmod{91} \\
+\end{aligned}
+$$
+
+代码如下：
+
+```latex
+$$
+\begin{aligned}
+  3^{6n+3}+4^{6n+3}
+  & \equiv (3^3)^{2n+1}+(4^3)^{2n+1} \\  
+  & \equiv 27^{2n+1}+64^{2n+1} \\  
+  & \equiv 27^{2n+1}+(-27)^{2n+1} \\
+  & \equiv 27^{2n+1}-27^{2n+1} \\
+  & \equiv 0 \pmod{91} \\
+\end{aligned}
+$$
+```
