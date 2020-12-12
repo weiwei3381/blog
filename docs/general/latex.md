@@ -175,11 +175,11 @@ $$
 $$
 p_{mn}^{RA}(k+1)=
 \begin{cases}
-  \tau p_{mn}^{RA}(k)  & (\text{未探测})
+  \tau p_{mn}^{RA}(k)  & (\text{NOT detected})
   \\
-  \frac{P_D^{RA} \cdot p_{mn}^{RA}(k)}{P_F^{RA} + (P_D^{RA} - P_F^{RA}) \cdot p_{mn}^{RA} i(k)} & (\text{已探测且}b(k)=1)
+  \frac{P_D^{RA} \cdot p_{mn}^{RA}(k)}{P_F^{RA} + (P_D^{RA} - P_F^{RA}) \cdot p_{mn}^{RA} i(k)} & (\text{Detected and }b(k)=1)
   \\
-  \frac{(1-P_D^{RA}) \cdot p_{mn}^{RA}(k)}{1 - P_F^{RA} + (P_F^{RA} - P_D^{RA}) \cdot p_{mn}^{RA}(k)} & (\text{已探测且} b(k)=0)
+  \frac{(1-P_D^{RA}) \cdot p_{mn}^{RA}(k)}{1 - P_F^{RA} + (P_F^{RA} - P_D^{RA}) \cdot p_{mn}^{RA}(k)} & (\text{Detected and } b(k)=0)
 \end{cases}
 $$
 
@@ -189,11 +189,11 @@ $$
 $$
 p_{mn}^{RA}(k+1)=
 \begin{cases}
-  \tau p_{mn}^{RA}(k)  & (\text{未探测})
+  \tau p_{mn}^{RA}(k)  & (\text{NOT detected})
   \\
-  \frac{P_D^{RA} \cdot p_{mn}^{RA}(k)}{P_F^{RA} + (P_D^{RA} - P_F^{RA}) \cdot p_{mn}^{RA} i(k)} & (\text{已探测且}b(k)=1)
+  \frac{P_D^{RA} \cdot p_{mn}^{RA}(k)}{P_F^{RA} + (P_D^{RA} - P_F^{RA}) \cdot p_{mn}^{RA} i(k)} & (\text{Detected and}b(k)=1)
   \\
-  \frac{(1-P_D^{RA}) \cdot p_{mn}^{RA}(k)}{1 - P_F^{RA} + (P_F^{RA} - P_D^{RA}) \cdot p_{mn}^{RA}(k)} & (\text{已探测且} b(k)=0)
+  \frac{(1-P_D^{RA}) \cdot p_{mn}^{RA}(k)}{1 - P_F^{RA} + (P_F^{RA} - P_D^{RA}) \cdot p_{mn}^{RA}(k)} & (\text{Detected and} b(k)=0)
 \end{cases}
 $$
 ```
@@ -231,11 +231,10 @@ $$
 $$
 \begin{aligned}
   3^{6n+3}+4^{6n+3}
-  & \equiv (3^3)^{2n+1}+(4^3)^{2n+1} \\  
+  & = (3^3)^{2n+1}+(4^3)^{2n+1} \\
   & \equiv 27^{2n+1}+64^{2n+1} \\  
   & \equiv 27^{2n+1}+(-27)^{2n+1} \\
   & \equiv 27^{2n+1}-27^{2n+1} \\
-  & \equiv 0 \pmod{91} \\
 \end{aligned}
 $$
 
@@ -245,11 +244,10 @@ $$
 $$
 \begin{aligned}
   3^{6n+3}+4^{6n+3}
-  & \equiv (3^3)^{2n+1}+(4^3)^{2n+1} \\  
+  & = (3^3)^{2n+1}+(4^3)^{2n+1} \\
   & \equiv 27^{2n+1}+64^{2n+1} \\  
   & \equiv 27^{2n+1}+(-27)^{2n+1} \\
   & \equiv 27^{2n+1}-27^{2n+1} \\
-  & \equiv 0 \pmod{91} \\
 \end{aligned}
 $$
 ```
