@@ -1,8 +1,8 @@
-# 多智能体强化学习(Multi-Agent Reinforcement Learning ,MARL)论文集合
+# 多智能体强化学习论文集
 
 Multi-Agent Reinforcement Learning is a very interesting research area, which has strong connections with single-agent RL, multi-agent systems, game theory, evolutionary computation and optimization theory.
 
-多智能体强化学习是一个非常有趣的研究领域，它与单智能体强化学习、多智能体系统、博弈论、进化计算和优化理论有着密切的联系。
+多智能体强化学习(Multi-Agent Reinforcement Learning,MARL)是一个非常有趣的研究领域，它与单智能体强化学习、多智能体系统、博弈论、进化计算和优化理论有着密切的联系。
 
 This is a collection of research and review papers of multi-agent reinforcement learning (MARL). The Papers are sorted by time. Any suggestions and pull requests are welcome.
 
@@ -10,9 +10,8 @@ This is a collection of research and review papers of multi-agent reinforcement 
 
 The sharing principle of these references here is for research. If any authors do not want their paper to be listed here, please feel free to contact [Lantao Yu](https://lantaoyu.github.io/) (Email: lantaoyu [AT] hotmail.com).
 
-本文参考文献的共享原则是供研究。如果有作者不希望他们的论文在这里列出，请随时与[大屿山]联系(https://lantaoy.github.io/)（电子邮件：大屿山[AT]hotmail.com).
-
 ## 概述
+
 * [Tutorial](https://github.com/LantaoYu/MARL-Papers#tutorial-and-books)
 * [Review Papers](https://github.com/LantaoYu/MARL-Papers#review-papers)
 * [Research Papers](https://github.com/LantaoYu/MARL-Papers#research-papers)
@@ -29,12 +28,14 @@ The sharing principle of these references here is for research. If any authors d
   * [Application](https://github.com/LantaoYu/MARL-Papers#application)
 
 ## 教程和书籍
+
 * [Deep Multi-Agent Reinforcement Learning](https://ora.ox.ac.uk/objects/uuid:a55621b3-53c0-4e1b-ad1c-92438b57ffa4) by Jakob N Foerster, 2018. PhD Thesis.
 * [Multi-Agent Machine Learning: A Reinforcement Approach](https://onlinelibrary.wiley.com/doi/book/10.1002/9781118884614) by H. M. Schwartz, 2014.
 * [Multiagent Reinforcement Learning](http://www.ecmlpkdd2013.org/wp-content/uploads/2013/09/Multiagent-Reinforcement-Learning.pdf) by Daan Bloembergen, Daniel Hennes, Michael Kaisers, Peter Vrancx. ECML, 2013.
 * [Multiagent systems: Algorithmic, game-theoretic, and logical foundations](http://www.masfoundations.org/download.html) by Shoham Y, Leyton-Brown K. Cambridge University Press, 2008.
 
 ## 综述论文
+
 * [Multi-Agent Reinforcement Learning: A Selective Overview of Theories and Algorithms](https://arxiv.org/pdf/1911.10635.pdf) by Kaiqing Zhang, Zhuoran Yang, Tamer Başar. 2019.
 * [A Survey on Transfer Learning for Multiagent Reinforcement Learning Systems](https://www.jair.org/index.php/jair/article/view/11396) by Silva, Felipe Leno da; Costa, Anna Helena Reali. JAIR, 2019.
 * [Autonomously Reusing Knowledge in Multiagent Reinforcement Learning](https://www.ijcai.org/proceedings/2018/774) by Silva, Felipe Leno da; Taylor, Matthew E.; Costa, Anna Helena Reali. IJCAI, 2018.
@@ -52,6 +53,7 @@ The sharing principle of these references here is for research. If any authors d
 ## 研究论文
 
 ### 框架(Framework)
+
 * [Mean Field Multi-Agent Reinforcement Learning](https://arxiv.org/pdf/1802.05438.pdf) by Yaodong Yang, Rui Luo, Minne Li, Ming Zhou, Weinan Zhang, and Jun Wang. ICML 2018.
 * [Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments](https://arxiv.org/pdf/1706.02275.pdf) by Lowe R, Wu Y, Tamar A, et al. arXiv, 2017.
 * [Deep Decentralized Multi-task Multi-Agent RL under Partial Observability](https://arxiv.org/pdf/1703.06182.pdf) by Omidshafiei S, Pazis J, Amato C, et al. arXiv, 2017.
@@ -76,6 +78,7 @@ The sharing principle of these references here is for research. If any authors d
 * [An analysis of stochastic game theory for multiagent reinforcement learning](https://www.cs.cmu.edu/~mmv/papers/00TR-mike.pdf) by Michael Bowling and Manuela Veloso, 2000.
 
 ### 联合行动学习(Joint action learning)
+
 * [AWESOME: A general multiagent learning algorithm that converges in self-play and learns a best response against stationary opponents](http://www.cs.cmu.edu/~conitzer/awesomeML06.pdf) by Conitzer V, Sandholm T. Machine Learning, 2007.
 * [Extending Q-Learning to General Adaptive Multi-Agent Systems](https://papers.nips.cc/paper/2503-extending-q-learning-to-general-adaptive-multi-agent-systems.pdf) by Tesauro, Gerald. NIPS, 2003.
 * [Multiagent reinforcement learning: theoretical framework and an algorithm.](http://www.lirmm.fr/~jq/Cours/3cycle/module/HuWellman98icml.pdf) by Hu, Junling, and Michael P. Wellman. ICML, 1998.
@@ -83,6 +86,7 @@ The sharing principle of these references here is for research. If any authors d
 * [Markov games as a framework for multi-agent reinforcement learning](https://www.cs.duke.edu/courses/spring07/cps296.3/littman94markov.pdf) by Littman, Michael L. ICML, 1994.
 
 ### 合作与竞争(Cooperation and competition)
+
 * [Emergent complexity through multi-agent competition](https://arxiv.org/pdf/1710.03748.pdf) by Trapit Bansal, Jakub Pachocki, Szymon Sidor, Ilya Sutskever, Igor Mordatch, 2018.
 * [Learning with opponent learning awareness](https://arxiv.org/pdf/1709.04326.pdf) by Jakob Foerster, Richard Y. Chen2, Maruan Al-Shedivat, Shimon Whiteson, Pieter Abbeel, Igor Mordatch, 2018.
 * [Multi-agent Reinforcement Learning in Sequential Social Dilemmas](https://arxiv.org/pdf/1702.03037.pdf) by Leibo J Z, Zambaldi V, Lanctot M, et al. arXiv, 2017. [[Post](https://deepmind.com/blog/understanding-agent-cooperation/)]
@@ -98,6 +102,7 @@ The sharing principle of these references here is for research. If any authors d
 * [Sparse cooperative Q-learning](http://www.machinelearning.org/proceedings/icml2004/papers/267.pdf) by Kok J R, Vlassis N. ICML, 2004.
 
 ### 协调(Coordination)
+
 * [Coordinated Multi-Agent Imitation Learning](https://arxiv.org/pdf/1703.03121.pdf) by Le H M, Yue Y, Carr P. arXiv, 2017.
 * [Reinforcement social learning of coordination in networked cooperative multiagent systems](http://mipc.inf.ed.ac.uk/2014/papers/mipc2014_hao_etal.pdf) by Hao J, Huang D, Cai Y, et al. AAAI Workshop, 2014.
 * [Coordinating multi-agent reinforcement learning with limited communication](http://www.aamas-conference.org/Proceedings/aamas2013/docs/p1101.pdf) by Zhang, Chongjie, and Victor Lesser. AAMAS, 2013.
@@ -107,16 +112,19 @@ The sharing principle of these references here is for research. If any authors d
 * [Reinforcement learning of coordination in cooperative multi-agent systems](http://www.aaai.org/Papers/AAAI/2002/AAAI02-050.pdf) by Kapetanakis S, Kudenko D. AAAI/IAAI, 2002.
 
 ### 安全(Security)
+
 * [Markov Security Games: Learning in Spatial Security Problems](http://www.fransoliehoek.net/docs/Klima16LICMAS.pdf) by Klima R, Tuyls K, Oliehoek F. The Learning, Inference and Control of Multi-Agent Systems at NIPS, 2016.
 * [Cooperative Capture by Multi-Agent using Reinforcement Learning, Application for Security Patrol Systems](http://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=7244682) by Yasuyuki S, Hirofumi O, Tadashi M, et al. Control Conference (ASCC), 2015
 * [Improving learning and adaptation in security games by exploiting information asymmetry](http://www4.ncsu.edu/~hdai/infocom-2015-XH.pdf) by He X, Dai H, Ning P. INFOCOM, 2015.
 
 ### 自娱乐(Self-Play)
+
 * [A Unified Game-Theoretic Approach to Multiagent Reinforcement Learning](https://arxiv.org/pdf/1711.00832.pdf) by Marc Lanctot, Vinicius Zambaldi, Audrunas Gruslys, Angeliki Lazaridou, Karl Tuyls, Julien Perolat, David Silver, Thore Graepel. NIPS 2017.
 * [Deep reinforcement learning from self-play in imperfect-information games](https://arxiv.org/pdf/1603.01121.pdf) by Heinrich, Johannes, and David Silver. arXiv, 2016.
 * [Fictitious Self-Play in Extensive-Form Games](http://jmlr.org/proceedings/papers/v37/heinrich15.pdf) by Heinrich, Johannes, Marc Lanctot, and David Silver. ICML, 2015.
 
 ### 学会沟通(Learning To Communicate)
+
 * [Emergent Communication through Negotiation](https://openreview.net/pdf?id=Hk6WhagRW) by Kris Cao, Angeliki Lazaridou, Marc Lanctot, Joel Z Leibo, Karl Tuyls, Stephen Clark, 2018.
 * [Emergence of Linguistic Communication From Referential Games with Symbolic and Pixel Input](https://openreview.net/pdf?id=HJGv1Z-AW) by Angeliki Lazaridou, Karl Moritz Hermann, Karl Tuyls, Stephen Clark
 * [EMERGENCE OF LANGUAGE WITH MULTI-AGENT GAMES: LEARNING TO COMMUNICATE WITH SEQUENCES OF SYMBOLS](https://openreview.net/pdf?id=SkaxnKEYg) by Serhii Havrylov, Ivan Titov. ICLR Workshop, 2017.
@@ -130,6 +138,7 @@ The sharing principle of these references here is for research. If any authors d
 * [Efficient distributed reinforcement learning through agreement](http://people.csail.mit.edu/lpk/papers/dars08.pdf) by Varshavskaya P, Kaelbling L P, Rus D. Distributed Autonomous Robotic Systems, 2009.
 
 ### 迁移学习(Transfer Learning)
+
 * [Simultaneously Learning and Advising in Multiagent Reinforcement Learning](http://www.ifaamas.org/Proceedings/aamas2017/pdfs/p1100.pdf) by Silva, Felipe Leno da; Glatt, Ruben; and Costa, Anna Helena Reali. AAMAS, 2017.
 * [Accelerating Multiagent Reinforcement Learning through Transfer Learning](https://www.aaai.org/ocs/index.php/AAAI/AAAI17/paper/download/14217/14005) by Silva, Felipe Leno da; and Costa, Anna Helena Reali. AAAI, 2017.
 * [Accelerating multi-agent reinforcement learning with dynamic co-learning](https://web.cs.umass.edu/publication/docs/2015/UM-CS-2015-004.pdf) by Garant D, da Silva B C, Lesser V, et al. Technical report, 2015
@@ -138,6 +147,7 @@ The sharing principle of these references here is for research. If any authors d
 * [Transfer Learning for Multi-agent Coordination](https://ai.vub.ac.be/~ydehauwe/publications/ICAART2011_2.pdf) by Vrancx, Peter, Yann-Michaël De Hauwere, and Ann Nowé. ICAART, 2011.
 
 ### 模仿与逆强化学习(Imitation and Inverse Reinforcement Learning)
+
 * [On the Utility of Learning about Humans for Human-AI Coordination](https://arxiv.org/abs/1910.05789) by Micah Carroll, Rohin Shah, Mark K. Ho, Thomas L. Griffiths, Sanjit A. Seshia, Pieter Abbeel, Anca Dragan. NeurIPS 2019.
 * [Multi-Agent Adversarial Inverse Reinforcement Learning](https://arxiv.org/abs/1907.13220) by Lantao Yu, Jiaming Song, Stefano Ermon. ICML 2019.
 * [Multi-Agent Generative Adversarial Imitation Learning](https://papers.nips.cc/paper/7975-multi-agent-generative-adversarial-imitation-learning) by Jiaming Song, Hongyu Ren, Dorsa Sadigh, Stefano Ermon. NeurIPS 2018.
@@ -148,10 +158,11 @@ The sharing principle of these references here is for research. If any authors d
 * [Multi-agent inverse reinforcement learning](http://homes.soic.indiana.edu/natarasr/Papers/mairl.pdf) by Natarajan S, Kunapuli G, Judah K, et al. ICMLA, 2010.
 
 ### 元学习(Meta Learning)
+
 * [Continuous Adaptation via Meta-Learning in Nonstationary and Competitive Environments](https://arxiv.org/pdf/1710.03641.pdf) by l-Shedivat, M. 2018.
 
-
 ### 应用(Application)
+
 * [MAgent: A Many-Agent Reinforcement Learning Platform for Artificial Collective Intelligence](https://arxiv.org/pdf/1712.00600.pdf) by Zheng L et al. NIPS 2017 & AAAI 2018 Demo. ([Github Page](https://github.com/geek-ai/MAgent))
 * [Collaborative Deep Reinforcement Learning for Joint Object Search](https://arxiv.org/pdf/1702.05573.pdf) by Kong X, Xin B, Wang Y, et al. arXiv, 2017.
 * [Multi-Agent Stochastic Simulation of Occupants for Building Simulation](http://www.ibpsa.org/proceedings/BS2017/BS2017_051.pdf) by Chapman J, Siebers P, Darren R. Building Simulation, 2017.
