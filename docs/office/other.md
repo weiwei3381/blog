@@ -105,6 +105,33 @@ pause
 每次调整页面，会弹出确认窗口，如果不需要显示，则可以将其关闭掉，在`Options`->`Configuration`中取消`Layout Restoration Dialog`下面的勾选即可。
 :::
 
+## 使用youtube-dl下载网页动画
+
+可以使用[youtube-dl](https://wws.lanzous.com/iH3hHjao7mh)下载网页视频，文件可以到[蓝奏云下载](https://wws.lanzous.com/iH3hHjao7mh)，下载完成后将解压得到的`youtube-dl.exe`放到单独的文件夹下，然后在cmd中运行即可，
+使用方法很简单，在`youtube-dl.exe [视频网址]`即可，例如下载[【朱一旦】142 一块劳力士的回家路](https://www.bilibili.com/video/BV1P7411V7Ga)，则使用下面的命令
+
+```batch
+.\youtube-dl.exe https://www.bilibili.com/video/BV1P7411V7Ga
+```
+
+此时会显示下载情况:
+
+![rVbEJH.png](https://s3.ax1x.com/2020/12/12/rVbEJH.png)
+
+`youtube-dl`的其他常用命令还有：
+
+```batch
+[url] 下载对应url的视频
+-o '名称' [url] 指定视频下载之后的名称
+-h, --help 打印此帮助文本并退出
+--version 打印程序版本并退出
+-U, --update 将此程序更新为最新版本。
+--list-extractors 列出所有支持的提取器
+-F [url] 查看目标网址的视频版本
+[url1] [url2] [url3] 一次下载多个不同的视频，用空格将多个URL分隔开
+--format mp4 [url] 下载mp4格式视频(如果可用)
+```
+
 ## 如何快速搜索信息
 
 ### site：搜索结果限定在某个网站中
