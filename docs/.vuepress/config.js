@@ -71,13 +71,13 @@ module.exports = {
       // 后端编程
       '/back-end/': ['daily', 'python', 'koa2', 'numpy'],
       // 项目实战
-      '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search'],
+      '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser'],
       // 高效办公
-      '/office/': ['word', 'excel', 'other','software'],
+      '/office/': ['word', 'excel', 'other', 'software'],
       // 通用技术
       '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'reg'],
       // 论文
-      '/paper/': ['search', 'defense', 'cover','2020Auguest','daily','technology','strategy', 'mpc','MARL','UAV'],
+      '/paper/': ['search', 'defense', 'cover', '2020Auguest', 'daily', 'technology', 'strategy', 'mpc', 'MARL', 'UAV'],
     },
   },
   // vuepress插件系统
