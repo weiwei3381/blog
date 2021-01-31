@@ -69,7 +69,7 @@ module.exports = {
         'node', 'design', 'npm', 'vuepress', 'babel',
       ],
       // 后端编程
-      '/back-end/': ['daily', 'python', 'koa2', 'numpy'],
+      '/back-end/': ['daily', 'python', 'koa2', 'numpy', 'docker'],
       // 项目实战
       '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser'],
       // 高效办公
