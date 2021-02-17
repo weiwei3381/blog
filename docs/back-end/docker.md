@@ -61,6 +61,15 @@ docker run [OPTIONS] IMAGE[:TAG] [COMMAND] [ARG...]
 # 查看所有运行的容器进程
 docker ps
 
+# 查看镜像、容器、数据卷所占用的空间
+docker system df
+
+# 无标签镜像也被称为 虚悬镜像(dangling image) ，可以用下面的命令专门显示这类镜像
+docker image ls -f dangling=true
+
+# 删除所有虚悬镜像
+docker image prune
+
 # 在容器中运行命令
 docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
 # 常用[OPTION]有: -d 后台(detach)运行程序; -i 保留交互(interactive)页面; -t 分配虚拟终端(terminal)
@@ -82,7 +91,7 @@ docker run -d -p 8080:80 nginx
 
 ### 使用Dockerfile制作镜像
 
-Dockerfile是一个用来构建镜像的文本文件，文本内容包含了一条条构建镜像所需的指令和说明。Dockerfile
+Dockerfile是一个用来构建镜像的文本文件，权威可参考[Docker: Dockerfile参考](https://docs.docker.com/engine/reference/builder/)文本内容包含了一条条构建镜像所需的指令和说明。Dockerfile
 一般由5部分组成
 
 1. 注释部分，类似说明，# 开头
@@ -99,3 +108,5 @@ Dockerfile是一个用来构建镜像的文本文件，文本内容包含了一�
   - VOLUME（指定挂载点），语法为`VOLUME [“/tmp/data”]`
   - WORKDIR（切换目录），可以进行多次切换，对 RUN，CMD，ENTRYPOINT 生效。
   - ONBUILD（在子镜像中执行）
+
+需要注意的是，Dockerfile是没有后缀名的，运行的时候，使用`docker build .`即可运行当前目录下的Dockerfile, 运行完毕则生成镜像，在编译时也可使用`-t name:tag`指定镜像名称和标签，例如`docker build -t nginx:v3 .`。
