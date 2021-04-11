@@ -1,13 +1,3 @@
----
-fignos-cleveref: True
-fignos-plus-name: 图
-fignos-caption-name: 图
-fignos-caption-separator: 'space'
-eqnos-plus-name: 公式
-eqnos-eqref: True
-wordTemplate: ./config/reference.docx
-...
-
 # 常用聚类算法
 
 ## AP聚类
