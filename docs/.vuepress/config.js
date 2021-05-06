@@ -71,7 +71,7 @@ module.exports = {
       // 后端编程
       '/back-end/': ['daily', 'python', 'koa2', 'numpy', 'docker'],
       // 项目实战
-      '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser'],
+      '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser', 'medicine'],
       // 高效办公
       '/office/': ['word', 'excel', 'other', 'software'],
       // 通用技术
