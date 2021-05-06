@@ -204,6 +204,167 @@ name = soup.find('h2')
 volumn_node = soup.find(id="jm")  # 卷名
 ```
 
-## 面向对象编程
+## 虚拟环境安装
+
+### 使用虚拟环境软件
+
+**1、安装虚拟环境软件**。可以使用virtualenv，安装时使用`pip install virtualenv`
+
+**2、构建python虚拟环境**。首先在cmd中进入安装虚拟环境的指定目录，然后输入`virtualenv + "虚拟环境名称"`，即可在指定目录下生成一个跟"虚拟环境名称"一样的目录，该目录就是虚拟的python环境。
+
+**3、激活虚拟环境**。如果虚拟环境目录是在D:\python_env\test_env中，则进入方式如下：在cmd中，转到D:\python_env\test_env\目录下，然后运行`.\Scripts\activate.bat`即可激活。
+
+**4、取消激活环境**。与激活类似,只是运行的是目录下的`.\Scripts\deactivate.bat`。
+
+### 使用virtualenvwarpper管理虚拟环境
+
+**1、安装virtualenvwarpper-win**。使用命令`pip install virtualenvwrapper-win`。
+
+**2、设置环境变量**。WORKON_HOME为虚拟环境的指定目录。
+
+**3、创建虚拟环境**。运行命令`mkvirtualenv + "虚拟环境名称"`即可创建对应的虚拟环境。
+
+**4、进入虚拟环境**。`workon + "虚拟环境名称"`。
+
+**5、退出虚拟环境**。使用`Deactivate`命令。
+
+## 导出python项目依赖
+
+1、在cmd中输入`pip freeze`可以显示当前虚拟环境中所有的模块名称和对应的版本号，例如
+
+![依赖包](https://pic.imgdb.cn/item/609406ffd1a9ae528f2eb0c2.jpg)
+
+2、输入`pip freeze >requirements.txt`则会在cmd的对应目录生成requirements.txt的文本文件。
+
+3、在另外一个环境安装包，则可以使用如下命令
+`pip install -r requirements.txt`。
+
+## Jupyter notebook目录插件安装
+
+1、首先进入命令行，输入下列命令安装jupyter扩展：`pip install jupyter_contrib_nbextensions`
+
+2、然后将扩展进行激活：
+`jupyter contrib nbextension install --user`
+
+3、进入jupyter notebook，可以看到插件栏。
+
+![notebook插件栏](https://pic.imgdb.cn/item/6094077ad1a9ae528f3596f7.jpg)
+
+4、在插件栏中勾选`table of contents(2)`，即可激活目录，勾选`Collapsible Headings`，可以使得目录可以折叠。
+
+![notebook插件推荐](https://pic.imgdb.cn/item/609407c1d1a9ae528f3963d4.jpg)
+
+## Jupyter notebook修改启动目录
+
+1、首先在cmd中运行“jupyter notebook --generate-config”，将会生成配置文件。
+
+2、在配置文件中，修改`c.NotebookApp.notebook_dir = 'D:\\Notebook'`，即可在D:\Notebook文件夹中打开。
+
+## 设置python源
+
+使用时, 临时指定源的命令为: `pip install [模块名] -i https://pypi.doubanio.com/simple
+`, 全局设置在文件`%APPDATA%\pip\pip.ini`中, 例如`C:\Users\weiwe\AppData\Roaming\pip\pip.ini`设置如下:
+
+```ini
+[global]
+timeout = 600
+index-url = https://pypi.doubanio.com/simple
+trusted-host = pypi.doubanio.com
+[list]
+format = columns
+```
+
+其中，timeout：设置超时时间，index-url：指定下载源，trusted-host：指定域名。
 
 
+## python离线安装外部依赖包
+
+1、制作requirement.txt，使用`pip freeze > requirement.txt`
+
+2、在外网下载外部依赖包办法：
+
+离线下载单个离线包，命令： `pip download -d your_offline_packages <package_name>`
+
+批量下载离线包，命令：`pip download -d your_offline_packages -r requirements.txt`。
+
+3、在内网离线安装方法：
+安装单个离线包，命令：`pip install --no-index --find-links=/your_offline_packages/ package_name`
+
+批量安装离线包，命令：`pip install --no-index --find-links=/your_offline_packages/ -r requirements.txt`
+
+## 嵌入式python
+
+**1、下载embedded包**。在[python官网](https://www.python.org/downloads/windows/)下载python3的embedded版本。因为64位exe可能不支持32位系统，推荐下载x86的zip包，[下载地址](https://www.python.org/ftp/python/3.7.4/python-3.7.4-embed-win32.zip)。
+
+**2、安装pip**。解压zip包之后，找到python-embedded文件夹下的python37._pth文件，打开之后把
+
+```python
+  # import site
+```
+
+前面的注释符号`#`删除后保存，然后从[pip官网](https://pip.pypa.io/en/stable/installing/#id7)下载get-pip.py，下载地址是：[https://bootstrap.pypa.io/get-pip.py](https://bootstrap.pypa.io/get-pip.py)，然后调用嵌入式python中的`python get-pip.py`命令。
+
+如果没有去掉import site前面的注释，直接执行`python get-pip.py`命令会报错，错误代码为:
+
+```batch
+Traceback (most recent call last):
+File "D:\obj\Windows-Release\37win32_Release\msi_python\zip_win32\runpy.py", line 193, in _run_module_as_main
+File "D:\obj\Windows-Release\37win32_Release\msi_python\zip_win32\runpy.py", line 85, in _run_code
+File "F:\python-3.7.3-embed-win32\Scripts\pip.exe\__main__.py", line 5, in <module>
+ModuleNotFoundError: No module named 'pip'
+
+```
+
+**3、安装Tk/Tcl**。由于嵌入式python版本比较低，手动安装Tk/Tcl模块，这些模块主要用于图形界面，操作流程如下：
+
+1. 从完整版python路径\Lib\tkinter，复制到python-embedded\python37.zip，需要注意的是，完整版python需要跟嵌入式python的版本尽可能一致，是复制到zip包里面去，不是文件夹。
+2. 将完整版python中的三个文件_tkinter.pyd、tcl86t.dll和tk86t.dll复制到嵌入式python的根目录中，这三个文件位置在完整版python的DLLs文件夹中。
+3. 将完整版python文件夹根目录的tcl的文件夹，复制到嵌入式python的根目录。
+
+上面三个步骤完成之后，嵌入式python就可以安装各种第三方库了，实测包括wxpython，numpy，matplotlib，opencv-python，Pillow等等。
+
+:warning: ==如何生成exe文件==，生成的exe文件在运行过程中如何隐藏cmd的黑框，有两种方式可以使用。
+
+一是使用gcc编译c语言代码，调用命令行的"python.exe xx.py",安装gcc的方法如下：
+
+a. 使用MinGW(http://www.mingw.org)下载软件,MinGW的下载地址为:https://sourceforge.net/projects/mingw/files/MinGW/
+
+b. 下载完毕后安装MinGW，然后把安装位置对应的bin文件加入path目录，例如d:\\Mingw\\bin
+
+c. 使用MingW软件安装gcc，命令行安装方式为：`mingw-get install gcc`
+
+d. 使用gcc编译exe文件，利用gcc xxx.c -o xxx.exe，c文件实例为：
+```c
+#include<stdio.h>
+#include<stdlib.h>
+int main()
+{
+	system("python-3.7.3-embed-win32\\python.exe python-3.7.3-embed-win32\\test.py");
+	return 0;
+}
+```
+==注意== ：采用该方法无法隐藏cmd的黑色窗口，效果不是太好，可以使用第二个办法进行。
+
+ 二是使用pyinstaller编译python代码
+
+a. 新建run.py, py文件的写法事例如下，该方法不弹出cmd窗口：
+
+```python
+from subprocess import run
+run("python-3.7.3\\python.exe hello.py",shell=True)
+```
+
+b. 在完整版python中安装模块pyinstaller，安装命令为`pip install pyinstaller`。
+
+c. 使用pyinstaller仅编译刚刚写的run.py文件, -F表示生成单个文件，-w表示隐藏cmd窗口，完整命令如下: `pyinstaller.exe -F .\run.py -w`
+在.\dist目录下生成的run.exe就可以正常使用了。
+
+## 动态增加当前模块的搜索路径
+
+在pycharm中，IDE会自动将当前项目路径加入到python的模块搜索路径当中，但是在cmd中并不会自动添加，因此需要根据当前路径的位置动态填写模块搜索路径，其代码写法如下：
+
+```python
+import os, sys
+# 动态增加模块搜索路径
+sys.path.append(os.getcwd())
+```

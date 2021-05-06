@@ -46,9 +46,24 @@
 
 ```ini
 [global]
-timeout = 60
+timeout = 600
 index-url = https://pypi.doubanio.com/simple
+trusted-host = pypi.doubanio.com
+[list]
+format = columns
 ```
+
+其中，timeout：设置超时时间，index-url：指定下载源，trusted-host：指定域名。
+
+国内常用的镜像源有：
+
+1. 清华：https://pypi.tuna.tsinghua.edu.cn/simple
+2. 阿里云：http://mirrors.aliyun.com/pypi/simple/
+3. 中国科技大学 https://pypi.mirrors.ustc.edu.cn/simple/
+4. 华中理工大学：http://pypi.hustunique.com/
+5. 山东理工大学：http://pypi.sdutlinux.org/
+6. 豆瓣：http://pypi.douban.com/simple/
+7. 豆瓣：https://pypi.doubanio.com/simple/
 
 ## NPM代理服务器搭建
 
