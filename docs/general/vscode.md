@@ -1,12 +1,14 @@
 # VS Code 常用操作
 
-> [vistual studio code](https://code.visualstudio.com/)
+## 常用配置
 
-## 配置不自动更新
+> [Vistual Studio Code](https://code.visualstudio.com/)是一款由微软开发且跨平台的免费源代码编辑器。该软件支持语法高亮、代码自动补全（又称IntelliSense）、代码重构、查看定义功能，并且内置了命令行工具和Git版本控制系统。用户可以更改主题和键盘快捷方式实现个性化设置，也可以通过内置的扩展程序商店安装扩展以拓展软件功能。
+
+### 配置不自动更新
 
 [文件]->[首选项]->[设置], 进入设置页面, 搜索"update", 将**Update: Enable Windows Background Updates**(windows 后台更新)设为`false`, 将**Update: Mode**(更新模式)设置为`none`.
 
-## 配置连字
+### 配置连字
 
 下载并安装[FiraCode 字体](https://github.com/tonsky/FiraCode/releases), 在[设置]中搜索"font", 配置**Editor: Font Family**(编辑器字体)设为`Fira Code, Consolas, Microsoft YaHei`, **editor.fontLigatures**(编辑器连字)设为`true`. 用户配置在`C:\Users\${用户名}\AppData\Roaming\Code\User`下的`settings.json`文件中, 典型项如下:
 
@@ -22,6 +24,105 @@
   "update.enableWindowsBackgroundUpdates": false
 }
 ```
+
+## 实用插件
+
+VScode的[插件功能](https://marketplace.visualstudio.com/VSCode)十分强大，既可以在VScode中搜索下载，也可以下载离线版本，下面记录一些实用插件。
+
+### LiveServer
+
+插件名称为`ritwickdey.LiveServer`，启动具有实时重新加载功能的本地开发服务器，以处理静态和动态页面。使用方法如下：
+
+**方式1**：打开一个项目，单击状态栏的`Go Live`以打开/关闭服务器。
+
+![Go Live](https://pic.imgdb.cn/item/609f57146ae4f77d35f64de9.jpg)
+
+**方式2**：右键单击资源管理器窗口中的`.HTML`文件，然后单击`Open with Live Server`。
+
+**方式3**：打开一个HTML文件，右键单击编辑器，然后单击`Open with Live Server`。
+
+支持的功能有：
+
+- 快速开发静态服务器，支持实时热加载。
+- 通过从状态栏单击来启动或停止服务器。
+- 从资源管理器菜单打开`.HTML`文件到浏览器。
+- 可自定义的端口号，服务器根目录，默认浏览器。
+
+### Debugger for Chrome
+
+插件名称为`msjsdiag.debugger-for-chrome`，可在在Chrome浏览器或任何其他支持Chrome Debugger协议的目标中调试JavaScript代码。使用方式：
+
+**配置**：Debugger for Chrome以两种模式运行：一是在Chrome浏览器上运行（launch）实例，二是将其附加（attach）到现有的Chrome实例上。就像使用Node调试器一样，您可以在项目的根目录中使用文件`.vscode/launch.json`配置这些模式。
+
+**方式1-Launch（启动）**：使用`"request": "launch"`，这时必须指定file或url以针对本地文件或URL启动Chrome，`launch.json`中的实例如下：
+
+```json
+{
+    "version": "0.1.0",
+    "configurations": [
+        {
+            "name": "Launch localhost",
+            "type": "chrome",
+            "request": "launch",
+            "url": "http://localhost/mypage.html",
+            "webRoot": "${workspaceFolder}/wwwroot"
+        },
+        {
+            "name": "Launch index.html",
+            "type": "chrome",
+            "request": "launch",
+            "file": "${workspaceFolder}/index.html"
+        },
+        {
+            "type": "chrome",
+            "request": "launch",
+            "name": "在chrome中调试当前文件",
+            "file": "${file}"
+        }
+    ]
+}
+```
+
+**方式2-Attach（附加）**：使用`"request": "launch"`，必须在启用了远程调试的情况下启动Chrome，才能将扩展程序附加到它。
+
+在windows中启动chrome调试的设置方式如下。右键单击`Chrome`快捷方式，选择`属性`，在“目标”字段中，附加`--remote-debugging-port=9222`后运行。或者在命令提示符下执行 `<path to chrome>/chrome.exe --remote-debugging-port=9222`。
+
+launch.json“附加”配置的示例文件如下：
+
+```json
+{
+    "version": "0.1.0",
+    "configurations": [
+        {
+            "name": "Attach to url with files served from ./out",
+            "type": "chrome",
+            "request": "attach",
+            "port": 9222,
+            "url": "<url of the open browser tab to connect to>",
+            "webRoot": "${workspaceFolder}/out"
+        }
+    ]
+}
+```
+
+支持的功能有：
+
+- 设置断点，在vscode中设置断点即可，支持包括在启用源映射时在源文件中的断点
+- 步进，包括Chrome浏览器上的按钮
+- 监听变量
+- Console控制台
+
+### Tiny Light
+
+插件名称为`luqimin.tiny-light`，柔和的绿色主题，对眼睛很好，主题预览如下。
+
+![Tiny Light主题预览](https://pic.imgdb.cn/item/609f60536ae4f77d3568ab89.jpg)
+
+使用方法如下：点击`文件`, `首选项`，`颜色主题`，在浅色主题下选择`Tiny Light`即可。
+
+### Todo Tree
+
+插件名称为`Gruntfuggly.todo-tree`，这个插件可以快速在工作空间中搜索注释标签（例如TODO和FIXME），并将其显示在资源管理器窗格的树状视图中。单击树中的TODO将打开文件，并将光标放在包含TODO的行上。
 
 ## 常用快捷键
 
@@ -117,9 +218,17 @@
 ## ts 实战中的部分设置
 
 (1) **默认使用单引号**: 在设置中搜索`quote`, 在`Quote Style`中选择`single`.
+
 (2) **代码缩进为 2 个空格**: 在设置中搜索`tab`, 在`Tab Size`中设置为`2`.
+
 (3) **代码自动格式化**: 在扩展中搜索并安装`prettier`, 在设置中搜索`format on save`, 启用后保存文件会自动格式化代码.
+
 ![prettier图标](https://s1.ax1x.com/2020/04/04/G0uHyV.png)
+
 (4) **大纲按照文件位置进行排序**: 大纲默认按照"类别"进行排序, 可点击[大纲]左侧的`...`("更多操作"), 选择"排序依据: 位置"即可.
+
 ![vscode大纲排序](https://s1.ax1x.com/2020/04/05/GB9XSe.png)
+
 (5) **在 js 中启用 emmet**: 在设置中查找`Exclude Languages`, 修改`setting.json`文件, 增加`"emmet.includeLanguages": { "javascript": "javascriptreact" }`
+
+
