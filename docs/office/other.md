@@ -203,3 +203,26 @@ inurl这个指令用于搜索关键词出现在URL中的页面，可以按英文
 我们在阅读的同时，就可以对书的内容进行总结和思考。把要点和启发在便签条上记下来，贴在书的旁边，如果用ipad看电子书，可以采用`liquidText`进行操作。
 
 种阅读方法的好处是，一个步骤实现了边阅读边吸收的效果。同时，插入的便签条可以不用翻开书，便能快速地定位书的内容，而且便签条容易撕掉、转移和组合，当我们多次阅读的时候，产生了新的想法和理解，还可以进行及时的更新。
+
+## 修改Hosts和DNS，提高github访问速度
+
+Hosts文件所在位置为`C:\Windows\System32\drivers\etc`，文件名为`hosts`，没有扩展名。
+
+在`hosts`文件中追加两行：
+
+```hosts
+140.82.113.4     github.com
+199.232.69.194   github.global.ssl.fastly.net
+```
+
+其中，`github.com`的地址在[github.com.ipaddress.com](https://github.com.ipaddress.com/)上查找；`github.global.ssl.fastly.net`的地址在[fastly.net.ipaddress.com/github.global.ssl.fastly.net](https://fastly.net.ipaddress.com/github.global.ssl.fastly.net)上查找。
+
+刷新DNS：在CMD环境中执行`ipconfig /flushdns`即可清除DNS缓存内容。
+
+另外，查看DNS缓存内容的命令是`ipconfig /displaydns`。
+
+::: tip 提示
+也可使用工具[UsbEAm Hosts Editor](https://wwe.lanzoui.com/iXzMOjdbpng)修改github的hosts文件，如下图所示。
+
+![UsbEAm Hosts Editor](https://pic.imgdb.cn/item/60aa5f5012be2b4b1fbf210e.jpg)
+:::
