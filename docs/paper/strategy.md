@@ -268,5 +268,44 @@ Nova集团的Sarah Cannard博士在2018年自主勇士号（Autonomous Warrior�
 ![037M1P.png](https://s1.ax1x.com/2020/10/03/037M1P.png)
 :::
 
-## 美国出口管制制度（2018）
+## 国际军事刊物获取途径
+
+### 美国国防部(www.defense.gov)
+
+**可以正常访问**，比较常用的链接是[美国国防部信息发布](https://www.defense.gov/Newsroom/Publications/)，[人工智能报告](https://www.defense.gov/Explore/Spotlight/Artificial-Intelligence/)等，网站图片很分辨率较高。
+
+![美国防部人工智能报告](https://pic.imgdb.cn/item/60ad21cf08f74bc15906a9fe.jpg)
+
+### 美国传统基金会(www.heritage.org)
+
+==无法正常访问==，常用链接有[军力报告](https://www.heritage.org/military-strength)，可惜无法直接访问。
+
+折中的办法是使用能够直联访问的google镜像输入搜索关键词：`site:https://www.heritage.org/asia/report/ china`，即搜索所有带有**China**的报告，然后点击网页快照查看，如果想查看pdf文件，则搜索`site:heritage.org filetype:pdf china`，能够搜索到所有带有**China**的pdf文件。
+
+> 美国传统基金会的报告下载地址通常是：www.heritage.org/sites/default/files/2020-02/SR221.pdf（截止2021年5月底），不过直接访问是无法下载的，所以只能依托网页快照进行查看。
+
+### 兰德公司(www.rand.org)
+
+**可以直接访问**，比较常用的链接有[兰德公司研究报告](https://www.rand.org/pubs/research_reports.html)。
+
+### 美国战略与预算评估中心(csbaonline.org)
+
+**可以直接访问**，美国战略与预算评估中心简称CSBA(Center for Strategic and Budgetary Assessments)，主要的资源可以在[研究出版物](https://csbaonline.org/research/publications)下载，研究领域有四个，分别是[战略与政策](https://csbaonline.org/research/resources?show=strategy-policy)，[预算与资源](https://csbaonline.org/research/resources?show=budget-resources)，[未来战争与概念](https://csbaonline.org/research/resources?show=future-warfare-concepts)和[力量与能力](https://csbaonline.org/research/resources?show=forces-capabilities)。
+
+### 美国国防部高级研究计划局(darpa.mil)
+
+==无法正常访问==，美国国防部高级研究计划局简称DARPA(Defense Advanced Research Projects Agency），同样可以采用google镜像搜索，然后点击网页快照的方式浏览感兴趣的内容。示例如下：搜索所有跟人工智能相关的页面的关键词为`site:www.darpa.mil intelligence`，搜索所有的pdf文档关键词为`site:www.darpa.mil filetype:pdf`。
+
+### 新美国安全中心(www.cnas.org)
+
+**可以正常访问**，比较常用的链接是[下一代国防战略](https://www.cnas.org/research/defense/the-next-defense-strategy)，[人工智能与全球安全](https://www.cnas.org/artificial-intelligence-and-global-security)，[中国挑战](https://www.cnas.org/research/indo-pacific-security/china)等，具体可以看他的研究条目。
+
+值得注意的是，他的研究内容的形式比较多样，既有传统的报告，也有新闻、博客、视频等。
+
+![新美国安全中心研究领域](https://pic.imgdb.cn/item/60ad20ac08f74bc159f82052.jpg)
+
+### 知远防务(www.knowfar.org.cn/)
+
+[知远防务](http://www.knowfar.org.cn/)是国内公开翻译外军情况的机构，能够免费查看部分资料。
+
 
