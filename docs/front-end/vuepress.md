@@ -414,3 +414,68 @@ $$a_1+a_2 = b_1$$
 段中公式:
 $$a_1+a_2 = b_1$$
 :::
+
+## 页面标题增加序号
+
+利用CSS实现序号，主要使用下面标签：
+
+- counter-reset - 创建或者重置计数器
+- counter-increment - 递增变量
+- content - 插入生成的内容
+- counter() 或 counters() 函数 - 将计数器的值添加到元素
+
+渲染时，在`.vuepress\styles\index.styl`中，增加下面css
+
+```css
+/* 页脚字体缩小 */
+section.footnotes {
+  font-size: 0.85em;
+}
+
+/* 文中图片居中 */
+p>img {
+  display: block;
+  margin: 0 auto;
+}
+
+/* 段落中强调颜色 */
+p em{
+  color: #277;
+}
+
+/* 增加标题序号 */
+h1 {
+    counter-reset: h2
+  }
+
+  h2 {
+    counter-reset: h3
+  }
+  h3 {
+    counter-reset: h4
+  }
+
+  h4 {
+    counter-reset: h5
+  }
+
+  h2:before {
+    counter-increment: h2;
+    content: counter(h2) " "
+  }
+
+  h3:before {
+    counter-increment: h3;
+    content: counter(h2) "." counter(h3) " "
+  }
+
+  h4:before {
+    counter-increment: h4;
+    content: counter(h2) "." counter(h3) "." counter(h4) " "
+  }
+
+  h5:before {
+    counter-increment: h5;
+    content: "(" counter(h5) ") "
+  }
+```
