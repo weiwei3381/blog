@@ -1,7 +1,7 @@
 module.exports = {
   // 提交到gitee则开启base
   base: '/blogs/',
-  title: '小熊的Code Base',
+  title: '小熊的技术文档',
   description: '衣带渐宽终不悔，为伊消得人憔悴',
   head: [
     // 增加自定义的 icon, 作为网页图标
@@ -69,7 +69,7 @@ module.exports = {
         'node', 'design', 'npm', 'vuepress', 'babel', 'vue'
       ],
       // 后端编程
-      '/back-end/': ['daily', 'python', 'koa2', 'numpy', 'docker'],
+      '/back-end/': ['daily', 'python', 'python-projects', 'koa2', 'numpy', 'docker'],
       // 项目实战
       '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser', 'medicine'],
       // 高效办公
