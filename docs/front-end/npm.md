@@ -1,6 +1,8 @@
-# npm常用命令
+# npm中常用命令与模块
 
-## 配置命令
+## npm常用命令
+
+### 配置命令
 
 ```shell
 # 查看registry
@@ -29,7 +31,7 @@ npm get <key>
 npm set <key> <value> [-g|--global]
 ```
 
-## 模块命令
+### 模块命令
 
 ```shell
 # 初始化package.json
@@ -67,7 +69,7 @@ npm version
 
 ```
 
-## 查看路径
+### 查看路径
 
 ```shell
 # 查看npm安装路径
@@ -80,9 +82,36 @@ npm root -g
 npm cache clean -f
 ```
 
-## 运行脚本
+### 运行脚本
 
 ```shell
 # 运行package.json中[Scripts]属性中的脚本
 npm run <脚本名称>
+```
+
+## npm常用模块
+
+### 命令行参数解析模块
+
+模块[optimist](https://www.npmjs.com/package/optimist)可以方便的解析命令行传入的参数，不过目前已经==弃用==，使用方法如下：
+
+```js
+var argv = require('optimist').argv;
+ 
+if (argv.rif - 5 * argv.xup > 7.138) {
+    console.log('Buy more riffiwobbles');
+}
+else {
+    console.log('Sell the xupptumblers');
+}
+```
+
+命令行参数传入：
+
+```batch
+$ ./xup.js --rif=55 --xup=9.52
+Buy more riffiwobbles
+
+$ ./xup.js --rif 12 --xup 8.1
+Sell the xupptumblers
 ```
