@@ -237,3 +237,12 @@ Hosts文件所在位置为`C:\Windows\System32\drivers\etc`，文件名为`hosts
 
 在“默认模式”下，基本上github就都能正常访问了，不过需要根据指引一步一步安装证书，其原理还是通过代理实现的。
 
+## 在线语音转文字
+
+推荐1： [网易见外](https://jianwai.youdao.com/)，免费使用，在页面选择`新建项目`时，能看到它提供的8大功能，如下所示。
+
+![网易见外8大功能](https://pic.imgdb.cn/item/6106d5705132923bf81a8bf0.jpg)
+
+推荐2： [i笛云听写](http://www.voiceclub.cn/),每天每个人有10个小时的语音转文字时间，基本上够用了，文字识别也比较准确，使用界面如下所示。
+
+![i笛云听写语音转文字界面](https://pic.imgdb.cn/item/6106d6125132923bf81d37c1.jpg)
