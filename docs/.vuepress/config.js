@@ -33,16 +33,17 @@ module.exports = {
     lastUpdated: '更新于',
     // 添加导航栏
     nav: [
-      { text: '🎨前端技术', link: '/front-end/' },
-      { text: '💻后端编程', link: '/back-end/' },
-      { text: '🚀实战记录', link: '/practice/' },
-      { text: '🏢高效办公', link: '/office/' },
-      { text: '🍓通用知识', link: '/general/' },
-      { text: '🐸论文写作', link: '/paper/' },
+      
+      { text: '🎨前端', link: '/front-end/' },
+      { text: '💻后端', link: '/back-end/' },
+      { text: '🚀实战', link: '/practice/' },
+      { text: '🏢办公', link: '/office/' },
+      { text: '🍓通用', link: '/general/' },
+      { text: '🐸论文', link: '/paper/' },
+      { text: '⚡快速笔记', link: '/general/fast' },
       {
         text: '🦉近期重点',
         items: [
-          { text: '🍄每天读SCI论文', link: '/paper/daily' },
           { text: '🐇python常用模块', link: '/back-end/python' },
           { text: '🌹zrender源码解析', link: '/practice/zrender' },
         ],
@@ -53,31 +54,27 @@ module.exports = {
         items: [
           { text: '小鸟搜索', link: 'https://www.birdiesearch.com/' },
           { text: '每天一本编程书', link: 'https://salttiger.com/' },
-          {
-            text: 'emoji表情大全',
-            link:
-              'https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json',
-          },
+          { text: '开发者边车', link: 'https://gitee.com/docmirror/dev-sidecar' },
         ],
       },
     ],
     // 为以下路由添加侧边栏
     sidebar: {
-      // 前端技术
+      // 前端
       '/front-end/': [
         'javascript', 'pattern', 'typescript', 'es6', 'css',
         'node', 'design', 'npm', 'vuepress', 'babel', 'vue'
       ],
-      // 后端编程
+      // 后端
       '/back-end/': ['daily', 'python', 'python-projects', 'koa2', 'numpy', 'docker'],
-      // 项目实战
+      // 实战
       '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser', 'medicine'],
-      // 高效办公
+      // 办公
       '/office/': ['word', 'excel', 'other', 'software'],
-      // 通用技术
-      '/general/': ['git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'reg'],
+      // 通用
+      '/general/': ['fast', 'git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'reg'],
       // 论文
-      '/paper/': ['search', 'defense', 'cover', '2020Auguest', 'daily', 'technology', 'strategy', 'mpc', 'MARL', 'UAV','clustering'],
+      '/paper/': ['writing', 'search', 'defense', 'cover', '2020Auguest', 'daily', 'technology', 'strategy', 'mpc', 'MARL', 'UAV','clustering'],
     },
   },
   // vuepress插件系统
