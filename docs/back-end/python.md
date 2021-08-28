@@ -25,6 +25,7 @@ os.walk(path)  # 创建生成器对象遍历整个目录树
 # - dirpath是一个字符串表示路径，
 # - dirnames是dirpath中所有子目录的列表
 # - filenames是dirpath中所有文件的列表
+os.path.getsize(path)  # 获取文件大小，单位为字节
 
 # 重命名
 os.rename(src, dst) # 将原文件或者目录src重命名为dst
@@ -68,6 +69,18 @@ os.path.exists("../python/foo")  # 输出为False
 os.path.isfile(path)
 os.path.isdir(path)  # 返回值均为True或False
 ```
+
+## 日期类
+
+
+```python
+# 获得当前日期的“YYYY-MM-DD HH:mm:SS”格式
+
+import time
+time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
+
+```
+
 
 ## 爬取内容
 
