@@ -326,3 +326,65 @@ setInterval(function(){
 使用该方法得到的图片如下所示，可以再使用“acrobat”或者“pdfelement”将其合并成一个pdf，然后使用“abbyy”进行文字识别。
 
 ![使用有道文档下载的译文图片集合](https://pic.imgdb.cn/item/6106d0ec5132923bf8065893.jpg)
+
+### 删除有道文档翻译下载的所有翻译图片并生成pdf合集
+
+使用python的`img2pdf`模块，首先`pip install img2pdf`安装，然后新建py文件后输入下面代码：
+
+```python
+import os
+import time
+import img2pdf
+
+# 文件下载目录
+DOWNLOAD_PATH = r"E:\Downloads"
+# 合并成功后是否删除文件
+IS_DELETE_FILE = True
+
+
+def from_photo_to_pdf(jpg_list):
+    """
+    将图片文件地址的列表合并成一个pdf文件
+    :param jpg_list: 图片文件位置列表，例如["E:\Downloads\tran-0.jpeg','E:\Downloads\tran-1.jpeg]
+    :return:合并的pdf文件位置
+    """
+
+    # 按照A4大小自定义pdf文件的单页的宽和高
+    a4 = (img2pdf.mm_to_pt(720), img2pdf.mm_to_pt(1080))
+    layout_fun = img2pdf.get_layout_fun(a4)
+    time_now = time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()))
+    pdf = os.path.join(DOWNLOAD_PATH, "转换_%s.pdf" %(time_now,))
+    with open(pdf, 'wb') as f:
+        f.write(img2pdf.convert(jpg_list, layout_fun=layout_fun))
+    return pdf
+
+
+jpg_list = []
+page_i = 0
+# 获取所有的翻译后的jpeg文件，由于翻译后的文件是按照tran-0.jpeg, tran-1.jpeg排序的，因此进行遍历
+while True:
+    jpg_file = os.path.join(DOWNLOAD_PATH, "tran-%s.jpeg" % (page_i,))
+    if not os.path.exists(jpg_file):
+        break
+    # 重复图片文件处理，有时候会出现多下载了一次文件的情况，此时文件夹会出现两张相同照片
+    # 例如“tran-91.jpeg”和“tran-91 (1).jpeg”，如果相同则删除重复文件
+    duplication_file = os.path.join(DOWNLOAD_PATH, "tran-%s (1).jpeg" % (page_i,))
+    if os.path.exists(duplication_file) and os.path.getsize(duplication_file) == os.path.getsize(jpg_file):
+        os.remove(duplication_file)
+    jpg_list.append(jpg_file)
+    page_i += 1
+
+# 合并pdf文件，当图片列表大于零才新生成pdf
+if len(jpg_list) == 0:
+    raise RuntimeError("文件夹[%s]中没有指定图片" % DOWNLOAD_PATH)
+# 获得合并后的pdf
+merged_pdf = from_photo_to_pdf(jpg_list)
+
+# 如果允许删除源文件，同时生成的pdf存在且大于100KB，则删除源图片文件
+if IS_DELETE_FILE and os.path.exists(merged_pdf) and os.path.getsize(merged_pdf) > 100*1024:
+    for jpg in jpg_list:
+        os.remove(jpg)
+print("一共合并%s张图片，pdf文件位于%s，运行结束" % (len(jpg_list),merged_pdf))
+```
+
+其中，`DOWNLOAD_PATH`是下载的图片文件目录，需要根据情况进行指定，我本机位置是`E:\Downloads`，最后的输出结果像这样：`一共合并98张图片，pdf文件位于E:\Downloads\转换_20210829_003206.pdf，运行结束`。
