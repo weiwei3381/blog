@@ -124,6 +124,16 @@ launch.json“附加”配置的示例文件如下：
 
 插件名称为`Gruntfuggly.todo-tree`，这个插件可以快速在工作空间中搜索注释标签（例如TODO和FIXME），并将其显示在资源管理器窗格的树状视图中。单击树中的TODO将打开文件，并将光标放在包含TODO的行上。
 
+### Markdown Paste
+
+插件全称为[telesoho.vscode-markdown-paste-image](https://marketplace.visualstudio.com/items?itemName=telesoho.vscode-markdown-paste-image)，下载地址为[vscode-markdown-paste-image](https://marketplace.visualstudio.com/_apis/public/gallery/publishers/telesoho/vsextensions/vscode-markdown-paste-image/0.13.8/vspackage)，由国人开发，如果复制图片，然后在VS code中按下快捷键**Ctrl+Alt+V**，会触发插件的智能粘贴功能，然后弹出对话框，询问用户文件名应该是什么，然后将其自动插入到指定位置，操作过程如下图所示。
+
+![官方示意](https://github.com/telesoho/vscode-markdown-paste-image/raw/HEAD/res/markdown-paste-rich-text-html-table.gif)
+
+在插件设置中的`Markdown Paste:Path`中能修改图片默认保存位置。例如在项目`MarkdownPaper`中，可以将其修改为`./static/`，如下图所示。
+
+![修改配置](https://ftp.bmp.ovh/imgs/2021/09/94ad9265a4d5841f.png)
+
 ## 常用快捷键
 
 1. 放大缩小整个编辑器, 默认快捷键是`ctrl`+`=`和`ctrl`+`-`
