@@ -25,6 +25,100 @@
 }
 ```
 
+### 修改vscode默认markdown预览样式
+
+默认markdown的显示效果一般，标题前面没有形“1.1，2.1”的标号，首行也不空2格等问题，为了修改默认预览样式，可以在项目根目录增加文件`markdown_preview.css`，文件内容如下：
+
+```css
+body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  line-height: 1.5;
+  background-color: rgb(248, 248, 248);
+  color: #333;
+  font-size: 18px;
+  font-family: "Source Code Pro", Consolas, Menlo, Monaco, "Courier New", monospace, "FZSSJW", "方正书宋简体", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+code{
+font-family: '楷体';
+background-color: rgb(248, 248, 248);
+font-size: 1.05em !important;
+color: #333;
+}
+
+p {
+text-indent: 2em;
+font-weight: 400;
+line-height: 1.5;
+color: #000;
+margin: 0.6em 0;
+
+}
+
+h1 {
+text-align: center;
+font-family: "方正小标宋简体", Consolas, Menlo, Monaco, "Courier New", monospace, "FZSSJW", "方正书宋简体", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-weight: 700;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+font-weight: 700;
+margin: 1em 0 0 0;
+padding: 0;
+font-family: -apple-system, BlinkMacSystemFont, "Apple Color Emoji", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  counter-reset: h2;
+}
+
+h2 {
+  counter-reset: h3;
+}
+
+h3 {
+  counter-reset: h4;
+}
+
+h4 {
+  counter-reset: h5;
+}
+
+h2:before {
+  counter-increment: h2;
+  content: counter(h2) " "
+}
+
+h3:before {
+  counter-increment: h3;
+  content: counter(h2)"." counter(h3) " "
+}
+
+h3:before {
+  counter-increment: h3;
+  content: counter(h2)"." counter(h3) " "
+}
+
+h4:before {
+  counter-increment: h4;
+  content: counter(h2)"." counter(h3) "." counter(h4) " "
+}
+
+h5:before {
+  counter-increment: h5;
+  content: "(" counter(h5) ")"
+}
+```
+
+然后在`vscode`的设置中，`Markdown: Styles`部分增加`markdown_preview.css`即可生效，如下图所示。
+
+![markdown_preview.css设置](https://ftp.bmp.ovh/imgs/2021/09/65bb7dedd83d63a7.png)
+
 ## 实用插件
 
 VScode的[插件功能](https://marketplace.visualstudio.com/VSCode)十分强大，既可以在VScode中搜索下载，也可以下载离线版本，下面记录一些实用插件。
