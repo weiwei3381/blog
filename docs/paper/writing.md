@@ -329,17 +329,37 @@ setInterval(function(){
 
 ### 删除有道文档翻译下载的所有翻译图片并生成pdf合集
 
-使用python的`img2pdf`模块，首先`pip install img2pdf`安装，然后新建py文件后输入下面代码：
+使用python的`img2pdf`模块，首先`pip install img2pdf`安装模块，然后新建python文件后输入下面代码：
 
 ```python
 import os
 import time
+from PIL import Image
 import img2pdf
 
-# 文件下载目录
+# 图片文件目录
 DOWNLOAD_PATH = r"E:\Downloads"
 # 合并成功后是否删除文件
 IS_DELETE_FILE = True
+# 是否压缩文件
+IS_COMPRESS = True
+# 压缩图片质量，默认为80
+IMG_QUALITY = 80
+
+
+def compress_img(jpg_list):
+    """
+    压缩jpg文件
+    :param jpg_list: 图片文件位置列表
+    :return:
+    """
+    for jpg_path in jpg_list:
+        # 使用pillow库打开文件并压缩
+        with Image.open(jpg_path) as im:
+            im.save(jpg_path + ".jpg", quality=IMG_QUALITY)
+        os.remove(jpg_path)  # 删除压缩前的原文件
+        # 将压缩后的文件保存为压缩前的名字
+        os.rename(jpg_path + ".jpg", jpg_path)
 
 
 def from_photo_to_pdf(jpg_list):
@@ -377,6 +397,10 @@ while True:
 # 合并pdf文件，当图片列表大于零才新生成pdf
 if len(jpg_list) == 0:
     raise RuntimeError("文件夹[%s]中没有指定图片" % DOWNLOAD_PATH)
+# 压缩文件
+if IS_COMPRESS:
+    print("正在压缩%s张图片" % len(jpg_list))
+    compress_img(jpg_list)
 # 获得合并后的pdf
 merged_pdf = from_photo_to_pdf(jpg_list)
 
