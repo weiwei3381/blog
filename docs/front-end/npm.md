@@ -115,3 +115,35 @@ Buy more riffiwobbles
 $ ./xup.js --rif 12 --xup 8.1
 Sell the xupptumblers
 ```
+
+## npm安装时碰到的问题
+
+### 安装Electron失败的解决方案
+
+方法1：尝试打开项目的`\node_modules\electron`目录，然后运行`node install.js`，看能否安装成功，如果安装不成功，一般是下载文件出现问题，如下图所示。
+
+通过查看`package.json`，确定`electron`的版本，然后在[淘宝electron镜像站](https://npm.taobao.org/mirrors/electron/)下载对应的zip文件，例如`electron-v14.0.0-win32-x64.zip`，将其复制到项目的`\node_modules\electron`目录，然后把`install.js`改为下面代码：
+
+```js
+#!/usr/bin/env node
+
+const version = require('./package').version
+const fs = require('fs')
+const os = require('os')
+const path = require('path')
+const extract = require('extract-zip')
+const platformPath = 'electron.exe'
+const zipPath = "./electron-v14.0.0-win32-x64.zip"
+extractFile (zipPath)
+// unzips and makes path.txt point at the correct executable
+function extractFile (zipPath) {
+extract(zipPath, { dir: path.join(__dirname, 'dist') }, function (err) {
+if (err) return onerror(err)
+fs.writeFile(path.join(__dirname, 'path.txt'), platformPath, function (err) {
+if (err) return onerror(err)
+})
+})
+}
+```
+
+然后再运行`node install.js`即可。
