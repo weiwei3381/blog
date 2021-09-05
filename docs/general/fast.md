@@ -181,3 +181,70 @@ End Function
 使用[libgen](https://libgen.is/search.php)可以搜索很多英文专业书，最近的military balance 2021就是在这上面找到的。
 
 ![military balance搜索](https://pic.imgdb.cn/item/61227fff44eaada739faa3d8.jpg)
+
+## 油猴脚本推荐
+
+到[Greasy Fork](https://greasyfork.org/zh-CN)搜索并下载脚本，常用脚本有：
+
+### 网易云音乐直接下载
+
+[3046-网易云音乐直接下载](https://greasyfork.org/zh-CN/scripts/33046-%E7%BD%91%E6%98%93%E4%BA%91%E9%9F%B3%E4%B9%90%E7%9B%B4%E6%8E%A5%E4%B8%8B%E8%BD%BD):在单曲页面显示歌词、翻译、封面、MV、歌曲下载链接并以高音质试听。同时支持歌单、专辑等页面直接下载单曲、封面、歌词(压缩包)。
+
+### Bilibili Evolved
+
+[Bilibili Evolved](https://github.com/the1812/Bilibili-Evolved)主要是改善BiliBili的观看体验，能够提供下载弹幕、视频等功能，点击[此处](https://cdn.jsdelivr.net/gh/the1812/Bilibili-Evolved@master/bilibili-evolved.user.js)安装，设置如下。
+
+![Bilibili Evolved预览](https://ftp.bmp.ovh/imgs/2021/09/c818d4d55c5e2173.png)
+
+### 中国知网CNKI硕博论文PDF下载
+
+[中国知网CNKI硕博论文PDF下载](https://greasyfork.org/zh-CN/scripts/389343-%E4%B8%AD%E5%9B%BD%E7%9F%A5%E7%BD%91cnki%E7%A1%95%E5%8D%9A%E8%AE%BA%E6%96%87pdf%E4%B8%8B%E8%BD%BD)，添加知网直接下载PDF的按钮。
+
+### 全球安全网站模态框拦截
+
+代码是自己写的，主要用途是在访问[全球安全](https://www.globalsecurity.org/military/library/)网站时，拦截登录模态框，源码如下：
+
+```js
+// ==UserScript==
+// @name         全球安全模态框拦截
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://www.globalsecurity.org/*
+// @run-at      document-end
+// @grant        none
+// @require      http://libs.baidu.com/jquery/2.0.0/jquery.min.js
+// ==/UserScript==
+
+(function() {
+    'use strict';
+    function removeModal(){
+        if($('#military').attr('class') === "tp-modal-open"){
+            console.log("弹出模态框")
+            $("#military").removeClass("tp-modal-open");  // 移除tp-modal-open类，使得鼠标能滚动
+            $(".tp-backdrop.tp-active").css('opacity', 0)
+            $(".tp-backdrop.tp-active").removeClass("tp-backdrop")
+            $("div.tp-modal").remove()
+        }
+    }
+    setTimeout(removeModal,2000)
+    setTimeout(removeModal,4000)
+    setTimeout(removeModal,6000)
+    setTimeout(removeModal,8000)
+    setTimeout(removeModal,10000)
+
+})();
+```
+
+### 知乎网页助手
+
+[知乎网页助手](https://greasyfork.org/zh-CN/scripts/384172-%E7%9F%A5%E4%B9%8E%E7%BD%91%E9%A1%B5%E5%8A%A9%E6%89%8B)，功能介绍：1、知乎站外链接直接跳转至目标网址；2、自动展开问题全部信息，同时展示所有回答；3、去除知乎网页中的广告；4、知乎网页中短视频下载；5、解除知乎复制限制-划词复制（鼠标左键划词自动添加到剪切板）。
+
+### VIP会员视频自动解析
+
+[VIP会员视频自动解析](https://greasyfork.org/zh-CN/scripts/413063-%E7%94%B5%E8%84%91-%E6%89%8B%E6%9C%BA-%E5%85%A8%E7%BD%91%E5%94%AF%E4%B8%80%E5%85%A8%E8%87%AA%E5%8A%A8%E8%84%9A%E6%9C%AC-vip%E4%BC%9A%E5%91%98%E8%A7%86%E9%A2%91%E8%87%AA%E5%8A%A8%E8%A7%A3%E6%9E%90)，能够免费看各大视频网址视频。
+
+### CSDN 去广告沉浸阅读模式
+
+[CSDN 去广告沉浸阅读模式](https://greasyfork.org/zh-CN/scripts/373457-csdn-%E5%8E%BB%E5%B9%BF%E5%91%8A%E6%B2%89%E6%B5%B8%E9%98%85%E8%AF%BB%E6%A8%A1%E5%BC%8F)提供功能包括：沉浸式阅读 🌈 使用随机背景图片 🎬 重构页面布局 🎯 净化剪切板 🎨 屏蔽一切影响阅读的元素 🎧。
