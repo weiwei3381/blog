@@ -1,4 +1,4 @@
-# Katex 公式格式速查
+# Katex/Latex 公式速查
 
 > [KaTeX](https://katex.org/)是目前*最快*的网络数学排版库, KaTeX 的布局是基于 Donald Knuth 的 TeX，这是数学排版的黄金标准。
 
@@ -251,3 +251,111 @@ $$
 \end{aligned}
 $$
 ```
+
+## 附录一 bibTex格式要求（bib文件书写规范）
+
+### bib期刊格式
+
+`@article`为期刊杂志的论文，通常格式如下：
+
+```bib
+@Article{孙泽宇2021外资持股,
+    author = {孙泽宇 and 孙凡},
+    title = {外资持股对公司战略选择的影响研究——基于沪深港通交易制度的准自然实验},
+    journal = {上海财经大学学报},
+    year = {2021},
+    volume = {23},
+    issue = {05},
+    pages = {96-106},
+}
+```
+
+输出为`孙泽宇, 孙凡. 外资持股对公司战略选择的影响研究——基于沪深港通交易制度的准自然实验[J]. 上海财经大学学报, 2021, 23(05): 96–106.`
+
+```bib
+@article{hinton2006reducing,
+    title={Reducing the dimensionality of data with neural networks},
+    author={Hinton, Geoffrey E and Salakhutdinov, Ruslan R},
+    journal={science},
+    volume={313},
+    number={5786},
+    pages={504-507},
+    year={2006},
+}
+```
+
+输出为`Hinton G E, Salakhutdinov R R. Reducing the dimensionality of data with neural networks[J]. science, 2006, 313(5786): 504–507.`。
+
+### bib书籍格式
+
+`@book`为公开出版的图书，常用格式如下：
+
+```bib
+
+@book{李丽2009粒子群,
+  title={粒子群优化算法},
+  author={李丽 and 牛奔},
+  publisher={冶金工业出版社},
+  year={2009},
+  address={北京},
+  pages={22-23},
+}
+```
+
+输出为：`李丽, 牛奔. 粒子群优化算法[M]. 北京: 冶金工业出版社, 2009: 22–23.`。
+
+### bib网络文章
+
+`@electronic`为网络文章，常用格式如下：
+
+```bib
+@electronic{王天僚2018普京罕见披露,
+    title = {普京罕见披露“杀手锏”武器引轰动},
+    author = {王天僚},
+    editor = {参考消息网},
+    url = {http://www.cankaoxiaoxi.com/mil/20180303/2257258.shtml},
+    date = {2021-08-10},
+}
+```
+
+输出为`王天僚. 普京罕见披露《杀手锏》武器引轰动[EB/OL]. 参考消息网. (2021-08-10). http://www.cankaoxiaoxi.com/mil/20180303/2257258.shtml.`
+
+### bib报纸格式
+
+```bib
+@Newspaper{夏文祥2015战略管理,
+    title = {战略管理重在管好不确定性},
+    author = {夏文祥 and 李尚华},
+    date = {2015-01-27},
+    pages = {006},
+    publisher = {解放军报},
+}
+```
+
+输出为`夏文祥, 李尚华. 战略管理重在管好不确定性[J]. 解放军报, 2015: 006.`。
+
+### bib会议论文
+
+```bib
+@inproceedings{彭小兵2003战略决策博弈,
+  title={战略决策博弈模型及其在企业战略管理中的应用研究},
+  author={彭小兵 and 蒲勇健},
+  booktitle={第7届全国青年管理科学与系统科学学术会议论文集},
+  pages={151-165}
+  year={2003},
+}
+```
+
+输出为：`彭小兵, 蒲勇健. 战略决策博弈模型及其在企业战略管理中的应用研究[C]//第7届全国青年管理科学与系统科学学术会议论文集. 2003: 151–165.`。
+
+```bib
+@inproceedings{geng2013robot,
+  title={Robot path planning in an environment with many terrains based on interval multi-objective PSO},
+  author={Geng, Na and Gong, Dunwei and Zhang, Yong},
+  booktitle={2013 IEEE Congress on Evolutionary Computation},
+  pages={813--820},
+  year={2013},
+}
+```
+
+输出为：`Geng N, Gong D, Zhang Y. Robot path planning in an environment with many terrains based on interval multi-objective PSO[C]//2013 IEEE Congress on Evolutionary Computation. 2013: 813–820.`
