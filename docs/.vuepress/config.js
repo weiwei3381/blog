@@ -1,6 +1,6 @@
 module.exports = {
   // 提交到gitee则开启base
-  base: '/blogs/',
+//   base: '/blogs/',
   title: '小熊的技术文档',
   description: '衣带渐宽终不悔，为伊消得人憔悴',
   head: [
@@ -63,7 +63,7 @@ module.exports = {
       // 前端
       '/front-end/': [
         'javascript', 'pattern', 'typescript', 'es6', 'css',
-        'node', 'design', 'npm', 'vuepress', 'babel', 'vue'
+        'node', 'design', 'npm', 'vuepress', 'babel', 'vue', 'react'
       ],
       // 后端
       '/back-end/': ['daily', 'python', 'python-projects', 'koa2', 'numpy', 'docker'],
