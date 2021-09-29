@@ -1,4 +1,4 @@
-# Python 常用模块
+# Python 常用操作笔记
 
 ## 文件与文件夹处理
 
@@ -72,7 +72,6 @@ os.path.isdir(path)  # 返回值均为True或False
 
 ## 日期类
 
-
 ```python
 # 获得当前日期的“YYYY-MM-DD HH:mm:SS”格式
 
@@ -80,7 +79,6 @@ import time
 time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
 
 ```
-
 
 ## 爬取内容
 
@@ -380,4 +378,72 @@ c. 使用pyinstaller仅编译刚刚写的run.py文件, -F表示生成单个文�
 import os, sys
 # 动态增加模块搜索路径
 sys.path.append(os.getcwd())
+```
+
+## whoosh源码学习
+
+### python2与python3兼容
+
+whoos兼容py2和py3，其兼容模块源码在`compat.py`文件中，以下记录学习情况。
+
+#### 除法兼容
+
+python2本来的除号`/`对于分子分母是整数的情况会取整，但新特性中在此情况下的除法不会取整，取整需要使用符号`//`。
+
+```python
+3/5  # 默认在python2中使用输出为0
+# 导入__feature__模块
+from __future__ import division
+
+3/5  # 输出0.6
+3//5  # 输出0
+```
+
+#### print和with方法兼容
+
+```python
+# print()方法兼容
+from __future__ import print_function
+# 允许在 Python 2.5 中使用 with 语句，但它是 Python 2.6语言的一部分
+from __future__ import with_statement
+
+```
+
+#### items兼容
+
+在python2中，`items()`函数是将一个字典以列表的形式返回，因为字典是无序的，所以返回的列表也是无序的。`iteritems()`则是返回`item()`方法的迭代器版本。
+
+在python3中，`iteritems()`函数已经被废弃，只，只留下`item()`方法，效果和原有的`iteritems()`一致，因此，需要进行兼容
+
+```python
+
+# 在python2中
+a = {'a':1,'b':3}
+a.items()
+# 返回a = [('a',1),('b',3)]
+
+# iteritems()返回一个迭代器
+b = a.iteritems()
+for k,v in b:     
+    print k,v
+
+# 在python3中
+a.items()  # 输出dict_items([('a', 1), ('b', 3)])
+
+类似的，itervalues, iterkeys也有类似方法，兼容代码的写法如下
+
+# 兼容代码
+import sys
+# 如果是python2，直接用就是了
+if sys.version_info[0] < 3:
+    PY3 = False
+    iteritems = lambda o: o.iteritems()
+    itervalues = lambda o: o.itervalues()
+    iterkeys = lambda o: o.iterkeys()
+else:
+    # 否则用lambda函数包装一下，确保接口一致
+    PY3 = True
+    iteritems = lambda o: o.items()
+    itervalues = lambda o: o.values()
+    iterkeys = lambda o: iter(o.keys())
 ```
