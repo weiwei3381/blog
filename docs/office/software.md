@@ -69,3 +69,7 @@
 ![wsuPzD.png](https://s1.ax1x.com/2020/09/14/wsuPzD.png)
 
 [Gaaiho](http://www.gaaiho.cn/index.php/zh-cn/)是pdf文件的一揽子解决方案，其中阅读器是免费使用，与其他pdf阅读器相比，有不自动升级，无广告，操作友好，触摸屏优化等特点。**可离线使用**，[下载地址](https://store.gaaiho.cn/download/reader.aspx)。
+
+## 笔记软件-logseq
+
+[Logseq](https://logseq.com/)是一款开源本地的双链笔记应用，[下载地址](https://github.com/logseq/logseq/releases)
