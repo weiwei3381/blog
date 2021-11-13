@@ -258,7 +258,7 @@ $$
 
 `@article`为期刊杂志的论文，通常格式如下：
 
-```bib
+```latex
 @Article{孙泽宇2021外资持股,
     author = {孙泽宇 and 孙凡},
     title = {外资持股对公司战略选择的影响研究——基于沪深港通交易制度的准自然实验},
@@ -272,7 +272,7 @@ $$
 
 输出为`孙泽宇, 孙凡. 外资持股对公司战略选择的影响研究——基于沪深港通交易制度的准自然实验[J]. 上海财经大学学报, 2021, 23(05): 96–106.`
 
-```bib
+```latex
 @article{hinton2006reducing,
     title={Reducing the dimensionality of data with neural networks},
     author={Hinton, Geoffrey E and Salakhutdinov, Ruslan R},
@@ -290,7 +290,7 @@ $$
 
 `@book`为公开出版的图书，常用格式如下：
 
-```bib
+```latex
 
 @book{李丽2009粒子群,
   title={粒子群优化算法},
@@ -308,7 +308,7 @@ $$
 
 `@electronic`为网络文章，常用格式如下：
 
-```bib
+```latex
 @electronic{王天僚2018罕见披露,
     title = {罕见披露“杀手锏”武器引轰动},
     author = {王天僚},
@@ -322,7 +322,7 @@ $$
 
 ### bib报纸格式
 
-```bib
+```latex
 @Newspaper{夏文祥2015战略管理,
     title = {战略管理重在管好不确定性},
     author = {夏文祥 and 李尚华},
@@ -336,7 +336,7 @@ $$
 
 ### bib会议论文
 
-```bib
+```latex
 @inproceedings{彭小兵2003战略决策博弈,
   title={战略决策博弈模型及其在企业战略管理中的应用研究},
   author={彭小兵 and 蒲勇健},
@@ -348,7 +348,7 @@ $$
 
 输出为：`彭小兵, 蒲勇健. 战略决策博弈模型及其在企业战略管理中的应用研究[C]//第7届全国青年管理科学与系统科学学术会议论文集. 2003: 151–165.`。
 
-```bib
+```latex
 @inproceedings{geng2013robot,
   title={Robot path planning in an environment with many terrains based on interval multi-objective PSO},
   author={Geng, Na and Gong, Dunwei and Zhang, Yong},
