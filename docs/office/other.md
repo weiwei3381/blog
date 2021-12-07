@@ -261,6 +261,54 @@ Hosts文件所在位置为`C:\Windows\System32\drivers\etc`，文件名为`hosts
 
 最后进**quickEdit**，弹出百度输入法之后，点击**剪贴板**，然后每行粘贴即可。
 
+### 电脑扫描手机生成的二维码传输文字
+
+手机使用[“一个木函”](https://www.coolapk.com/apk/com.One.WoodenLetter?from=singlemessage)生成大段文字的二维码，在手机上进行展示。
+
+电脑端使用python运行下面代码，需要提前安装好相应依赖，`pip install pyzbar opencv-python pyperclip`，其中`pyzbar`是二维码识别库，`opencv`调用电脑摄像头获取图片，`pyperclip`将识别的二维码复制到剪贴板。
+
+```python
+# coding: utf-8
+
+import cv2
+import pyperclip
+from pyzbar import pyzbar
+from time import sleep
+
+# 实例化摄像头
+capture = cv2.VideoCapture(0)
+data = ""
+
+while 1:
+    # 首先我们要用刚才实例化的摄像头来采集实时的照片，
+    ret, frame = capture.read()
+
+    # 然后用pyzbar的函数来解析图片里面是否有二维码
+    qr_info_list = pyzbar.decode(frame)
+    # qr获得一个list
+    if qr_info_list:
+        for qr_info in qr_info_list:
+            # 对list中的每一项进行解码
+            data = qr_info.data.decode('utf-8')
+            print("识别到的二维码为：\n{0}".format(data))
+            try:
+                # 将解码后的文字存入剪贴板
+                pyperclip.copy(data)
+            except Exception as e:
+                print("出现错误")
+    # 降低计算机资源消耗，每隔70ms显示一次
+    sleep(0.07)
+    # 显示摄像头图像
+    cv2.imshow('camera', frame)
+    # 按q退出
+    if cv2.waitKey(1) == ord('q') or len(data) > 2:
+        break
+
+# 一切完成后，释放资源
+capture.release()
+cv2.destroyAllWindows()
+```
+
 ## 安卓手机推荐小众软件
 
 Markor：用于手机连接键盘时编辑markdown文件。
