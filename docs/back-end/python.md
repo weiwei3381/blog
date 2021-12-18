@@ -201,7 +201,9 @@ def download_file(url, diretory, name="", min_size=5000):
 
 ### BeautifulSoup 模块
 
-[BeautifulSoup4 文档](https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/)写的很详细，与 xpath 相比，它输出文本的方法更加科学合理。使用`pip install beautifulsoup4`进行安装，因为 bs4 解析时用到了`lxml`模块，因此也要进行安装`pip install lxml`。
+BeautifulSoup4是一个html文件解析库，[BeautifulSoup4 文档](https://beautifulsoup.readthedocs.io/zh_CN/v4.4.0/)写的很详细，与 xpath 相比，它能够方便的输出文本。
+
+1.安装方法：使用`pip install beautifulsoup4`进行安装，导入使用`from bs4 import BeautifulSoup`，bs4使用时用到了`lxml`模块，因此也要进行安装`pip install lxml`。
 
 ```py
 from bs4 import BeautifulSoup  # 导入模块
@@ -209,10 +211,163 @@ from bs4 import BeautifulSoup  # 导入模块
 # 传入html文本，生成soup对象，默认使用lxml对html进行解析
 # 如果lxml版本为3.x，则传入“lxml”，如果是4.x的新版本，则传入“html.parser”
 soup = BeautifulSoup(html,"lxml")
-# 找到H2标题
+
+```
+
+2.找到指定标签的对象
+
+```py
+# 找到第一个H2标题
 name = soup.find('h2')
+
+# 找到所有的H2标题
+name_list = soup.find_all('h2')
+
+# 找到所有的H1和H2标题
+soup.find_all(['h1','h2'])
+
+# 使用正则表达式匹配标签，找到所有h开头的标签，例如h1,h2,h3
+import re
+soup.find_all(re.compile('^h'))
+```
+
+3.找到指定id的对象
+
+```py
 # 找到id为jm的对象
-volumn_node = soup.find(id="jm")  # 卷名
+volumn_node = soup.find(id="jm")
+
+# 找到a标签，而且id为logo的对象
+volumn_node = soup.find('a', id="logo")
+
+# 找到所有p标签中，id是p1或p2的对象
+soup.find_all('p', attrs={'id':['p1','p2']})
+
+# 使用正则表达式查找
+soup.find_all('p', attrs={'id':re.compile('^p')}) # 
+
+```
+
+4.找到指定class的对象
+
+```py
+# 找到class为"summary"的div标签
+soup.find("div", class_="summary")
+
+# 找到class为"summary logo"的div标签
+soup.find("div", class_="summary logo")
+
+# 也可以用dict形式查找
+soup.find('div', attrs={'class':'summary'})
+
+# 查找所有对象则使用find_all
+soup.find_all('div', attrs={'class':'summary'})
+
+# 查找所有p对象，且含有class属性即可
+soup.find_all('p', attrs={'class':True})
+```
+
+5.复合查找，使用多个属性匹配
+
+```py
+# 找到class为p3, id为pp的p标签对象
+soup.find_all('p', attrs={'class':'p3','id':'pp'}) 
+
+# 找到class为p3, 没有id属性的所有p标签对象
+soup.find_all('p', attrs={'class':'p3','id':False}) # 指定不能有某个属性
+
+```
+
+6.查找子节点、孙节点和父节点
+
+```python
+# 拿到所有正文下的子节点
+soup.find("div", id="words-box").children
+# 通过 .parent 属性来获取某个元素的父节点
+# 通过元素的 .parents 属性可以递归得到元素的所有父辈节点
+# 通过元素的 .next_sibling获得下一个兄弟节点，.previous_sibling获得上一个兄弟节点
+```
+
+7.使用**css选择器**选择节点，使用`.select`方法
+
+```python
+# 选择所有title标签
+soup.select("title")
+
+# 选择所有p标签中的第三个标签
+soup.select("p:nth-of-type(3)") # 相当于soup.select(p)[2]
+
+# 选择body标签下的所有a标签
+soup.select("body a")
+
+# 选择body标签下的直接a子标签
+soup.select("body > a")
+
+# 选择id=link1后的所有兄弟节点标签
+soup.select("#link1 ~ .mysis")
+
+# 选择id=link1后的下一个兄弟节点标签
+soup.select("#link1 + .mysis")
+
+# 选择a标签，其类属性为mysis的标签
+soup.select("a.mysis")
+
+# 选择a标签，其id属性为link1的标签
+soup.select("a#link1")
+
+# 选择a标签，其属性中存在myname的所有标签
+soup.select("a[myname]")
+
+# 选择a标签，其属性href=http://example.com/lacie的所有标签
+soup.select("a[href='http://example.com/lacie']")
+
+# 选择a标签，其href属性以http开头
+soup.select('a[href^="http"]')
+
+# 选择a标签，其href属性以lacie结尾
+soup.select('a[href$="lacie"]')
+
+# 选择a标签，其href属性包含.com
+soup.select('a[href*=".com"]')
+
+# 从html中排除某标签，此时soup中不再有script标签
+[s.extract() for s in soup('script')]
+
+# 如果想排除多个呢
+[s.extract() for s in soup(['script','fram']
+```
+
+8.提取文本内容
+
+```py
+# 使用.text, 或者.strings提取文本内容
+soup.p.text
+for p in soup.find_all('p'):
+    print(p.text)
+    # 可以通过参数指定tag的文本内容的分隔符, 还可以去除获得文本内容的前后空白:
+    print(p.get_text("\n", strip=True))
+
+# 默认不同
+
+# 提取标签部分文本内容
+# 对于下面的html文件，想只要提取World
+html = """
+<li>
+    <span class="hello"> Hello</span>
+World
+</li>
+"""
+a, b = soup.find('li').stripped_strings # 此时a为hello， b为world
+```
+
+9.提取其他属性
+
+```py
+soup = BeautifulSoup(a, 'html.parser')
+for i in soup.body.find_all(True):
+    print(i.name) # 提取标签名
+    print(i.attrs) # 提取标签所有属性值
+    print(i.has_attr('href')) # 检查标签是否有某属性
 ```
 
 ## 虚拟环境安装
@@ -447,3 +602,29 @@ else:
     itervalues = lambda o: o.values()
     iterkeys = lambda o: iter(o.keys())
 ```
+
+## PyCharm设置
+
+### PyCharm设置python文件初始化模板
+
+达到的效果就是：每次新建python文件，则按照模板生成新文件。
+
+打开`pycharm`，选择`File`-`Setting`，之后进入`Editor`-`File and Code Templates`窗口
+
+然后点击`Python Script`，左侧输入python模板
+
+```python
+# coding: utf-8
+# @Time : ${DATE} ${TIME}
+# @Author : wowbat
+# @File : ${NAME}.py
+# @Describe: 
+
+
+if __name__ == "__main__":
+    pass
+```
+
+如下图所示：
+
+![python模板](https://ftp.bmp.ovh/imgs/2021/12/19f62c97654e0082.png)
