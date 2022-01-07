@@ -63,10 +63,14 @@ module.exports = {
       // 前端
       '/front-end/': [
         'javascript', 'pattern', 'typescript', 'es6', 'css',
-        'node', 'design', 'npm', 'vuepress', 'babel', 'vue', 'react'
+        'node', 'design', 'npm', 'vuepress', 'babel', 'vue', 'react',
+        'electron'
       ],
       // 后端
-      '/back-end/': ['daily', 'python', 'python-projects', 'koa2', 'numpy', 'docker'],
+      '/back-end/': [
+          'daily', 'python', 'python-projects', 'koa2', 'numpy', 
+          'linux', 'docker'
+        ],
       // 实战
       '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser', 'medicine'],
       // 办公
