@@ -603,6 +603,23 @@ else:
     iterkeys = lambda o: iter(o.keys())
 ```
 
+### python2与python3的版本转换
+
+在电脑上装多个python版本后, 如果需要进行python的版本转换, 可以先在**用户环境变量**中设置变量`PYTHON_HOME`, 例如对于python2.7, 设置为`C:\python27`, 然后用户环境变量的Path中添加`%PYTHON_HOME%\Scripts\;%PYTHON_HOME%\;`, 如果需要切换到python3版本, 假如安装位置为`C:\Users\weiwe\AppData\Local\Programs\Python\Python37`, 那么直接在**用户环境变量**修改变量`PYTHON_HOME`为`C:\Users\weiwe\AppData\Local\Programs\Python\Python37`即可, 当然, 更方便的是用批处理让系统自动更换, 批处理代码如下:
+
+```batch
+@echo off
+if %PYTHON_HOME%==C:\Python27 (
+echo set python to 3.7.8
+setx PYTHON_HOME "C:\Users\weiwe\AppData\Local\Programs\Python\Python37"
+) else (
+echo set python to 2.7.10
+setx PYTHON_HOME "C:\Python27"
+)
+
+pause
+```
+
 ## PyCharm设置
 
 ### PyCharm设置python文件初始化模板
