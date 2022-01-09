@@ -57,3 +57,85 @@ nodeDir
 NODE_MODULE_VERSION 指的是 Node.js 的 ABI (application binary interface) 版本号，用来确定编译 Node.js 的 C++ 库版本，以确定是否可以直接加载而不需重新编译。在早期版本中其作为一位十六进制值来储存，而现在表示为一个整数。
 
 node.js的ABI可以到[官网](https://nodejs.org/zh-cn/download/releases/)上进行查询, 而electron的ABI可以到electron的github release[网址](https://github.com/electron/releases)上进行查询, 但是很遗憾, 基本上electron编译的版本与node.js发布的版本ABI均不同, 所以在electron中还需要重新编译.
+
+### 打包sqlite3, nodejieba和levelDB等C++原生库
+
+前提条件: 安装完成node-gyp
+
+第一步, 在package.json中不要加sqlite3, nodejieba和level的依赖, 然后用`yarn`或者`npm install`安装其他的依赖
+
+第二步, 根据electron的版本不同,例如electron版本为`13.6.6`时, 使用命令: `yarn add nodejieba sqlite3 level --build-from-source --runtime=electron --target=13.6.6 --dist-url=https://atom.io/download/electron` 安装对应electron版本的软件包`nodejieba sqlite3 level`.
+
+第三步, *可选项*, 使用`yarn add electron-rebuild aws-sdk`安装aws-sdk和electron-rebuild, 然后利用`electron-rebuild -f -w sqlite3`来验证`sqlite3`有没有安装成功, 其他的类似.
+
+:::tip
+在使用`electron-builder`打包时, nodejieba模块一直出现能调试, 但是一旦打包成exe程序, 就无法运行的情况, 最后探索了几天找到了一个解决方案, 就是在`package.json`的`build`中, 设置`"asar": false, "asarUnpack": "**\\*.{node,dll}",`, 即**不使用asar打包**, 这样打包出来的exe程序在安装后会带原有的`node_modules`文件, `nodejieba`模块就能正常运行了, 弊端在于打包和安装的速度会变慢, 不过好过没法运行.
+:::
+
+打包成功的package.json的示例如下:
+
+```json
+{
+    "name": "tasky",
+    "version": "1.0.0",
+    "description": "This is a task management app",
+    "main": "index.js",
+    "scripts": {
+        "dev": "electron .",
+        "start": "nodemon --watch index.js --exec electron .",
+        "build-icon": "electron-icon-builder --input=./public/icon.png --output=build --flatten",
+        "postinstall": "electron-builder install-app-deps",
+        "pack": "electron-builder --dir",
+        "dist": "electron-builder",
+        "release": "cross-env GH_TOKEN=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 electron-builder",
+        "rebuild:sql": "electron-rebuild -f -w sqlite3",
+        "rebuild:nodejieba": "electron-rebuild -f -w nodejieba"
+    },
+    "build": {
+        "appId": "this.is.tasky",
+        "productName": "Tasky",
+        "asar": false,
+        "asarUnpack": "**\\*.{node,dll}",
+        "copyright": "Copyright © 2021 Alaso",
+        "directories": {
+            "buildResources": "build"
+        },
+        "win": {
+            "target": [
+                "nsis"
+            ],
+            "icon": "build/icons/icon.ico"
+        },
+        "nsis": {
+            "oneClick": false,
+            "language": "2052",
+            "perMachine": true,
+            "allowToChangeInstallationDirectory": true
+        }
+    },
+    "keywords": [],
+    "author": "Alaso",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/alasolala/tasky/issues"
+    },
+    "homepage": "https://github.com/alasolala/tasky#readme",
+    "dependencies": {
+        "aws-sdk": "^2.1052.0",
+        "electron-updater": "^4.3.9",
+        "level": "^7.0.1",
+        "nodejieba": "^2.5.2",
+        "sqlite3": "^5.0.2"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3",
+        "electron": "^13.6.6",
+        "electron-builder": "^22.14.5",
+        "electron-icon-builder": "^2.0.1",
+        "electron-rebuild": "^3.2.5",
+        "nodemon": "^2.0.7"
+    }
+}
+```
+
+在尝试过程中翻了不少车, 其中经常出现`a different Node.js version using NODE_MODULE_VERSION 83. This version of Node.js requires NODE_MODULE_VERSION 89. Please try re-compiling or re-installing`错误, 然后按照[官网](https://www.electronjs.org/docs/tutorial/using-native-node-modules)解决, 也没解决好. 按照`npm rebuild --runtime=electron --target=13.6.6 --disturl=https://atom.io/download/atom-shell --abi=89`重新编译指定abi, 但是打包之后还是出现错误, 总感觉打包使用的是缓存, 让人百思不得其解.
