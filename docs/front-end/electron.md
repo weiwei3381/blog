@@ -139,3 +139,13 @@ node.js的ABI可以到[官网](https://nodejs.org/zh-cn/download/releases/)上�
 ```
 
 在尝试过程中翻了不少车, 其中经常出现`a different Node.js version using NODE_MODULE_VERSION 83. This version of Node.js requires NODE_MODULE_VERSION 89. Please try re-compiling or re-installing`错误, 然后按照[官网](https://www.electronjs.org/docs/tutorial/using-native-node-modules)解决, 也没解决好. 按照`npm rebuild --runtime=electron --target=13.6.6 --disturl=https://atom.io/download/atom-shell --abi=89`重新编译指定abi, 但是打包之后还是出现错误, 总感觉打包使用的是缓存, 让人百思不得其解.
+
+## 安装typescript支持的react
+
+### 安装模板出错
+
+使用`npx create-react-app my-app --template typescript`提示**You are running \`create-react-app\` 4.0.3, which is behind the latest release (5.0.0)**错误，但是运行全局卸载`npm uninstall -g create-react-app`命令找不到卸载的模块。
+
+解决方案：可以在运行命令时需要增加`create-react-app`的版本号，即`npx create-react-app@5.0.0 my-app --template typescript`创建成功。
+
+
