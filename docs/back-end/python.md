@@ -2,6 +2,16 @@
 
 ## 文件与文件夹处理
 
+### 动态增加当前模块的搜索路径
+
+在pycharm中，IDE会自动将当前项目路径加入到python的模块搜索路径当中，但是在cmd中并不会自动添加，因此需要根据当前路径的位置动态填写模块搜索路径，其代码写法如下：
+
+```python
+import os, sys
+# 动态增加模块搜索路径
+sys.path.append(os.getcwd())
+```
+
 ### 操作文件和文件夹
 
 > 使用的较多的是 os 模块与 shutil 模块。
@@ -70,7 +80,7 @@ os.path.isfile(path)
 os.path.isdir(path)  # 返回值均为True或False
 ```
 
-## 日期类
+## Python日期处理
 
 ```python
 # 获得当前日期的“YYYY-MM-DD HH:mm:SS”格式
@@ -405,7 +415,9 @@ for i in soup.body.find_all(True):
 3、在另外一个环境安装包，则可以使用如下命令
 `pip install -r requirements.txt`。
 
-## Jupyter notebook目录插件安装
+## Jupyter Notebook操作
+
+### Jupyter notebook目录插件安装
 
 1、首先进入命令行，输入下列命令安装jupyter扩展：`pip install jupyter_contrib_nbextensions`
 
@@ -420,13 +432,15 @@ for i in soup.body.find_all(True):
 
 ![notebook插件推荐](https://pic.imgdb.cn/item/609407c1d1a9ae528f3963d4.jpg)
 
-## Jupyter notebook修改启动目录
+### Jupyter notebook修改启动目录
 
 1、首先在cmd中运行“jupyter notebook --generate-config”，将会生成配置文件。
 
 2、在配置文件中，修改`c.NotebookApp.notebook_dir = 'D:\\Notebook'`，即可在D:\Notebook文件夹中打开。
 
-## 设置python源
+## Python包安装
+
+### 设置python源
 
 使用时, 临时指定源的命令为: `pip install [模块名] -i https://pypi.doubanio.com/simple
 `, 全局设置在文件`%APPDATA%\pip\pip.ini`中, 例如`C:\Users\weiwe\AppData\Roaming\pip\pip.ini`设置如下:
@@ -442,8 +456,7 @@ format = columns
 
 其中，timeout：设置超时时间，index-url：指定下载源，trusted-host：指定域名。
 
-
-## python离线安装外部依赖包
+### python离线安装外部依赖包
 
 1、制作requirement.txt，使用`pip freeze > requirement.txt`
 
@@ -458,7 +471,7 @@ format = columns
 
 批量安装离线包，命令：`pip install --no-index --find-links=/your_offline_packages/ -r requirements.txt`
 
-## 嵌入式python
+### 嵌入式python
 
 **1、下载embedded包**。在[python官网](https://www.python.org/downloads/windows/)下载python3的embedded版本。因为64位exe可能不支持32位系统，推荐下载x86的zip包，[下载地址](https://www.python.org/ftp/python/3.7.4/python-3.7.4-embed-win32.zip)。
 
@@ -525,15 +538,7 @@ b. 在完整版python中安装模块pyinstaller，安装命令为`pip install py
 c. 使用pyinstaller仅编译刚刚写的run.py文件, -F表示生成单个文件，-w表示隐藏cmd窗口，完整命令如下: `pyinstaller.exe -F .\run.py -w`
 在.\dist目录下生成的run.exe就可以正常使用了。
 
-## 动态增加当前模块的搜索路径
 
-在pycharm中，IDE会自动将当前项目路径加入到python的模块搜索路径当中，但是在cmd中并不会自动添加，因此需要根据当前路径的位置动态填写模块搜索路径，其代码写法如下：
-
-```python
-import os, sys
-# 动态增加模块搜索路径
-sys.path.append(os.getcwd())
-```
 
 ## whoosh源码学习
 
@@ -620,7 +625,7 @@ setx PYTHON_HOME "C:\Python27"
 pause
 ```
 
-## PyCharm设置
+## Python IDE设置
 
 ### PyCharm设置python文件初始化模板
 
@@ -645,3 +650,130 @@ if __name__ == "__main__":
 如下图所示：
 
 ![python模板](https://ftp.bmp.ovh/imgs/2021/12/19f62c97654e0082.png)
+
+## gensim进行词向量学习
+
+词向量依赖gensim和jieba模块，使用`pip install jieba gensim`进行安装。
+
+### 将语料库进行分词处理
+
+```python
+def cut_text(text):
+    """
+    对text字符串进行分词，词与词之间按空格分开
+    :param text: 传入字符串
+    :return: 空格分开的字符串
+    """
+    return " ".join([segment for segment in jieba.cut(text)])
+```
+
+### 训练中文词向量
+
+部分代码参考官方文档[gensim-word2vec](https://radimrehurek.com/gensim/models/word2vec.html)，其他参考链接有：[gensim训练word2vec及相关函数与功能理解](https://blog.csdn.net/sinat_26917383/article/details/69803018)
+
+```python
+from gensim.models import Word2Vec
+from gensim.models.word2vec import LineSentence
+
+def train_zh_vector():
+    # 训练数据文件名
+    data_file = r'.\zh_word_vector\zh_segment_text.txt'
+    # 保存的模型文件名
+    model_file = r'.\zh_word_vector\zh.model'
+    vector_file = r'.\zh_word_vector\zh.vector'
+
+    # data_file是用空格分隔的文本数据
+    model = Word2Vec(sentences=LineSentence(data_file), vector_size=100)
+    # 保存模型文件，保存的文件可以继续训练
+    model.save(model_file)
+    # 保存成key-value格式的文件，不可以再训练
+    model.wv.save_word2vec_format(vector_file, binary=False)
+```
+
+训练是流式传输的，因此`Word2Vec`类中的`sentences`参数传入的语料库对象需是可迭代的，即时从磁盘或网络读取输入数据，而无需将整个语料库加载到内存中。请注意，sentencesiterable 必须是可重新启动的（不仅仅是生成器），以允许训练算法在数据集上多次流式传输进行训练。有关流式迭代的一些示例，请BrownCorpus参阅 Text8Corpus或LineSentence。
+
+其中`gensim.models.word2vec.LineSentence`类是遍历包含句子的文件，每一行就是一个句子，其中单词必须已经过预处理并由空格分隔。API定义如下:`LineSentence(source, max_sentence_length=10000, limit=None)`。传入参数：
+
+- **source** ( 字符串或者file-like对象) -- 磁盘上文件的路径，或者已经打开的文件对象（必须支持seek(O)）。
+- **limit** ( 整型或None ) – 将文件剪辑限制到前limit行，如果limit为None（默认值），则不进行剪辑。
+
+gensim.models.word2vec.Word2Vec传入的参数列表如下：
+
+- **sentences**(可迭代对象，可选项)：供训练的句子，可以使用简单的列表，但是对于大语料库，建议直接从磁盘/网络流迭代传输句子，可使用word2vec模块中的BrownCorpus，Text8Corpus或LineSentence。如果不提供sentence，模型将保持未初始化 - 如果您打算以其他方式初始化它，则不需要传入该参数。
+- corpus_file (str, 可选)：LineSentence格式的语料库文件路径。只需要传递一个sentences或corpus_file参数（或者它们都不传递，在这种情况下，模型未初始化）。
+- **vector_size**(int, 可选)：词向量的维度。
+- window(int, 可选)：句子中当前单词和预测单词之间的最大距离。
+- **min_count**(int, 可选)：忽略总频率低于此值的所有单词。
+- workers (int, 可选) – 训练模型时使用的线程数。
+- sg ({0, 1}, 可选) – 模型的训练算法: 1: skip-gram; 0: CBOW.
+- hs ({0, 1}, 可选) – 1: 采用hierarchical softmax训练模型; 0: 使用负采样。
+- negative (int, 可选) – 如果negative>0则使用负采样，传入值指定应绘制多少“噪声词”（通常在 5-20 之间）。如果设置为 0，则不使用负采样。
+- ns_exponent (float, 可选) – 负采样分布指数。1.0 的值与频率完全成比例地采样，0.0 对所有词的采样均等，而负值对低频词的采样多于高频词。流行的默认值 0.75 是由原始 Word2Vec 论文选择的。最近，在https://arxiv.org/abs/1804.04212中，Caselles-Dupré、Lesaint 和 Royo-Letelier 建议其他值可能在推荐应用中表现更好。
+- cbow_mean ( {0 , 1} , 可选 ) – 如果为 0，则使用上下文词向量的总和。如果为 1，则使用平均值，仅在使用 cbow 时适用。
+- alpha ( float , 可选 ) -- 初始学习率。
+- min_alpha ( float , 可选 ) – 随着训练的进行，学习率将线性下降到min_alpha。
+- seed ( int , 可选 ) -- 随机数生成器的种子。每个单词的初始向量都使用单词 + str(seed)连接的哈希值作为种子。请注意，对于完全确定性可重现的运行，您还必须将模型限制为单个工作线程 ( worker=1 )，以消除 OS 线程调度的排序抖动。（在 Python 3 中，解释器启动之间的可重复性还需要使用PYTHONHASHSEED环境变量来控制哈希随机化）。
+- max_vocab_size ( int , 可选 ) – 在词汇构建期间限制 RAM；如果有比这更多的独特词，则修剪不常见的词。每 1000 万个单词类型需要大约 1GB 的 RAM。设置为None表示无限制。
+- **max_final_vocab** ( int , 可选 ) -- 通过自动选择匹配的 min_count 将词汇限制为目标词汇大小。如果指定的 min_count 大于计算的 min_count，则将使用指定的 min_count。如果不需要，设置为无。
+- **sample** ( float , 可选 ) -- 配置哪些高频词被随机下采样的阈值，有用的范围是 (0, 1e-5)。
+- hashfxn ( function , 可选 ) – 用于随机初始化权重的哈希函数，以提高训练的可重复性。
+- **epochs** ( int , 可选 ) -- 语料库上的迭代次数（epochs）。（以前使用iter参数）
+- trim_rule（函数，可选）–词汇修剪规则，指定某些单词是否应保留在词汇表中，被修剪掉，还是使用默认值处理（如果字数 < min_count 则丢弃）。可以是 None （将使用 min_count，查看keep_vocab_item()），或接受参数（word、count、min_count）并返回 或 的可 调用gensim.utils.RULE_DISCARD对象。该规则（如果给定）仅用于在 build_vocab() 期间修剪词汇，并且不存储为模型的一部分。
+- sorted_vocab ( {0 , 1} , 可选 ) -- 如果为 1，则在分配词索引之前按频率降序对词汇进行排序。
+- batch_words ( int , 可选 ) – 传递给工作线程（以及 cython 例程）的批量示例的目标大小（以字为单位）。（如果单个文本超过 10000 个单词，则将传递更大的批次，但标准 cython 代码会截断为那个最大值。）
+- compute_loss ( bool , 可选 ) -- 如果为 True，则计算并存储可以使用 检索的损失值 get_latest_training_loss()。
+- callbacks (iterable of CallbackAny2Vec, 可选) -- 在训练期间的特定阶段执行的回调序列。
+- shrink_windows ( bool , 可选 ) – 4.1 中的新功能。实验性的。如果为 True，则在训练期间从 [1, window ] 中为每个目标词统一采样有效窗口大小，以匹配原始 word2vec 算法按距离对上下文词的近似加权。否则，有效窗口大小始终固定为任一侧的窗口字。
+
+训练好的词向量存储在一个KeyedVectors实例中，如model.wv
+
+```python
+vector = model.wv['博士']  # 查看模型中的“博士”的词向量
+sims = model.wv.most_similar('博士', topn=10)  # 查看模型中“博士”最相似的10个单词，返回值如下：
+# [('硕士', 0.9329454302787781), ('博士生', 0.8901451826095581), ('研究生', 0.8672683238983154), 
+# ('攻读', 0.838356077671051), ('本科生', 0.8022567629814148), ('计算机专业', 0.7955326437950134), 
+# ('导师', 0.7760775685310364), ('高材生', 0.771659791469574), ('本科', 0.7638741731643677), ('清华大学', 0.7636148929595947)]
+```
+
+如果保存模型，可以稍后继续训练：
+
+```python
+model = Word2Vec.load("word2vec.model")
+model.train([["hello", "world"]], total_examples=1, epochs=1)
+```
+
+如果保存的是wv模型，也可以加载，但是不能继续训练了。将训练好的向量分离为KeyedVectors的原因是，如果您不再需要完整的模型状态（不需要继续训练），可以丢弃其状态，只保留向量及其键。这导致了一个更小更快的对象，可以快速映射，并在进程之间共享 RAM 中的向量。由于缺少隐藏的权重、词汇频率和二叉树，wv模型不能继续训练。要继续训练，您需要完整的Word2Vec对象状态，由save()存储，而不仅仅是KeyedVectors。
+
+model.train方法可以传入的参数较多，`train( corpus_iterable = None , corpus_file = None , total_examples = None , total_words = None , epochs = None , start_alpha = None , end_alpha = None , word_count = 0 , queue_factor = 2 , report_delay = 1.0 , compute_loss = False , callbacks = () ,** kwargs )`，各参数的释义如下：
+
+- corpus_iterable (可迭代的 str 列表)： corpus_iterable可以只是token列表的列表，但对于较大的语料库，请考虑直接从磁盘/网络流式传输句子的迭代，以限制 RAM 使用。有关此类示例BrownCorpus，请参见Text8Corpus 或LineSentence在模块中。
+- corpus_file：LineSentence格式的语料库文件路径。只需要传递一个corpus_iterable或corpus_file参数（或者它们都不传递，在这种情况下，模型未初始化）。
+- total_examples ( int ) -- 句子数。
+- total_words ( int ) -- 句子中原始单词的计数。
+- epochs ( int ) -- 语料库上的迭代次数（epochs）。
+- start_alpha ( float , optional ) – 初始学习率。如果提供，则替换构造函数中的起始alpha，用于调用`train()`。仅在多次调用train()时使用，当您想自己管理 alpha 学习率时（不推荐）。
+- end_alpha ( float , optional ) – 最终学习率。从start_alpha线性下降。如果提供，这将替换构造函数中的最终min_alpha，用于调用train()。仅在多次调用train()时使用，当您想自己管理 alpha 学习率时（不推荐）。
+- word_count ( int , optional ) -- 已经训练的单词数。将此设置为 0 以用于训练句子中所有单词的通常情况。
+- queue_factor ( int , optional ) -- 队列大小的乘数（工作人员数量 * queue_factor）。
+- report_delay ( float , optional ) -- 报告进度前等待的秒数。
+- compute_loss ( bool , optional ) -- 如果为 True，则计算并存储可以使用 检索的损失值 get_latest_training_loss()。
+- callbacks (iterable of CallbackAny2Vec, optional) -- 在训练期间的特定阶段执行的回调序列。
+
+为了支持从（初始）alpha到min_alpha的线性学习率衰减，以及准确的进度百分比记录，必须提供**total_examples**（句子计数）或**total_words**（句子中原始单词的计数）。如果句子与之前提供的语料库相同，您可以简单地使用`total_examples=self.corpus_count`。也可是使用`build_vocab()`方法构建，如下所示。
+
+```python
+# 增量训练
+model = gensim.models.Word2Vec.load(temp_path)
+more_sentences = [['Advanced', 'users', 'can', 'load', 'a', 'model', 'and', 'continue', 'training', 'it', 'with', 'more', 'sentences']]
+model.build_vocab(more_sentences, update=True)
+model.train(more_sentences, total_examples=model.corpus_count, epochs=model.iter)
+```
+
+词向量应用：
+
+```python
+# 加载wv模型的方法
+wv = gensim.models.keyedvectors.KeyedVectors.load_word2vec_format(vector_file)
+# 也可以使用wv相关的方法
+print(wv.most_similar('系统', topn=10))
+```

@@ -6,20 +6,31 @@
 
 2021年8月可用的账号如下所示：
 
-| 学校     | 账户                | password          | 数据库地址                    |             |
-| -------- | ------------------- | ----------------- | ----------------------------- | ----------- |
-| 信工大   | 休闲广场大学1~200   | xxgcdxtsg         | https://www.cnki.net/         | 中文论文    |
-| 陆医大   | 三国学校a~z         | 123456            | http://202.202.232.216/       | 中/英文论文 |
-| 陆工大   | 路径过程对象001~120 | cnki001~120       | https://www.cnki.net/         | 中文论文    |
-| 国大军文 | DX2029              | 官方介绍武汉      | https://www.cnki.net/         | 中文论文    |
-| 国大军文 | junxiao             | Junxiao2020       | https://qikan.cqvip.com/      | 中文论文    |
-| 军交     | 对象1191            | jsjtxy            | https://www.cnki.net/         | 中文论文    |
-| 军交     | 介绍交通校园        | jsjtxy            | https://g.wanfangdata.com.cn/ | 中文论文    |
-| null     | cnki05914           | cnki5737          | https://www.cnki.net/         | 中文论文    |
-| null     | cnki05773           | cnki9924          | https://www.cnki.net/         | 中文论文    |
-| null     | cnki20025           | cnki7248          | https://www.cnki.net/         | 中文论文    |
-| null     | cnki20131           | cnki7249          | https://www.cnki.net/         | 中文论文    |
-| 空工大   | 科技广场对象01~10   | 科技广场对象01~10 | https://www.cnki.net/         | 中文论文    |
+| 学校     | 账户                | password          | 数据库地址            |
+| -------- | ------------------- | ----------------- | --------------------- |
+| 信工大   | 休闲广场大学1~200   | xxgcdxtsg         | https://www.cnki.net/ |
+| 国大军文 | 精神文化效益01~10   | jswhxy01~10       | https://www.cnki.net/ |
+| 陆工大   | 路径过程对象001~120 | cnki001~120       | https://www.cnki.net/ |
+| 国大军文 | DX2029              | 官方介绍武汉      | https://www.cnki.net/ |
+| 空工大   | 科技广场对象01~10   | 科技广场对象01~10 | https://www.cnki.net/ |
+
+
+
+### 知网期刊批量下载
+
+以[《软件学报》](https://navi.cnki.net/knavi/journals/RJXB/detail?uniplatform=NZKPT)为例，在chrome浏览器中打开地址，用户名密码登录后，按`F12`打开控制台，然后在控制台中输入下列代码：
+
+```js
+// 获取所有文章链接
+const aList = $('#CataLogContent .name a')
+// 以每1秒的速度打开所有文章
+for (let i = 0; i < aList.length; i++) {
+    const a = aList[i];
+    setTimeout(()=>a.click(), i*1000)
+}
+```
+
+等文章全部打开后，用鼠标点击第一个自动打开的文章，然后点击`pdf下载`按钮，随后使用快捷键`ctrl`+`W`关闭当前标签，然后继续下一个页面的点击`pdf下载`按钮即可。
 
 ### 得到知识搜索
 

@@ -2,5 +2,6 @@
   "gitlens.views.fileHistory.enabled": false,
   "editor.fontSize": 15,
 "editor.fontFamily": "Consolas,'思源宋体 CN Medium', 'Courier New', monospace",
-"workbench.colorTheme": "Solarized Light"
+"workbench.colorTheme": "Solarized Light",
+"editor.renderWhitespace": "all"
 }
