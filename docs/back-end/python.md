@@ -506,22 +506,24 @@ ModuleNotFoundError: No module named 'pip'
 
 一是使用gcc编译c语言代码，调用命令行的"python.exe xx.py",安装gcc的方法如下：
 
-a. 使用MinGW(http://www.mingw.org)下载软件,MinGW的下载地址为:https://sourceforge.net/projects/mingw/files/MinGW/
+a. 使用MinGW(<http://www.mingw.org)下载软件,MinGW的下载地址为:https://sourceforge.net/projects/mingw/files/MinGW/>
 
 b. 下载完毕后安装MinGW，然后把安装位置对应的bin文件加入path目录，例如d:\\Mingw\\bin
 
 c. 使用MingW软件安装gcc，命令行安装方式为：`mingw-get install gcc`
 
 d. 使用gcc编译exe文件，利用gcc xxx.c -o xxx.exe，c文件实例为：
+
 ```c
 #include<stdio.h>
 #include<stdlib.h>
 int main()
 {
-	system("python-3.7.3-embed-win32\\python.exe python-3.7.3-embed-win32\\test.py");
-	return 0;
+ system("python-3.7.3-embed-win32\\python.exe python-3.7.3-embed-win32\\test.py");
+ return 0;
 }
 ```
+
 ==注意== ：采用该方法无法隐藏cmd的黑色窗口，效果不是太好，可以使用第二个办法进行。
 
  二是使用pyinstaller编译python代码
@@ -537,8 +539,6 @@ b. 在完整版python中安装模块pyinstaller，安装命令为`pip install py
 
 c. 使用pyinstaller仅编译刚刚写的run.py文件, -F表示生成单个文件，-w表示隐藏cmd窗口，完整命令如下: `pyinstaller.exe -F .\run.py -w`
 在.\dist目录下生成的run.exe就可以正常使用了。
-
-
 
 ## whoosh源码学习
 
@@ -708,7 +708,7 @@ gensim.models.word2vec.Word2Vec传入的参数列表如下：
 - sg ({0, 1}, 可选) – 模型的训练算法: 1: skip-gram; 0: CBOW.
 - hs ({0, 1}, 可选) – 1: 采用hierarchical softmax训练模型; 0: 使用负采样。
 - negative (int, 可选) – 如果negative>0则使用负采样，传入值指定应绘制多少“噪声词”（通常在 5-20 之间）。如果设置为 0，则不使用负采样。
-- ns_exponent (float, 可选) – 负采样分布指数。1.0 的值与频率完全成比例地采样，0.0 对所有词的采样均等，而负值对低频词的采样多于高频词。流行的默认值 0.75 是由原始 Word2Vec 论文选择的。最近，在https://arxiv.org/abs/1804.04212中，Caselles-Dupré、Lesaint 和 Royo-Letelier 建议其他值可能在推荐应用中表现更好。
+- ns_exponent (float, 可选) – 负采样分布指数。1.0 的值与频率完全成比例地采样，0.0 对所有词的采样均等，而负值对低频词的采样多于高频词。流行的默认值 0.75 是由原始 Word2Vec 论文选择的。最近，在<https://arxiv.org/abs/1804.04212中，Caselles-Dupré、Lesaint> 和 Royo-Letelier 建议其他值可能在推荐应用中表现更好。
 - cbow_mean ( {0 , 1} , 可选 ) – 如果为 0，则使用上下文词向量的总和。如果为 1，则使用平均值，仅在使用 cbow 时适用。
 - alpha ( float , 可选 ) -- 初始学习率。
 - min_alpha ( float , 可选 ) – 随着训练的进行，学习率将线性下降到min_alpha。
@@ -776,4 +776,249 @@ model.train(more_sentences, total_examples=model.corpus_count, epochs=model.iter
 wv = gensim.models.keyedvectors.KeyedVectors.load_word2vec_format(vector_file)
 # 也可以使用wv相关的方法
 print(wv.most_similar('系统', topn=10))
+```
+
+## python操作pdf
+
+### pdf文件重新排序
+
+考虑到之前用高拍仪扫描时，文件经常奇数页和偶数页不清楚，每次需要人工来排序，因此写了一个软件让其自动排序，需要传入两个参数，分别是待排序的pdf位置和顺序值，顺序的话自定义了一种表示方法，即单页面和连续页面混用，连续页面参考range函数，可以用一个元胞例代表一系列的值, 例如(1,11,2)代表从1开始到11结束, 每次递增2，即形成"1,3,5,7,9,11"这些顺序，而"(16,2,-2)"则表示从16开始到2,每次递增-2(即减少2),形成"16,14,12,10,8,6,4,2"顺序，单个数字也可以用，例如12,13等，不需要的页面可以用0表示，
+
+如果传入的顺序参数为："(1,9,2),0,11,(12,2,-2)"，则pdf文件真实顺序是"[1, 3, 5, 7, 9, 0, 11, 12, 10, 8, 6, 4, 2]"
+
+以下为脚本代码示例：
+
+```python
+import re
+from os import path
+from PyPDF2 import PdfFileReader, PdfFileWriter
+
+
+def generate_list(start, end, separate):
+    """
+    根据开始和结束产生列表
+    :param start:
+    :param end:
+    :param separate:
+    :return:
+    """
+    if start == end: raise Exception("开始序号{}不应该等于结束序号{}".format(start, end))
+
+    result_list = []  # 最终生成的结果序列
+    if start > end:
+        if separate >= 0: raise Exception("开始序号大于结束序号, 间隔错误的等于{}, 应该小于0".format(separate))
+        result_list.append(start)
+        start += separate
+        while end <= start:
+            result_list.append(start)
+            start += separate
+        if result_list[-1] != end: raise Exception("结束序号不正确, 按间隔取值得到{}, 不等于结束序号{}".format(start, end))
+        return result_list
+
+    if start < end:
+        if separate <= 0: raise Exception("开始序号小于结束序号, 间隔错误的等于{}, 应该大于0".format(separate))
+        result_list.append(start)
+        start += separate
+        while end >= start:
+            result_list.append(start)
+            start += separate
+        if result_list[-1] != end:
+            raise Exception("结束序号不正确, 按间隔取值得到{}, 不等于结束序号{}".format(start, end))
+        return result_list
+
+
+def resolve_one_part(args):
+    match_obj = re.match(r'\(.+?\)', args)
+    if match_obj:
+        match_str = match_obj[0]
+        resolve_str = re.match(r'\((\d+),(\d+),(-?\d+)\)', match_str)  # 解析参数
+        if resolve_str and len(resolve_str.groups()) == 3:
+            start, end, separate = resolve_str.groups()
+            return {
+                "span": len(match_str),
+                "list": generate_list(int(start), int(end), int(separate))
+            }
+        else:
+            raise Exception("传入参数解析到{}时出现错误, 应该是3个参数, 例如:(13,5,2)".format(match_str))
+    else:
+        match_obj = re.match(r'\d+', args)
+        if match_obj:
+            match_str = match_obj[0]
+            return {
+                "span": len(match_str),
+                "list": [int(match_str)]
+            }
+    # 如果没有解析到对象, 则报错
+    if match_obj is None:
+        raise Exception("传入参数解析到{}步时出现错误".format(args))
+
+
+def analysis_args(args_str):
+    """
+    解析传入的pdf顺序参数
+    :param args_str: 参数顺序
+    :return: list, 详细描述pdf中每一页的顺序, 需要留下来的页面顺序必须大于0, 因为不需要的页面顺序用0表示,
+    描述时参考python的range函数, 可以用一个元胞例代表一系列的值, 例如(1,11,2)代表从1开始到11结束, 每次递增2, 即形成"1,3,5,7,9,11"这些顺序
+    例如"(16,2,-2)"则表示从16开始到2,每次递增-2(即减少2),形成"16,14,12,10,8,6,4,2"顺序, 单个数字也可以用, 例如12,13等,
+    不需要的页面可以用0表示
+    整体参数示例: "(1,9,2),0,11,(12,2,-2)"变为"[1, 3, 5, 7, 9, 0, 11, 12, 10, 8, 6, 4, 2]"
+    """
+    args_str = args_str.replace(" ", "")
+    result_list = []
+    while len(args_str) > 0:
+        part_result = resolve_one_part(args_str)
+        result_list.extend(part_result['list'])
+        span = part_result['span']  # 部分结果的跨度
+        args_str = args_str[span:]
+        if len(args_str) > 0:
+            if not args_str.startswith(","): raise Exception('解析到{}出现问题, 元素之间应该用","符号分割'.format(args_str))
+            args_str = args_str[1:]
+    return result_list
+
+
+def sort_pdf(pdf_path, sort_args):
+    """
+    给pdf排序
+    :param pdf_path: pdf文件路径
+    :param sort_args: 排序参数, 将原有pdf所有页面的顺序进行描述, 例如pdf顺序是1,3,5,7,9,11,13,13(重复),12,10,8,6,4,2,
+    那么就可以用(1,9,2),11,13,0,(12,2,-2)的参数进行描述, 如果其中有一页不需要, 则该页的位置排序为0
+    :return:
+    """
+    pdf_reader = PdfFileReader(pdf_path)
+    pdf_writer = PdfFileWriter()
+    pdf_num = pdf_reader.getNumPages()  # pdf页码数量
+    sort_list = analysis_args(sort_args)
+    max_page_no = max(sort_list)  # 页码的最大值
+    doc_path = path.expanduser('~\Documents')
+    save_path = path.join(doc_path, "sorted.pdf")
+
+    for i in range(1, max_page_no + 1):
+        if i in sort_list:
+            list_index = sort_list.index(i)
+            if list_index > pdf_num - 1: raise Exception('传入的页码数{}超过pdf页码总数{}'.format(list_index, pdf_num))
+            pdf_writer.addPage(pdf_reader.getPage(list_index))
+    with open(save_path, 'wb') as f:
+        pdf_writer.write(f)
+    return save_path
+
+
+if __name__ == "__main__":
+    # print(analysis_args("(1,9,2),0,11,(12,2,-2)"))
+    print("""
+    【欢迎使用pdf顺序重排软件】
+    在pdf页码参数中, 需要详细描述pdf中每一页的顺序, 需要留下来的页面顺序必须大于0, 
+    描述时参考python的range函数, 可以用一个元胞例代表一系列的值, 例如(1,11,2)代表从1开始到11结束, 每次递增2, 
+    即形成"1,3,5,7,9,11"这些顺序,
+    例如"(16,2,-2)"则表示从16开始到2,每次递增-2(即减少2),形成"16,14,12,10,8,6,4,2"顺序, 单个数字也可以用, 例如12,13等,
+    不需要的页面可以用0表示
+    示例: "(1,9,2),0,11,(12,2,-2)"变为"[1, 3, 5, 7, 9, 0, 11, 12, 10, 8, 6, 4, 2]"
+    """)
+    while True:
+        try:
+            pdf_path = input("请输入pdf文件位置: ")
+            pdf_sort_args = input("请输入页码参数: ")
+            save_path = sort_pdf(pdf_path, pdf_sort_args)
+            print("文件生成成功, 位置在[{}]".format(save_path))
+        except Exception as e:
+            print("出现错误: {}".format(e))
+```
+
+已经打包好的exe文件可以[直接下载](https://wws.lanzoum.com/izYP807b1mif)。
+
+### pdf文件切分
+
+使用有道文档翻译对pdf文件大小有限制，因此有个这个脚本，它可以将指定pdf文件切分为指定大小的若干个部分，默认为10MB以内，修改`PDF_PATH`参数即可。
+
+```python
+import os
+from PyPDF2 import PdfFileReader, PdfFileWriter
+
+# pdf文件路径
+PDF_PATH = r"E:\Downloads\ARN33195-ATP_7-100.3-000-WEB-1.pdf"
+
+# 限制的文件大小，单位为字节，默认为10MiB
+SIZE_NUM = 10*1024*1024
+
+# 每次修订时增加或者减少的页数
+BATCH = 3
+
+def pdf_split_by_size():
+    """
+    根据文件大小对pdf进行分割
+    :return:
+    """
+    f_size = os.path.getsize(PDF_PATH)  # pdf文件大小
+    split_num = (f_size // SIZE_NUM) + 2  # 分割的文件数量
+    split_file_size = f_size // split_num  # 单个文件大小
+    pdf = PdfFileReader(PDF_PATH)
+    page_nums = pdf.getNumPages()  # 获得页数
+    mean_page_size = f_size // page_nums  # 平均页面大小
+    benchmark_page_num = split_file_size // mean_page_size  #  平均每次页面数量 基准值
+
+    i = 1  # 指针
+    start = 1  # 每次合并的开始页面
+    while True:
+        i = i + benchmark_page_num
+        # 如果指针大于总页数，则将其设置为总页数
+        if i > page_nums:
+            i = page_nums
+        start = _amend_pdf_size(start, i, page_nums) + 1
+        # 运行结束条件到达最后一页
+        if start >= page_nums:
+            break
+        i = start
+    print("运行结束")
+
+def _amend_pdf_size(start, i, page_nums):
+    """
+    修正pdf文件大小
+    :param start: 开始页数
+    :param i: 结束（浮动页数）
+    :param page_nums: 总页数
+    :return:
+    """
+    float_i = i  # 浮动页面
+    pdf = pdf_split_2(start, float_i)
+    # 如果比要求的文件大，则反复减少
+    while os.path.getsize(pdf) > SIZE_NUM:
+        os.remove(pdf)
+        float_i = float_i - BATCH  # 每次浮动页数减少BATCH页
+        pdf = pdf_split_2(start, float_i)
+    # 如果文件太小了，则将其增大
+    while os.path.getsize(pdf) < SIZE_NUM * 0.75:
+        # 如果到达最后一页，则跳出
+        if float_i == page_nums:
+            break
+        os.remove(pdf)
+        float_i = float_i + BATCH  # 每次浮动页数增加BATCH页
+        # 文件太小了，增大时需要考虑浮动页数不能超过总页数
+        if float_i > page_nums:
+            float_i = page_nums
+        pdf = pdf_split_2(start, float_i)
+    return float_i
+
+def pdf_split_2(start, end):
+    """
+    将目标PDF文件的start至end页分割保存至指定文件夹，
+    :param start: start从1开始计数
+    :param end: 尾页
+    :return: 生成的文件完整路径
+    """
+    print("调用参数为%s-%s" %(start,end))
+    fname = os.path.splitext(os.path.basename(PDF_PATH))[0]  # 获取文件名，不含后缀名
+    fpath = os.path.dirname(PDF_PATH)
+    pdf = PdfFileReader(PDF_PATH)
+    pdf_writer = PdfFileWriter()
+    output_filename = fpath + r'\{}_{}-{}.pdf'.format(fname, start, end)
+    # output_filename = os.path.join(path_output, '{}_{}-{}.pdf'.format(fname,start,end))  # 等价
+
+    for page in range(start - 1, end):
+        pdf_writer.addPage(pdf.getPage(page))
+
+    with open(output_filename, 'wb') as out:
+        pdf_writer.write(out)
+    return output_filename
+
+if **name** == "**main**":
+    pdf_split_by_size()
 ```
