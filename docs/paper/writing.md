@@ -259,13 +259,15 @@ setInterval(function(){
         }
     }
     // 是否滚动到页面底部
-    function is_scroll_bottom(element_id){
-        const $ele = $(`#${element_id}`)
-        const sum_height = $ele.prop('scrollHeight') // 总高度
-        const current_height = $ele.scrollTop() // 当前滚动高度
-        // 如果差距小于500，说明已经到页面底部了
-        if(sum_height-current_height < 500 ) return true
-        return false
+    function is_scroll_bottom(){
+        // const $ele = $(`#${element_id}`)
+        // const sum_height = $ele.prop('scrollHeight') // 总高度
+        // const current_height = $ele.scrollTop() // 当前滚动高度
+        // // 如果差距小于500，说明已经到页面底部了
+        // if(sum_height-current_height < 500 ) return true
+        // return false
+        // 改为通过判断是否出现正在翻译的提示来判断
+        return $("#loaderProgress").css("display") === 'block'
     }
 
     // 判断是否到达文档末尾
@@ -286,7 +288,7 @@ setInterval(function(){
                 download_imgs()
             }
             // 如果没有到达底部，则位置继续向下
-            if(!is_scroll_bottom('docTranslationImg'))pagePos += 370;
+            if(!is_scroll_bottom())pagePos += 370;
             document.getElementById("docTranslationImg").scroll(0,pagePos)
             if(is_auto_scroll){
                 setTimeout(_auto, 250)
