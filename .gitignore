@@ -30,4 +30,4 @@ yarn-error.log*
 package-lock.json
 
 # vscode配置
-/.vscode
+/.vscode/settings.json
