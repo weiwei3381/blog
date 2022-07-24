@@ -1022,3 +1022,105 @@ def pdf_split_2(start, end):
 if **name** == "**main**":
     pdf_split_by_size()
 ```
+
+## python深度学习之安装CUDA、cuDNN和pytorch
+
+### 安装CUDA
+
+> 参考资料[CUDA安装教程（超详细）](https://blog.csdn.net/m0_45447650/article/details/123704930)
+
+在桌面空白处点击右键，打开“nvidia控制面板”->选择左下角的“系统信息”
+
+![系统信息](https://pic.imgdb.cn/item/62dd240cf54cd3f937de2ca5.jpg)
+
+“系统信息”中选择“组件”标签页，“3D设置”中的`NVCUDA.dll`能看到CUDA版本，这里是“9.0.174”
+
+![NVCUDA.dll版本](https://pic.imgdb.cn/item/62dd24a8f54cd3f937e1901c.jpg)
+
+进入[CUDA Toolkit列表](https://developer.nvidia.com/cuda-toolkit-archive)中下载指定版本的Toolkit，这里选择`CUDA Toolkit 9.0 (Sept 2017), Online Documentation`，[点击进入下载页面](https://developer.nvidia.com/cuda-90-download-archive)。
+
+根据页面提示选择win10平台，由于下载速度比较慢，这里选择本地exe安装方式，即“exe(local)”。
+
+![选择平台](https://pic.imgdb.cn/item/62dd257ef54cd3f937e63a11.jpg)
+
+然后下载基础安装程序和安装补丁。
+
+![下载安装程序](https://pic.imgdb.cn/item/62dd25fdf54cd3f937e92538.jpg)，下载完成后我也传了一份到百度云盘上，点击[链接](https://pan.baidu.com/s/16S8XMXtgfwADfjsJSWTECQ?pwd=yzok)下载，提取码：yzok。
+
+安装cuda时，第一次会让设置临时解压目录，第二次会让设置安装目录；临时解压路径，在安装结束后会自动删除，所以**临时解压目录千万不要和cuda的安装路径设置成一样**，否则安装结束，会找不到安装目录的！！！
+
+可以选择“自定义安装”，在安装选项中把“Visual Studio Integration”排除掉，否则会提示安装VS。
+
+![自定义安装](https://pic.imgdb.cn/item/62dd2746f54cd3f937f0be66.jpg)
+
+![安装选项](https://pic.imgdb.cn/item/62dd2766f54cd3f937f16b53.jpg)
+
+安装完成后会增加几个系统变量，如下所示。
+
+```batch
+CUDA_PATH = C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0
+
+CUDA_PATH_V9_0 = C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0
+
+NVCUDASAMPLES_ROOT = C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.0
+
+NVCUDASAMPLES9_0_ROOT = C:\ProgramData\NVIDIA Corporation\CUDA Samples\v9.0
+
+<!-- Path路径中会增加下面两个路径 -->
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin
+
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\libnvvp
+```
+
+在cmd中输入`nvcc --version`即可查看版本号；输入`set cuda`，可以查看 CUDA 设置的环境变量。
+
+基础包安装完成后安装补丁程序即可。
+
+### 安装cuDNN
+
+cuDNN 其实就是 CUDA 的一个补丁而已，专为深度学习运算进行优化的。
+
+首先在[Nvidia开发者网站](https://developer.nvidia.com/rdp/cudnn-download)上注册账号，密码需要由大小写字母和数字构成。
+
+注册并登录后，可以进入[cuDNN文件归档](https://developer.nvidia.com/rdp/cudnn-archive)下载，注意下载cuDNN要与CUDA版本一致，这里我使用CUDA版本为9.0，于是下载
+`cuDNN 7.6.5 for CUDA 9.0`版本，这个版本我也放到了百度云上面，[点击下载](https://pan.baidu.com/s/1DKuc5DgxcoBJZgc-DmpnRg?pwd=lvei)，提取码：lvei。
+
+![cuDNN 7.6.5 for CUDA 9.0版本](https://pic.imgdb.cn/item/62dd3257f54cd3f9372f11c9.jpg)
+
+下载完成为一个zip的压缩包，解压之后将文件复制到CUDA的目录中去，即`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0`
+
+![复制](https://pic.imgdb.cn/item/62dd3428f54cd3f93739828f.jpg)
+
+在PATH中增加环境变量
+
+```batch
+<!-- path的环境变量，如果已经有了就不用加了 -->
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\bin
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\include
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\lib
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\libnvvp
+```
+
+测试cuDNN安装是否成功，可以在cmd中运行`C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v9.0\extras\demo_suite`目录下的`deviceQuery.exe` 和 `bandwithTest.exe`文件，运行后的截图如下所示。
+
+![deviceQuery](https://pic.imgdb.cn/item/62dd3534f54cd3f9373ee50d.jpg)
+
+![bandwithTest](https://pic.imgdb.cn/item/62dd359df54cd3f93741398f.jpg)
+
+### 安装CUDA加速的pytorch
+
+由于cuda9.0版本比较老了，官网的[历史版本](https://pytorch.org/get-started/previous-versions/)中已经找不到了，于是想其他的办法。
+
+幸好找到了pytorch的所有whl文件记录网址，[点击查看](https://download.pytorch.org)，也可以在[torch for cuda9.0记录](https://download.pytorch.org/whl/cu90/torch_stable.html)中下载
+
+新建一个python的虚拟环境，然后直接运行下面代码`pip install https://download.pytorch.org/whl/cu90/torch-1.1.0-cp37-cp37m-win_amd64.whl`安装cuda9.0对应文件。
+
+安装成功后，进入python环境，然后输入下面进行测试
+
+```python
+import  torch
+print(torch.__version__)  # 查看torch版本，输出：1.1.0
+print(torch.version.cuda)  # 查看torch的cuda版本，输出：9.0
+print(torch.cuda.is_available())  # 查看是否支持GPU加速，输出：True
+print(torch.cuda.get_device_name(0))  # 查看GPU设备名称，输出：GeForce GTX 1050
+```
