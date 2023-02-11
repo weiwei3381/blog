@@ -253,12 +253,24 @@ End Function
 
 ### 2TB<新>-移动硬盘(黑薄)
 
-移动硬盘名称为`2TB<新>`，共计2TB空间，盘符名为“**Entertainment**”，主要内容包括“动漫、纪录片、音乐、影视、游戏、2016年论文”，里面的文件夹内容为：
+移动硬盘名称为`2TB<新>`，共计2TB空间，盘符名为“**Entertainment**”，主要内容包括“动漫、纪录片、音乐、影视、游戏、2016年论文”。
 
 ### 2TB<旧>-移动硬盘(白厚)
 
-移动硬盘名称为**2TB<旧>**，共计2TB空间，盘符名为`Study`，主要内容包括“软件、书籍 、其他技能视频 、慕课专栏 、掘金小册 、极客时间 、编程视频教程 、网易云课堂”，里面的文件夹内容为：
+移动硬盘名称为**2TB<旧>**，共计2TB空间，盘符名为`Study`，主要内容包括“软件、书籍 、其他技能视频 、慕课专栏 、掘金小册 、极客时间 、编程视频教程 、网易云课堂”。
 
 ### 4TB-移动硬盘(黑厚)
 
-移动硬盘没有贴名字，共计4TB空间，盘符名为`Element SE`，主要内容包括“other 、PPT资料 、surface文件 、switch 升级备份 、其他视频教程 、历史存档资料 、多媒体制作 、学习 、宝宝资料 、小学资料 、得到 、手机备份 、操作系统原理 、机器人Linux 、樊登小读者 、汇编逆向 、爬虫数据 、电子书 、精选pdf电子书 、编程 、自然语言处理 、语料库、魔d广播剧”，里面的文件夹内容为：
+移动硬盘没有贴名字，共计4TB空间，盘符名为`Element SE`，主要内容包括“other 、PPT资料 、surface文件 、switch 升级备份 、其他视频教程 、历史存档资料 、多媒体制作 、学习 、宝宝资料 、小学资料 、得到 、手机备份 、操作系统原理 、机器人Linux 、樊登小读者 、汇编逆向 、爬虫数据 、电子书 、精选pdf电子书 、编程 、自然语言处理 、语料库、魔d广播剧”。
+
+## B站视频下载(bilibili视频下载)
+
+**方法1**: 下载[annie.exe](https://wwaz.lanzoum.com/iSPCn0n9ys0f)或者[lux.exe](https://github.com/iawia002/lux), 因为需要登录bilibili之后才能下载720p及以上清晰度的视频, 因此需要使用浏览器cookie, 在程序目录中创建`bilibili_cc.txt`文件, 然后登录[B站](https://www.bilibili.com/), 打开chrome浏览器的调试窗口, 在`网络`的请求中找到`www.bilibili.com`,查看`标头`的`cookie`属性, 如下图所示:
+
+![cookie](https://pic.imgdb.cn/item/63e7990c4757feff330d13ed.jpg)
+
+右键选中`复制值`之后, 在`bilibili_cc.txt`文件中粘贴, 里面的内容应该是`键=值;`模式。
+
+准备好cookie之后, 在文件根目录输入`.\annie.exe -c .\bilibili_cc.txt -i "https://www.bilibili.com/video/BV1U84y167i3"`, 可以查看下载文件的类型和清晰度, 然后使用`.\annie.exe -c .\bilibili_cookie.txt -f 64 "https://www.bilibili.com/video/BV1U84y167i3?p=1"`进行下载。
+
+**方法2**: 使用[高清视频下载](https://youtube.iiilab.com/), [yiuios视频解析](https://www.yiuios.com/tool/bilibili)等网站下载。
