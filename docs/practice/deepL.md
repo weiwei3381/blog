@@ -6,7 +6,17 @@
 
 torch CPU版本安装使用`pip install torch`即可.
 
-## transformer训练
+## transformer模型使用
+
+### 文本生成任务
+
+比较小的中文NLG(nature language generate, 自然语言生成)模型: 
+
+- [bigscience/bloom-560m](https://huggingface.co/bigscience/bloom-560m)，2022年5月26日由BigScience公司推出，模型大小1.12GB，支持48种语言。
+- [IDEA-CCNL/Wenzhong-GPT2-110M](https://huggingface.co/IDEA-CCNL/Wenzhong-GPT2-110M), "闻仲"1.0版本, 属于IDEA 研究院"封神榜"开源模型系列, 2022年5月上传至huggingface, 模型大小274MB.
+- [IDEA-CCNL/Wenzhong2.0-GPT2-110M-BertTokenizer-chinese](https://huggingface.co/IDEA-CCNL/Wenzhong2.0-GPT2-110M-BertTokenizer-chinese), "闻仲"2.0版本, 属于IDEA 研究院"封神榜"开源模型系列2.0版本, 基于BertTokenizer，实现字级别token，2022年12月上传至huggingface, 模型大小为421MB.
+- [uer/gpt2-chinese-cluecorpussmall](https://huggingface.co/uer/gpt2-distil-chinese-cluecorpussmall), 通用GPT2中文小模型, 2021年上传至huggingface, 模型大小为421MB.
+- [uer/gpt2-distil-chinese-cluecorpussmall](https://huggingface.co/uer/gpt2-distil-chinese-cluecorpussmall), 蒸馏后的GPT2中文小模型, 2021年上传至huggingface, 模型大小为244MB.
 
 现在主流的是使用抱抱脸(hugging face)出的transformer模块进行，[官方中文文档](https://huggingface.co/docs/transformers/main/zh/index)
 
