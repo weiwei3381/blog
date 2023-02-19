@@ -72,7 +72,7 @@ module.exports = {
           'linux', 'docker'
         ],
       // 实战
-      '/practice/': ['Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser', 'medicine'],
+      '/practice/': ['deepL', 'Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser', 'medicine'],
       // 办公
       '/office/': ['word', 'excel', 'other', 'software'],
       // 通用
