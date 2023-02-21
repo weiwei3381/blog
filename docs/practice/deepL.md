@@ -6,9 +6,56 @@
 
 torch CPU版本安装使用`pip install torch`即可.
 
-## transformer模型使用
+## huggingface实战
 
-### 文本生成任务
+### transformer各种任务介绍
+
+### 常用API
+
+### Pipeline
+
+Pipeline可以很方便的使用huggingface提供的NLP任务, 示例代码如下:
+
+```python
+# 导入模块
+from transformers import pipeline
+# 指定pipeline的任务, 指定后, pipeline会自动从huggingface上下载相应的模型并加载, 并返回一个指定任务的Pipeline对象
+summarizer = pipeline("summarization")
+```
+
+其中, pipeline的第一个参数为`task: str = None`, 可选的值有很多, 可参考[文档](https://huggingface.co/docs/transformers/main/en/main_classes/pipelines#transformers.pipeline.task), 其中常用值有:
+
+- "summarization": 文本摘要
+- "text2text-generation": 文本到文本生成
+- "text-classification"或者"sentiment-analysis": 文本分类
+- "text-generation": 文本生成
+- "token-classification"或者"ner": 命名实体识别
+- "translation": 翻译
+
+pipeline的第二个参数为`model: str|PreTrainedModel | TFPreTrainedModel`, 该参数为可选值, 可传入指定模型, 如果是str类型, 则会加载本地或者自动从huggingface网站上下载对应名称的模型并加载, 因此本地代码可以写成:
+
+`summarizer=pipeline('summarization','mypath/distilbart-cnn-12-6')`
+
+由于model入参也可以直接以PreTrainedModel对象的形式传入，tokenizer也可以直接以PreTrainedTokenizer对象的形式传入。这种传入形式的写法示例：
+
+```python
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+
+tokenizer = AutoTokenizer.from_pretrained("mypath/distilbart-cnn-12-6")
+model = AutoModelForSeq2SeqLM.from_pretrained("mypath/distilbart-cnn-12-6")
+
+summarizer=pipeline('summarization',model=model,tokenizer=tokenizer)
+
+```
+
+比较麻烦的是AutoClass类的选择, 在本文摘要里面使用的Auto类为`AutoModelForSeq2SeqLM`, 可以在huggingface上点击右上角的【</>Use in Transformers】按钮，如下图所示。
+
+![查看transformers代码](https://pic.imgdb.cn/item/63f246b9f144a01007611cea.jpg)
+
+代码返回的是一个`SummarizationPipeline`对象, 使用的话也很简单`summarizer(str_list: 需要摘要的文本列表, min_length=5, max_length=20)`即可.
+
+
+### transformer模型使用——文本生成任务
 
 比较小的中文NLG(nature language generate, 自然语言生成)模型: 
 
@@ -20,7 +67,7 @@ torch CPU版本安装使用`pip install torch`即可.
 
 现在主流的是使用抱抱脸(hugging face)出的transformer模块进行，[官方中文文档](https://huggingface.co/docs/transformers/main/zh/index)
 
-使用`pip install torch transformers npmpy`安装必要模块
+使用`pip install torch transformers numpy`安装必要模块
 
 ```python
 from transformers import BertTokenizer,GPT2LMHeadModel
