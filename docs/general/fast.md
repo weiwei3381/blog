@@ -335,3 +335,40 @@ End Function
 下载[Steam Deck Tools](https://github.com/ayufan/steam-deck-tools)，双击使用`SteamController.exe`，常用设置如下：
 
 ![SteamController设置](https://pic.imgdb.cn/item/641fd070a682492fcc404291.jpg)
+
+#### Steam Deck快捷键情况
+
+Steam Deck默认快捷键：
+
+- **steam+B（长按）**：强制游戏关闭
+
+- **steam+X**：显示键盘
+
+- steam+L1：切换放大器
+
+- steam+R1：截图
+
+- steam+L2：鼠标右键点击
+
+- steam+R2：鼠标左键点击
+
+- steam+右摇杆 R3：摇杆鼠标
+
+- steam+右触摸板Trackpad 移动：作鼠标用
+
+- steam+右触摸板Trackpad 按压：鼠标左键点击
+
+- **steam+左摇杆L3 ↑↓**：调高屏幕亮度和降低屏幕亮度
+
+- steam+十字键 D-pad 右：回车键
+
+- steam+十字键 D-pad 下：Tab键
+
+- steam+十字键 D-pad 左：Esc键
+
+来源：[知乎Steam 攻略](https://zhuanlan.zhihu.com/p/585181194)
+
+:::tip 注意
+在windows环境下，使用STEAM+X呼出虚拟键盘后，shift、ctrl或者alt键为**粘滞**，即按一下就默认一直长按，而这种情况下使用搜狗输入法用shift切换中英文就很不方便，解决办法是长按shift键，长按就不会粘滞。
+:::
+
