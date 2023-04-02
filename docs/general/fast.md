@@ -274,3 +274,101 @@ End Function
 准备好cookie之后, 在文件根目录输入`.\annie.exe -c .\bilibili_cc.txt -i "https://www.bilibili.com/video/BV1U84y167i3"`, 可以查看下载文件的类型和清晰度, 然后使用`.\annie.exe -c .\bilibili_cookie.txt -f 64 "https://www.bilibili.com/video/BV1U84y167i3?p=1"`进行下载。
 
 **方法2**: 使用[高清视频下载](https://youtube.iiilab.com/), [yiuios视频解析](https://www.yiuios.com/tool/bilibili)等网站下载。
+
+## Steam Deck 折腾情况
+
+### 更换固态硬盘
+
+1.参考B站换固态硬盘教程[全网最细Steam Deck换固态教学](https://www.bilibili.com/video/BV1824y1C72m/)，将初始的64GB固态硬盘换成1TB的硬盘。
+
+### 安装windows和Steam OS双系统
+
+1.参考B站[Steam Deck 双系统安装教程](https://www.bilibili.com/video/BV1AP4y1v77b/)进行设置，简要步骤包括：使用U盘用[rufus](https://rufus.ie/zh/)工具创建[steam deck恢复镜像](https://help.steampowered.com/zh-cn/faqs/view/1B71-EDF2-EB6D-2BB3)，sd从U盘启动安装steam os，然后用Steam OS自带工具进行分区，在`home卷`之后划分新分区，然后格式化为ntfs，卷标可以设置为`windows`。
+
+:::warning 注意
+如果Steam页面无法直接连接，可以使用[Steam++](https://steampp.net/)进行加速，[开源地址](https://github.com/BeyondDimension/SteamTools)。
+:::
+
+2.在U盘用rufus安装win10的镜像，选择驱动器为之前windows的那一个，然后安装win10。可以从[此处](https://www.imsdn.cn/windows-10/win10-21h2/)下载win10 21H2的原版镜像。
+
+### Steam Deck安装windows之后的设置
+
+进入win10之后从[官方途径](https://help.steampowered.com/zh-cn/faqs/view/6121-ECCD-D643-BAA8)下载驱动安装，然后需要再win10下进行下面操作以防止双系统出问题，详细解决方案参考[Steam deck双系统疑难杂症记录帖](https://www.bilibili.com/read/cv20244884)。
+
+:::tip 注意
+
+一、常规设置
+
+- 右键我的电脑（刚装完默认桌面没有“我的电脑”，如果找不到请在文件浏览器里右键，或者开始菜单输入compmgmt.msc），在磁盘管理中选两个efi，右键菜单选择更改驱动器号和路径，删除。**注意是删除驱动器号而不是删除卷！**；
+
+- 打开开始菜单，进入设置界面，在`系统`-`电源`项目中选择使用电池 / 接通电源的休眠时间均为从不（上面两个关闭屏幕不用管）；
+
+- 打开开始菜单输入control，打开控制面板，找到电源选项，左边导航进入选择电源按钮的功能，点击更改当前不可用的设置，将下方除了锁定和睡眠其他的勾都去掉，并在上方按电源按钮 / 关闭盖子时的选项均改为不采取任何操作；
+
+- 运行gpedit.msc，在`计算机配置`-`管理模板`-`windows组件`-`更新`-`管理最终用户体验`中选择`配置自动更新`，双击出现窗口，左侧修改为已启用，左下方设置为5 - 允许本地管理员选择设置，按确定保存。
+
+- windows可能在插电时无法睡眠或息屏，需要充电的，拔掉电源息屏/睡眠后再插上即可。
+
+- 请使用windows的常规关机。
+
+二、禁用win10更新
+
+- 禁用Windows Update服务。通过键盘Win + R健，弹出运行对话框，输入命令 services.msc ，按“确定”按钮，找到`Windows Update`，双击打开，点击“停止”，将启动类型选为“禁用”，最后点击“应用”。切换到“恢复”选项，将第一次失败、第二次失败、后续失败全部修改为“无操作”，点击“应用”“确定”。
+
+- 通过组策略进行Win10自动更新相关服务关闭。按Win + R 组合键，调出运行命令操作弹框，输入“gpedit.msc”，点击确定。于本地组策略编辑器左侧菜单栏，依次选择：计算机配置 -> 管理模板 -> Windows组件 -> Windows更新。双击右侧“配置自动更新”，弹出框中设置为“已禁用”，点击“应用”并“确定”。接着再找到“删除使用所有Windows更新功能的访问权限”，双击弹出框，设置已启用，然后“确定”。
+
+- 禁止任务计划中的Win10自动更新服务。按 Win + R键，调出运行弹框，输入“taskschd.msc”，并“确定”。于任务计划程序弹框中，依次选择：任务计划程序库 -> Microsoft -> Windows -> WindowsUpdate，将其展示出来的项目均设置为 [ 禁用 ]。
+
+- 通过注册表关闭Win10自动更新功能。按Win + R 组合键，在弹出的运行框中输入：regedit，确定。在注册表编辑器中找到：`HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\UsoSvc`。然后在右侧找到“Start”键。双击`start`，在弹出框中把基数改成：16进制，数值数据改为“4”，点击确定。右侧找到“FailureActions”，双击弹出框中，把“0010”、“0018”行的左起第5个数值由原来的“01”改为“00”， “确定”。这样我们就可以彻底把win10自动更新永久关闭。
+
+![注册表修改](https://pic.imgdb.cn/item/641fce7ea682492fcc3da4ac.jpg)
+
+参考自[知乎专栏-WIN10系统如何彻底永久关闭自动更新](https://zhuanlan.zhihu.com/p/391195241)
+:::
+
+#### 解决Steam Deck双系统时间同步问题
+
+在windows中，以管理员身份运行cmd，在命令行中输入下面命令并回车`Reg add HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation /v RealTimeIsUniversal /t REG_DWORD /d 1`
+
+#### 解决Steam Deck触摸板操作问题
+
+下载[Steam Deck Tools](https://github.com/ayufan/steam-deck-tools)，双击使用`SteamController.exe`，常用设置如下：
+
+![SteamController设置](https://pic.imgdb.cn/item/641fd070a682492fcc404291.jpg)
+
+#### Steam Deck快捷键情况
+
+Steam Deck默认快捷键：
+
+- **steam+B（长按）**：强制游戏关闭
+
+- **steam+X**：显示键盘
+
+- steam+L1：切换放大器
+
+- steam+R1：截图
+
+- steam+L2：鼠标右键点击
+
+- steam+R2：鼠标左键点击
+
+- steam+右摇杆 R3：摇杆鼠标
+
+- steam+右触摸板Trackpad 移动：作鼠标用
+
+- steam+右触摸板Trackpad 按压：鼠标左键点击
+
+- **steam+左摇杆L3 ↑↓**：调高屏幕亮度和降低屏幕亮度
+
+- steam+十字键 D-pad 右：回车键
+
+- steam+十字键 D-pad 下：Tab键
+
+- steam+十字键 D-pad 左：Esc键
+
+来源：[知乎Steam 攻略](https://zhuanlan.zhihu.com/p/585181194)
+
+:::tip 注意
+在windows环境下，使用STEAM+X呼出虚拟键盘后，shift、ctrl或者alt键为**粘滞**，即按一下就默认一直长按，而这种情况下使用搜狗输入法用shift切换中英文就很不方便，解决办法是长按shift键，长按就不会粘滞。
+:::
+
