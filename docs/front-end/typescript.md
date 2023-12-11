@@ -466,6 +466,264 @@ type ItemType = 'official' | 'second-hand';
 type SKU = `${Brand}-${Memory}-${ItemType}`;
 ```
 
+## 配置react和typescript的项目
+
+### 创建 package.json
+
+在项目根目录下创建一个包含以下内容的`package.json`文件：
+
+```json
+{
+  "name": "my-app",
+  "description": "My React and TypeScript app",
+  "version": "0.0.1"
+}
+```
+
+### 添加网页
+
+在 src 文件夹中，创建一个名为 index.html 的文件，其中包含以下内容：
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>My app</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+React 应用程序将被注入到 div 元素中，id 属性值为 “root”。
+
+### 添加 typescript
+
+在 Visual Studio Code 终端中执行以下命令以安装打字稿：
+
+`npm install --save-dev typescript`
+
+添加`--save-dev`选项的目的在于指定 typescript 应作为仅开发依赖项安装。这是因为 TypeScript 仅在开发期间才需要，而不是在运行时需要。命令完成后，打开 `package.json`，`typescript`在`devDependencies`部分中列为开发依赖项：
+
+```json
+{
+  "name": "my-app",
+  "description": "My React and TypeScript app",
+  "version": "0.0.1",
+  "devDependencies": {
+    "typescript": "^5.3.2"
+  }
+}
+```
+
+接下来，创建`TypeScript`配置文件，在项目根目录下创建`tsconfig.json`文件，并在其中输入以下内容。需要注意的是，`noEmit`设置为`true`确保**TypeScript 不会执行任何转译**，这方面工作将使用`Babel`，而`TypeScript`将专注于类型检查。
+
+```json
+{
+  "compilerOptions": {
+    "noEmit": true, //禁止 TypeScript 编译器执行任何转译
+    "lib": ["dom", "dom.iterable", "esnext"], // 提供类型检查过程中包含的标准库类型。esnext 是下一版 JavaScript 中的 API 类型
+    "moduleResolution": "node", // 找到依赖项的方式，假如希望 TypeScript 在 node_modules 文件夹中查找，因此设置为node
+    "allowSyntheticDefaultImports": true, // 由于react默认是commonjs规范导出，启用该配置允许将 React 作为默认导入导入
+    "esModuleInterop": true, //允许将 React 作为默认导入导入
+    "jsx": "react", // 当设置为 React 时，允许编译器转译 React 的 JSX。
+    "forceConsistentCasingInFileNames": true, // 强制代码中使用的模块文件名必须和文件系统中的文件名保持大小写一致
+    "strict": true // 严格的类型检查级别
+  },
+  "include": ["src"], // 指定需要编译处理的文件列表，支持 glob 模式匹配
+  "exclude": ["node_modules", "dist"] // 用于指定当解析include选项时，需要忽略的文件列表
+}
+```
+
+### 添加 React
+
+接下来，将`React`及其`TypeScript`类型安装到项目中。然后我们将添加一个 React 根组件。为此，请执行以下步骤：
+
+1.在终端中执行`npm install react react-dom`安装 React。其中`react`为核心库，它用于 React 的所有变体；`react-dom`是用于构建 Web 应用程序的 React 变体。
+
+2.React 不包含 TypeScript 类型，需要单独安装：`npm install --save-dev @types/react @types/react-dom`
+
+3.根组件将位于`src`文件夹中名为`index.tsx`的文件，文件内容如下：
+
+```tsx
+import React, { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+
+// 类型断言，即明确告诉 TypeScript 该类型应该是什么。如果没有类型断言，TypeScript 会将类型推断为 HTMLElement | null，因为 document.getElementById 可能找不到元素并返回 null。
+const root = createRoot(document.getElementById("root") as HTMLElement);
+
+function App() {
+  return <h1>My React and TypeScript App!</h1>;
+}
+root.render(
+  <StrictMode>
+    <App />
+  </StrictMode>
+);
+```
+
+此文件将 React 应用程序注入到`id`为“root”的 DOM 元素中，该应用程序很简单，主要用于显示一个名为“My React and TypeScript App!”的标题。
+
+### 添加 Babel
+
+如前所述，`Babel`将在本项目中将`React`和`TypeScript`代码转译为 `JavaScript`。执行以下步骤来安装和配置`Babel`：
+
+```shell
+# 安装 Babel 核心库
+npm install --save-dev @babel/core
+
+# 接下来安装Babel插件，增加Babel功能
+
+# 允许使用最新的JavaScript功能
+npm i -D @babel/preset-env
+
+# 将 React 代码转换为 JavaScript
+npm i -D @babel/preset-react
+
+# 将 TypeScript 代码转换为 JavaScript
+npm i -D @babel/preset-typescript
+
+# 最后安装的两个插件允许在 JavaScript 中使用 async 和 await 功能
+npm i -D @babel/plugin-transform-runtime @babel/runtime
+```
+
+Babel 可以在一个名为`.babelrc.json`的文件中配置。在项目的根目录下创建此文件，其中包含以下内容：
+
+```json
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-react",
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
+    ]
+  ]
+}
+```
+
+接下来，我们将用 webpack 将所有内容粘合在一起。
+
+### 添加 Webpack
+
+Webpack 是一种流行的工具，主要将`JavaScript`源代码文件捆绑在一起。它可以在扫描文件时运行其他工具，例如`Babel`。因此，我们将使用`webpack`扫描所有源文件并将它们转译为 `JavaScript`。`webpack`的输出将是`index.html`中引用的单个`JavaScript`包。
+
+执行以下步骤来安装 webpack 及其关联的库：
+
+```shell
+# 安装核心 webpack 库及其命令行界面，由于webpack包中有TypeScript类型，所以无需单独安装@types包
+npm i -D webpack webpack-cli
+
+# 安装 webpack 的开发服务器
+npm i -D webpack-dev-server
+
+# babel-loader插件允许Babel将React和TypeScript代码转译为JavaScript
+npm i -D babel-loader
+
+# Webpack可以创建托管React应用程序的index.html文件。我们希望webpack使用src/index.html文件作为模板，并将React应用程序的捆绑包添加到其中。一个名为html-webpack-plugin的插件能够做到这一点。
+npm i -D html-webpack-plugin
+```
+
+接下来，我们将配置 webpack 来做我们需要的一切。可以创建用于开发和生产的单独配置，因为要求略有不同。但是，我们将在本章中重点介绍用于开发的配置。执行以下步骤来配置 webpack：
+
+首先，安装一个名为 ts-node 的库，它允许在 TypeScript 文件中定义配置：
+
+`npm i -D ts-node`
+
+现在，我们可以添加开发配置文件。在项目根目录中创建一个名为 webpack.dev.config.ts 的文件，文件内容如下：
+
+```ts
+import path from "path";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import {
+  Configuration as WebpackConfig,
+  HotModuleReplacementPlugin,
+} from "webpack";
+import { Configuration as WebpackDevServerConfig } from "webpack-dev-server";
+
+type Configuration = WebpackConfig & {
+  devServer?: WebpackDevServerConfig;
+};
+
+const config: Configuration = {
+  mode: "development",
+  output: {
+    publicPath: "/",
+  },
+  entry: "./src/index.tsx",
+  module: {
+    rules: [
+      {
+        test: /\.(ts|js)x?$/i,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [
+              "@babel/preset-env",
+              "@babel/preset-react",
+              "@babel/preset-typescript",
+            ],
+          },
+        },
+      },
+    ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: "src/index.html",
+    }),
+    new HotModuleReplacementPlugin(),
+  ],
+  devtool: "inline-source-map",
+  devServer: {
+    static: path.join(__dirname, "dist"),
+    historyApiFallback: true,
+    port: 4000,
+    open: true,
+    hot: true,
+  },
+};
+
+export default config;
+```
+
+配置中比较重要的点在于：
+
+- `mode`属性告诉`webpack`配置是为了开发，这意味着 React 开发工具包含在捆绑包中。
+- `output.publicPath`属性是应用的根路径，这对于开发服务器中的深层链接正常工作非常重要
+- `entry`属性告诉 webpack，React 应用程序的入口在哪里，在该项目中是 `index.tsx`
+- Webpack 希望配置对象是默认导出，因此使用`export default config`将配置对象默认导出；
+- `module`属性告诉`webpack`应如何处理不同的模块。我们需要告诉 webpack 对带有 .js、.ts 和 .tsx 扩展进行转换；
+- `resolve.extensions`属性告诉 webpack 在模块解析期间查找 TypeScript 文件和 JavaScript 文件。
+- `HtmlWebpackPlugin` 创建 HTML 文件。它已配置为使用`src/index.html`作为模板。
+- `HotModuleReplacementPlugin`允许在应用程序运行时更新模块，而无需完全重新加载。
+- `devtool`属性告诉`webpack`使用完整的内联源文件，这允许在转译之前调试原始源代码。
+- `devServer`属性配置 webpack 开发服务器。它将 Web 服务器根目录配置为`dist`文件夹，并在端口 4000 上提供文件。现在，需要 `historyApiFallback`才能使深层链接正常工作，并且我们还指定在服务器启动后打开浏览器。
+
+最后，打开`package.json`并添加一个带有启动脚本的脚本部分：
+
+```json
+{
+  ...,
+  "scripts": {
+    "start": "webpack serve --config webpack.dev.config.ts"
+  }
+}
+```
+
+现在，我们可以通过在终端中运行`npm run start`在开发模式下运行应用程序。
+
 ## vscode 配置
 
 (1) **默认使用单引号**: 在设置中搜索`quote`, 在`Quote Style`中选择`single`.
