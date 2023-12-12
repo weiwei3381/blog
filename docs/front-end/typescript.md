@@ -724,6 +724,106 @@ export default config;
 
 现在，我们可以通过在终端中运行`npm run start`在开发模式下运行应用程序。
 
+## 使用create-react-app快速配置
+
+Create React App 可以帮助自动生成了React和TypeScript项目，其中包含我们可能需要的所有常用工具，包括 CSS 和单元测试支持。
+
+`npx create-react-app myapp --template typescript`
+
+`create-react-app`是创建项目的 Create React App 工具的包。将应用程序名称`myapp`传递给它，同时指定了使用typescript模板来创建项目。
+
+命令创建完项目后，在`myapp` 文件夹中使用Visual Studio Code重新打开该项目。
+
+:::tip 注意
+使用create-react-app命令如果出错的话，可以尝试将npm源设置为华为源后再清除npm缓存，之后再次重试即可。
+
+```shell
+npm config set registry https://repo.huaweicloud.com/repository/npm/
+
+npm cache clean -f
+```
+:::
+
+### 将 linting 添加到 Visual Studio Code
+
+linting（检查）是检查代码是否存在潜在问题的过程，通常的做法是在编写代码时使用linting工具在开发过程的早期捕获问题。[ESLint](https://eslint.org/)工具十分流行，它可以检查React 和 TypeScript 代码。幸运的是，Create React App已经在我们的项目中安装并配置了ESLint。
+
+Visual Studio Code等编辑器可以与ESLint集成，以突出显示潜在的问题。在Visual Studio Code中打开“扩展”栏，搜索“eslint”关键词，找到由”Microsoft“开发的名称为“ESLint”插件安装即可。
+
+为了确保 ESLint 扩展能够检查 React 和 TypeScript，需要进行相应配置，在Visual Studio Code中打开“设置”选项，在设置搜索框中，输入 `eslint:probe`，然后选择`Workspace`选项卡，定义 ESLint 检查代码时要使用的语言，典型设置如下所示：
+
+```json
+"eslint.probe": [
+  "javascript",
+  "javascriptreact",
+  "typescript",
+  "typescriptreact",
+  "html",
+  "vue",
+  "markdown"
+]
+```
+
+### 添加Prettier格式化代码
+
+[Prettier](https://prettier.io/docs/en/options.html)是一种流行的工具，能够格式化React和TypeScript代码。不幸的是，`create-react-app`程序不会安装和配置它。执行以下步骤以在项目中安装和配置Prettier。
+
+1.在项目根目录中执行以下命令以安装和配置Prettier：
+
+`npm i -D prettier`
+
+Prettier 作为开发依赖项安装，因为它仅在开发时使用，而不是在运行时使用。
+
+2.Prettier 与 ESLint 具有重叠的样式规则，因此请安装以下两个库，以允许 Prettier 负责 ESLint 的样式规则：
+
+`npm i -D eslint-config-prettier eslint-plugin-prettier`
+
+`eslint-config-prettier`的作用在于禁用冲突的 ESLint 规则，而 `eslint-plugin-prettier` 配置使用 Prettier 格式化代码的 ESLint 规则。
+
+3.ESLint 配置需要更新，以允许 Prettier 管理样式规则。Create React App 允许 ESLint 配置覆盖 在 package.json 的 eslintConfig 部分中。将 Prettier 规则添加到 package.json 中的 eslintConfig 部分，如下所示：
+
+```json
+{
+  ...,
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:prettier/recommended"
+    ]
+  },
+  ...
+}
+```
+
+4.Prettier可以在名为.prettierrc.json的文件中配置。在根文件夹中创建包含以下内容的此文件：
+
+```json
+{
+  "printWidth": 100,
+  "singleQuote": true,
+  "semi": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "endOfLine": "auto"
+}
+```
+我们指定了以下内容：
+
+- 100个字符后换行
+- 字符串用单引号表示
+- 分号放在语句的末尾
+- 缩进级别为两个空格
+- 多行数组和对象添加尾随逗号
+- 保留现有行尾
+
+:::tip 注意
+如果Visual Studio Code中的ESLint没有按照Prettier定义的那样进行检查，可以将`ESLint`插件卸载了再重新安装。
+:::
+
+5.在Visual Studio Code中打开“扩展”选项卡，搜索“Prettier”并进行安装。在Visual Studio Code中打开“设置”选项。选择“workspace”选项卡，搜索“format on save”，勾选相关选项。在“default formatter”选项中，定义`Prettier`为默认格式化程序。
+
+
 ## vscode 配置
 
 (1) **默认使用单引号**: 在设置中搜索`quote`, 在`Quote Style`中选择`single`.
