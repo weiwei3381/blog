@@ -1124,3 +1124,169 @@ print(torch.version.cuda)  # 查看torch的cuda版本，输出：9.0
 print(torch.cuda.is_available())  # 查看是否支持GPU加速，输出：True
 print(torch.cuda.get_device_name(0))  # 查看GPU设备名称，输出：GeForce GTX 1050
 ```
+
+## python类型注解
+
+Python 3.5开始引入了类型注解，其作用就是让你可以明确的声明变量的类型，方便进行类型检查和方法参数等的联想。
+
+### python基本变量类型注解
+
+```py
+a: int = 3  # 整形
+b: float = 3.14  # 浮点型
+c: str = 'abc'  # 字符串型
+d: bool = False  # 布尔型
+```
+
+### python函数注解
+
+```py
+# 普通函数注解
+def say_hi(name: str) -> str:
+    return f'Hello {name}!'
+
+# 带默认值的函数注解
+def add(first: int = 10, second: float = 5.5) -> float:
+    return first + second
+
+# 没有返回值的函数注解
+def bar() -> None:
+    pass
+```
+
+### 对象注解
+
+```py
+class Person:
+    def __init__(self, name: str):
+        self.name = name
+
+
+def hello(p: Person) -> str:
+    return f'Hello, {p.name}'
+
+# 如果要避免循环导入或者注解早于对象定义的情况，可以用字符串代替类型：
+
+def hello(p: 'Person') -> str:
+    return f'Hello, {p.name}'
+
+
+class Person:
+    def __init__(self, name: str):
+        self.name = name
+
+```
+
+### 容器类型
+
+列表、字典、元组等包含元素的复合类型，用简单的 list，dict，tuple 不能够明确说明内部元素的具体类型。因此要用到 typing 模块提供的复合注解功能。
+
+```py
+# Python 3.8 之前的版本
+from typing import List, Dict, Tuple
+
+def mix(scores: List[int], ages: Dict[str, int]) -> Tuple[int, int]:
+    return (0, 0)
+
+# Python 3.9+ 也可以这么写
+def mix(scores: list[int], ages: dict[str, int]) -> tuple[int, int]:
+    return (0, 0)
+```
+
+在某些情况下，不需要严格区分参数到底是列表还是元组，这时可将它们的特征抽象为更泛化的类型（泛型），比如 Sequence（序列）。
+
+```py
+# Python 3.8 之前的版本
+from typing import Sequence as Seq1
+
+def foo(seq: Seq1[str]):
+    for item in seq:
+        print(item)
+
+
+# Python 3.9+ 也可以这么写
+from collections.abc import Sequence as Seq2
+
+def bar(seq: Seq2[str]):
+    for item in seq:
+        print(item)
+```
+
+### 类型别名
+
+有时候对象类型会非常复杂，这时可以考虑为自定义类型赋予一个有意义的名称
+
+```py
+from typing import Tuple
+
+# 类型别名，明确表示这个对象是一个二维的向量
+Vector2D = Tuple[int, int]
+
+def foo(vector: Vector2D):
+    print(vector)
+
+foo(vector=(1, 2))
+# Output: (1, 2)
+```
+
+### 类型函数符
+
+类似于typescript，在python的typing模块中也提供了一些可以操作类型的专有函数
+
+- 可选值`Optional`
+ 
+有些函数既有可能返回 None ，也有可能返回 str 。单凭返回值注解为 str 是不能准确表达此情况的。这种“可能有也可能没有”的状态被称为**可选值**，例如web 应用中某个函数接受账号和密码作为参数，如果匹配则返回用户对象，若不匹配则返回None。
+```py
+from typing import Optional
+
+def foo(a: int = 0) -> Optional[str]:
+    if a == 1:
+        return 'Yeah'
+```
+- 联合类型`Union`
+
+如果函数的返回值是多种类型中的一种时，可以使用联合类型。
+
+可以发现 `Optional` 实际上是 `Union` 的特例：`Optional[X]` 和 `Union[X, None]` 是等价的。
+
+```py
+from typing import Union
+
+def foo() -> Union[str, int, float]:
+    # ....
+    # some code here
+```
+
+- 可调用的`Callable`
+
+Python 中的函数和类的区别并不明显。只要实现了对应的接口，类实例也可以是可调用的。如果不关心对象的具体类型，只要求是可调用的，那么可以这样写：
+
+`Callable[[int], str]`，其中第一个类型(int)代表参数类型，第二个类型(str)代表返回值类型
+
+```py
+from typing import Callable
+
+
+def print_name(name: str):
+    print(name)
+ 
+ 
+# Callable 作为函数参数使用，其实只是做一个类型检查的作用，检查传入的参数值 get_func 是否为可调用对象
+def get_name(get_func: Callable[[str], None]):
+    return get_func
+```
+
+- 字面量`Literal`
+
+它在定义简单的枚举值时非常好用，比如：
+
+```py
+from typing import Literal
+
+MODE = Literal['r', 'rb', 'w', 'wb']
+def open_helper(file: str, mode: MODE) -> str:
+    pass
+
+open_helper('/some/path', 'r')  # 成功
+open_helper('/other/path', 'typo')  # 失败
+```
