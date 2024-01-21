@@ -74,7 +74,7 @@ module.exports = {
       // 实战
       '/practice/': ['deepL', 'Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser', 'medicine'],
       // 办公
-      '/office/': ['word', 'excel', 'other', 'software'],
+      '/office/': ['word', 'excel', 'vba', 'other', 'software'],
       // 通用
       '/general/': ['fast', 'git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'reg'],
       // 论文

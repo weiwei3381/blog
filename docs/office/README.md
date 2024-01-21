@@ -5,7 +5,8 @@
 ## 文章目录
 
 - :fire: [Word使用技巧和常见问题解决方案](./word.md)
-- :fire: [Excel教程](./excel.md)
+- :fire: [VBA使用速览](./vba.md)
+-  [Excel教程](./excel.md)
 
 ---
 

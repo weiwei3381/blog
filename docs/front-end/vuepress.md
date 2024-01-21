@@ -203,7 +203,7 @@ footer: MIT Licensed | Copyright © 2018-present Evan You
 
 ### Emoji 表情
 
-输入`:tada:`，`:100:`，会输出:tada:，:100:，这是 VuePress 所有支持的 Emoji 表情[列表](https://github.com/markdown-it/markdown-it-emoji/blob/master/lib/data/full.json)
+输入`:tada:`，`:100:`，会输出:tada:，:100:，这是 VuePress 所有支持的 Emoji 表情[列表](https://github.com/markdown-it/markdown-it-emoji)
 
 常用的表情有:
 
