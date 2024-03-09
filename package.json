@@ -24,6 +24,7 @@
     "vuepress-plugin-code-copy": "^1.0.6"
   },
   "volta": {
-    "node": "14.20.1"
+    "node": "14.20.1",
+    "npm": "8.3.0"
   }
 }

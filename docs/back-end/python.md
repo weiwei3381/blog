@@ -447,9 +447,9 @@ for i in soup.body.find_all(True):
 
 ```ini
 [global]
-timeout = 600
-index-url = https://pypi.doubanio.com/simple
-trusted-host = pypi.doubanio.com
+timeout = 300
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+trusted-host = pypi.tuna.tsinghua.edu.cn
 [list]
 format = columns
 ```

@@ -9,7 +9,7 @@
 npm config get registry
 
 # 修改为淘宝镜像
-npm config set registry http://registry.npm.taobao.org
+npm config set registry https://registry.npmmirror.com
 
 # 修改为本地Nexus服务器镜像
 npm config set registry http://localhost:8081/repository/npm-proxy/
