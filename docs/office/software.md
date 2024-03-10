@@ -14,11 +14,32 @@
 
 [VS Code](https://code.visualstudio.com/)是一个轻量且强大的跨平台开源代码编辑器（IDE），支持Windows，OS X和Linux。内置JavaScript、TypeScript和Node.js支持，而且拥有丰富的插件生态系统。**可离线使用**，源代码可以访问[github地址](https://github.com/microsoft/vscode)，离线[插件下载地址](https://marketplace.visualstudio.com/VSCode)
 
-### 解压缩-Bandzip
+### 解压缩-Bandizip
 
 ![wsnOsJ.png](https://s1.ax1x.com/2020/09/14/wsnOsJ.png)
 
-[Bandzip](https://www.bandisoft.com/bandizip/)是一个强大的多功能解压缩文件管理工具，它提供了高速的解压缩速度和其他各种实用功能。使用最多的是他的”自动解压“功能，可自适应压缩包中是否有文件夹的情况进行优化。**可离线使用**，不开源。
+[Bandizip](https://www.bandisoft.com/bandizip/)是一个强大的多功能解压缩文件管理工具，它提供了高速的解压缩速度和其他各种实用功能。使用最多的是他的”自动解压“功能，可自适应压缩包中是否有文件夹的情况进行优化。**可离线使用**，不开源，自用6.25版本[分流地址](https://wwl.lanzoum.com/iwiUr1qvu26h)。
+
+### 截图软件-PixPin
+
+[PixPin](https://pixpinapp.com/)是一个集截图/贴图/长截图/文字识别/标注的软件，目前仅有Windows版本，自用1.7.6.0版本[分流地址](https://wwl.lanzoum.com/irMAg1qxgb7a)。
+
+### 阅读软件-Koodo-Reader
+
+[Koodo-Reader](https://github.com/koodo-reader/koodo-reader)是一个开源免费的电子书阅读器，支持多达15种主流电子书格式， 内置笔记、高亮、翻译功能，助力高效书籍阅读和学习。自用1.6.5版本[分流地址](https://wwl.lanzoum.com/irhXn1qxg7yd)。
+
+### 电子书管理软件-Calibre
+
+[Calibre](https://calibre-ebook.com/zh_CN)是一款功能强大且易于使用的电子书管理器。自用7.6.0版本[分流地址](https://pan.baidu.com/s/1EfNYN1MkprDXe5natYkbag?pwd=cbnt)。
+
+### 文献管理-Zotero
+
+[Zotero](https://www.zotero.org/)可以轻松地收集、组织、引用和分享科研文献，并且在github上完全[开源](https://github.com/zotero/zotero)，自用6.0.35版本[分流地址](https://wwl.lanzoum.com/iXuQL1qxlota)。
+
+[jasminum茉莉花插件](https://github.com/l0o0/jasminum)是一个简单的Zotero 插件，用于识别中文元数据，适合zotero6版本0.2.8插件的[分流地址](https://wwl.lanzoum.com/iXuQL1qxlota)。在[工具]-[附件组件]中，将`jasminum-v0.2.8.xpi`拖入窗口进行安装，安装完毕后需重启zotero。
+
+配置步骤：Zotero首页→编辑→首选项→茉莉花，勾选上功能即可，如下图所示：
+![茉莉花插件配置](https://pic.imgdb.cn/item/65ed807b9f345e8d0388f4af.jpg)
 
 ### 快捷启动-Utools
 
@@ -71,6 +92,10 @@
 ![wsuPzD.png](https://s1.ax1x.com/2020/09/14/wsuPzD.png)
 
 [Gaaiho](http://www.gaaiho.cn/index.php/zh-cn/)是pdf文件的一揽子解决方案，其中阅读器是免费使用，与其他pdf阅读器相比，有不自动升级，无广告，操作友好，触摸屏优化等特点。**可离线使用**，[下载地址](https://store.gaaiho.cn/download/reader.aspx)。
+
+### pdf阅读-金山pdf
+
+金山PDF是一款针对PDF文件的阅读和编辑工具。自用定制专业版11.8.0.8845[分流地址](https://pan.baidu.com/s/1GnqsMHBZjKCE3Wj1iQSLug?pwd=xpqd)。
 
 ### 笔记软件-logseq
 

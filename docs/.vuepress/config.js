@@ -1,6 +1,6 @@
 module.exports = {
-  // 提交到gitee则开启base
-//   base: '/blogs/',
+  // 想要提交到gitee则需要开启下面的base设置
+  //   base: '/blogs/',
   title: '小熊的技术文档',
   description: '衣带渐宽终不悔，为伊消得人憔悴',
   head: [
@@ -10,16 +10,14 @@ module.exports = {
       'link',
       {
         rel: 'stylesheet',
-        href:
-          '/css/katex.min.css',
+        href: '/css/katex.min.css',
       },
     ],
     [
       'link',
       {
         rel: 'stylesheet',
-        href:
-          '/css/github-markdown.min.css',
+        href: '/css/github-markdown.min.css',
       },
     ],
   ],
@@ -33,7 +31,6 @@ module.exports = {
     lastUpdated: '更新于',
     // 添加导航栏
     nav: [
-      
       { text: '🎨前端', link: '/front-end/' },
       { text: '💻后端', link: '/back-end/' },
       { text: '🚀实战', link: '/practice/' },
@@ -54,7 +51,7 @@ module.exports = {
         items: [
           { text: '小鸟搜索', link: 'https://www.birdiesearch.com/' },
           { text: '每天一本编程书', link: 'https://salttiger.com/' },
-          { text: '开发者边车', link: 'https://gitee.com/docmirror/dev-sidecar' },
+          { text: '秘塔搜索', link: 'https://metaso.cn/' },
         ],
       },
     ],
@@ -62,23 +59,68 @@ module.exports = {
     sidebar: {
       // 前端
       '/front-end/': [
-        'javascript', 'pattern', 'typescript', 'es6', 'css',
-        'node', 'design', 'npm', 'vuepress', 'babel', 'vue', 'react',
-        'electron'
+        'javascript',
+        'typescript',
+        'node',
+        'css',
+        'react',
+        'vue',
+        'es6',
+        'babel',
+        'electron',
+        'pattern',
+        'design',
+        'vuepress',
       ],
       // 后端
       '/back-end/': [
-          'daily', 'python', 'python-projects', 'koa2', 'numpy', 
-          'linux', 'docker'
-        ],
+        'daily',
+        'python',
+        'python-projects',
+        'koa2',
+        'numpy',
+        'linux',
+        'docker',
+      ],
       // 实战
-      '/practice/': ['deepL', 'Hilo', 'canvas', 'react', 'zrender', 'search', 'phaser', 'medicine'],
+      '/practice/': [
+        'deepL',
+        'Hilo',
+        'canvas',
+        'react',
+        'zrender',
+        'search',
+        'phaser',
+        'medicine',
+      ],
       // 办公
       '/office/': ['word', 'excel', 'vba', 'other', 'software'],
       // 通用
-      '/general/': ['fast', 'git', 'markdown', 'nexus', 'latex', 'vscode', 'guide', 'reg'],
+      '/general/': [
+        'fast',
+        'git',
+        'markdown',
+        'nexus',
+        'latex',
+        'vscode',
+        'guide',
+        'reg',
+      ],
       // 论文
-      '/paper/': ['writing', 'search', 'defense', 'cover', '2020Auguest', 'daily', 'technology', 'strategy', 'mpc', 'MARL', 'UAV','clustering'],
+      '/paper/': [
+        'writing',
+        'search',
+        'defense',
+        'cover',
+        '2020Auguest',
+        'daily',
+        'technology',
+        'strategy',
+        'mpc',
+        'MARL',
+        'UAV',
+        'clustering',
+      ],
     },
   },
   // vuepress插件系统
