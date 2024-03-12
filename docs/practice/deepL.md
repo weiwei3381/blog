@@ -1,4 +1,4 @@
-# 使用pytorch进行深度学习
+# 深度学习与实践
 
 ## numpy常用API
 
@@ -6,7 +6,7 @@
 
 torch CPU版本安装使用`pip install torch`即可.
 
-## huggingface实战
+## Hugging Face实战
 
 ### transformer各种任务介绍
 
@@ -126,4 +126,27 @@ model = ORTModelForSequenceClassification.from_pretrained(model_id, from_transfo
 
 #### huggingface模型微调
 
+## 深度学习本地实战
 
+### 本地部署一键抠图
+
+一键抠图使用的是python库[Transparent Background](https://github.com/plemeri/transparent-background)，不支持3.7及以下版本，建议使用3.10版本的python
+
+1.安装v3.10.10的64位python[下载地址](https://www.python.org/ftp/python/3.10.10/python-3.10.10-amd64.exe)
+
+2.安装必须的依赖库
+
+```py
+# CPU 版本：
+pip3 install torch torchvision torchaudio -i https://mirrors.aliyun.com/pypi/simple
+# GPU 版本：
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+3.安装 Transparent BG，使用命令`pip3 install transparent-background -i https://mirrors.aliyun.com/pypi/simple`
+
+4.下载模型和一键发送的批处理文件，[百度网盘地址](https://pan.baidu.com/s/10yZfxegIqgl9V3QvH4k0EA?pwd=n49d)，下载后解压`TransparentBG_Win.7z`文件，然后双击`开始.bat`文件安装快捷方式。
+
+5.使用方法，支持png和jpg格式的图片，对着图片文件点击右键，选择“发送到-一键抠图”，如下图所示，抠图完成后会自动在原目录生成抠图后的图片。
+
+![一键抠图](https://pic.imgdb.cn/item/65f053b39f345e8d032a1fd6.png)
