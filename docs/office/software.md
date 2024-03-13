@@ -59,6 +59,10 @@
 
 [Ocam](https://ohsoft.net/eng/ocam/intro.php?cate=1002)是一款非常简洁的录屏软件，可下载[便携版](https://wws.lanzous.com/iAJnigmmfkf)。
 
+### 视频截取
+
+[lossless-cut](https://github.com/mifi/lossless-cut)是一个开源的视频分割软件，绿色版，3.59.1版本分流[下载地址](https://wwl.lanzoum.com/iex0A1r8j2tc)。
+
 ### 翻译软件-copyTranslator
 
 ![wsPdk4.png](https://s1.ax1x.com/2020/09/14/wsPdk4.png)
