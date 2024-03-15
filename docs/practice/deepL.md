@@ -8,6 +8,68 @@ torch CPU版本安装使用`pip install torch`即可.
 
 ## Hugging Face实战
 
+### transformers依赖安装
+
+建议使用3.10版本的64位python，主要的依赖有：torch，transformers，numpy，datasets,使用下面的命令一键安装，
+
+其中`datasets`是`Hugging Face`生态系统中一个重要的数据集库，可用于轻松地访问和共享数据集，这些数据集是关于音频、计算机视觉、以及自然语言处理等领域。`Datasets`库可以通过一行来加载一个数据集，并且可以使用 `Hugging Face` 强大的数据处理方法来快速准备好你的数据集。
+
+```python
+pip install torch transformers numpy datesets
+```
+
+如果使用GPU版本的torch，则需要安装CUDA，然后对应不同的CUDA版本，例如CUDA为12.1，则使用下面的安装命令：
+```python
+pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+```
+
+### 下载模型和数据集
+
+需要使用hugging face的镜像站[hf-mirror](https://hf-mirror.com/)下载模型和数据集。
+
+①创建环境变量`HF_ENDPOINT`，值为`https://hf-mirror.com`；
+
+②安装或者升级依赖`pip install -U huggingface_hub`
+
+③下载模型使用命令如下：
+
+```shell
+huggingface-cli download --resume-download [模型名称] --local-dir [本地文件夹] --local-dir-use-symlinks False
+```
+
+其中，模型名称可以在网站中查看，下图的模型名即为`google-bert/bert-base-chinese`。命令中的参数`--local-dir-use-symlinks False`表示禁用文件软链接，这样下载路径中的文件所见即所得。
+
+![模型名称](https://pic.imgdb.cn/item/65f3b6419f345e8d032c9523.png)
+
+④下载数据集
+
+下载数据集的命令为
+
+```shell
+huggingface-cli download --repo-type dataset --resume-download [数据集名称] --local-dir [本地文件夹] --local-dir-use-symlinks False
+```
+
+其中，数据集名称可以在网站中查看，下图的数据集名称即为`lansinuote/ChnSentiCorp`。命令中的参数`--local-dir-use-symlinks False`表示禁用文件软链接，这样下载路径中的文件所见即所得。
+
+![数据集名称](https://pic.imgdb.cn/item/65f3b6f39f345e8d032f382a.png)
+
+⑤数据集本地化
+
+首先加载数据集，然后存储在本地，将存储的文件夹转移到其他电脑，然后再加载即可，不过需要注意的是，尽量确保两台电脑的`datasets`版本一致，否则可能导致加载不成功。
+
+```python
+# 首先下载并存储数据
+import datasets
+my_dataset = datasets.load_dataset("dataset_name")
+my_dataset.save_to_disk('your_path')
+
+# 然后把数据集拷贝到指定服务器，然后进行本地加载
+from datasets import load_from_disk
+my_dataset = load_from_disk("your_path")
+```
+
+
+
 ### transformer各种任务介绍
 
 ### 常用API
