@@ -1,5 +1,52 @@
 # React + AntD 实战后台管理
 
+## react 项目快速初始化
+
+主要流程：使用 create-react-app 创建一个 TypeScript 项目，并引入 antd。
+
+使用下面命令，工具会自动初始化一个脚手架并安装 React 项目的各种必要依赖。
+
+`npx create-react-app antd-demo --template typescript`
+
+然后进入项目并启动：
+
+```shell
+cd antd-demo
+npm run start
+```
+
+此时浏览器会访问 http://localhost:3000/，看到 `Welcome to React` 的界面就算成功了。
+
+然后引入antd，下面命令针对不同的包管理器：
+
+```shell
+npm install antd --save  # 针对npm
+yarn add antd  # 针对yarn
+pnpm install antd --save  # 针对pnpm
+```
+
+修改 `src/App.tsx`，引入 antd 的按钮组件。
+
+```tsx
+import React from "react";
+import { Button, Select } from "antd";
+import "./App.css";
+
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <Button type="primary">提交</Button>
+      <Select style={{ minWidth: "150px" }}></Select>
+    </div>
+  );
+};
+
+export default App;
+
+```
+
+保存之后就可以看效果了。
+
 ## React Router
 
 安装`react-router-dom`的 4.0 版本, 4.0 版本不需要路由配置, 一切皆组件.react-router 是基础包, dom 包会安装基础包.
