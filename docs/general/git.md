@@ -17,6 +17,22 @@ git push -u origin master  // 把本地仓库的文件推送到远程仓库
 // 这样后面就可以不加任何参数使用git push
 ```
 
+git与网络相关的命令如下:
+
+```git
+git config --global http.sslVerify false  // 关闭SSL验证
+git config --global http.version HTTP/1.1  // 设置http版本为1.1
+git config --global http.proxy http://127.0.0.1:7890  // 设置本地7890的代理
+git config --global http.postBuffer 2572864000  // 增加postBuffer的大小
+
+//  查看所有的global设置
+git config --global -l
+
+// 删除代理
+git config --global --unset http.proxy
+
+```
+
 ### git 创建 ssh key 进行远程提交
 
 #### 创建 Github 的 SSH
