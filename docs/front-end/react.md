@@ -1,4 +1,73 @@
-# React17+React Hook+TS4 最佳实践
+# React实践
+
+## React-router 路由
+
+首先安装`npm install react-router-dom --save`
+
+在`react-router-dom`中可以引用`Outlet`组件，当做插槽用
+
+```tsx
+// MainLayout.tsx
+
+import React, { FC } from "react";
+import { Outlet } from "react-router-dom";
+
+const MainLayout: FC = () => {
+  return (
+    <>
+      <div>MainLayout Header</div>
+      <div>
+        {/* 下面的是框架的插槽 */}
+        <Outlet />
+      </div>
+      <div>MainLayout footer</div>
+    </>
+  );
+};
+
+export default MainLayout;
+```
+
+
+构建`router`路由
+
+```tsx
+import React, { FC } from "react";
+import { createBrowserRouter } from "react-router-dom";
+
+// 路由配置
+// 先放公用组件Layout等，然后在Layout中在加入其他的
+const routerConfig = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+      { path: "*", element: <NotFound /> }, // 404路由，一般写在最后，没有匹配上兜底使用
+    ],
+  },
+]);
+
+export default routerConfig;
+```
+
+在App.tsx中使用路由
+
+```tsx
+import React, { FC } from "react";
+import { RouterProvider } from "react-router-dom";
+import routerConfig from "./router";
+
+const App: FC = () => {
+  return <RouterProvider router={routerConfig} />;
+};
+
+export default App;
+```
+
+## 初始化项目
 
 初始化项目：`npx create-react-app jira --template typescript`
 
