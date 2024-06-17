@@ -425,6 +425,275 @@ const App: FC = () => {
 
 export default App;
 ```
+## 创建前端Mock项目
+
+在后端还没有对接前，可使用node.js创建前端Mock项目，对接相应的api。
+
+### 设置统一的API
+
+返回值统一为json格式，主要有3个内容：
+1. **errno**，数值型，表示错误编号，这个必须有，该值为0表示没有发生错误
+2. **data**，表示返回数据，any类型
+3. **msg**，表示错误信息，string类型
+实例如下:
+
+```ts
+// 返回值情况
+
+// 1.正常返回值情况
+{
+  errno: 0,
+  data: {id: 1001}
+}
+// 2.出现错误情况
+{
+  errno: 1001,
+  msg: "登陆时必须输入用户名和密码"
+}
+
+```
+
+### 创建mock api内容
+
+**第一步**，新建node.js项目，使用`npm init -y`初始化package.json，然后使用命令`npm install mockjs -S`安装[mock.js](http://mockjs.com/)，mockjs的主要作用是生成随机数据。
+
+然后再创建mock的api方法，新建mock的文件夹，里面每个文件导出对应的api方法，然后在`mock/index.js`中合并导出，使得能够灵活扩展，例如`test.js`方法：
+
+```js
+// mock/test.js
+
+const Mock = require("mockjs");  // 引入mockjs
+// 导出数组，其中每个对象都是一个api，包括url，method和返回值
+module.exports = [
+  {
+    url: "/api/test",
+    method: "get",
+    response() {
+      return {
+        errno: 0,
+        data: { name: Mock.Random.cname() },
+      };
+    },
+  },
+];
+
+```
+
+例如`history.js`文件：
+
+```js
+// mock/history.js
+
+const Mock = require("mockjs");
+const Random = Mock.Random;
+
+module.exports = [
+  {
+    url: "/api/history/:id", // 获取历史实验记录
+    method: "get",
+    response() {
+      return {
+        errno: 0,
+        data: {
+          id: Random.id(),
+          simulateTime: Random.date(),
+          title: Random.ctitle(),
+        },
+      };
+    },
+  },
+  {
+    url: "/api/history",  // 用post情况获取id
+    method: "post",
+    response() {
+      return {
+        errno: 0,
+        data: {
+          id: Random.id(),
+        },
+      };
+    },
+  },
+];
+```
+
+然后再在mock文件夹中创建`index.js`文件，用来合并所有mock api。
+
+```js
+// mock/index.js
+const test = require("./test");
+const history = require("./history");
+
+// 把所有的mock api合并成一个数组
+const mockList = [...test, ...history];
+
+module.exports = mockList;
+
+```
+
+### 安装koa服务器
+
+使用`npm install koa koa-router -S` 安装相应库。
+
+然后在根目录创建`index.js`,里面的内容如下：
+
+```js
+// index.js
+
+const Koa = require("koa");
+const Router = require("koa-router");
+const mockList = require("./mock");
+
+const app = new Koa();
+const router = new Router();
+
+// 定义异步函数用来模拟网络请求延时
+async function getRes(fn) {
+  return new Promise((resolve) => {
+    // 使用setTimeout函数延时1秒执行
+    setTimeout(() => {
+      const res = fn();
+      resolve(res);
+    }, 1000);
+  });
+}
+
+// 遍历mock的每一项
+mockList.forEach((mock) => {
+  // 取出mock的网址、方法和响应函数
+  const { url, method, response } = mock;
+  // 在router中拿到对应的方法，如get， post等，然后传递函数
+  router[method](url, async (ctx) => {
+    const res = await getRes(response); // 延时拿到响应
+    ctx.body = res; // 将响应赋给上下文的body中
+  });
+});
+
+app.use(router.routes());
+app.listen(3001); // koa监听3001端口，注意不要与react的3000端口重复
+```
+
+### 启动服务器
+
+安装nodemon， `npm install nodemon --save-dev`，nodemon会监听js文件中的修改并自动重启服务器。然后在`package.json`中增加一条命令用nodemon启动index.js，代码如下：
+```json
+// package.json
+
+  "scripts": {
+    "dev": "nodemon index.js"
+  },
+```
+
+然后在命令行中使用`npm run dev`即可启动服务器，浏览器可以直接测试get方式的请求，但是，对于post方法的请求，需要使用第三方工具例如[postman](https://www.postman.com/)进行测试。
+
+### 使用devserver代理解决跨域问题
+
+使用`craco.js`解决跨域问题，[craco](https://github.com/dilanx/craco)是一个对于create-react-app项目的配置覆盖工具，在前端项目中运行`npm i -D @craco/craco`进行安装。
+
+然后安装说明步骤，首先在项目根目录新建`craco.config.js`的配置文件，然后在前端项目（不是mock服务器项目）的`package.json`文件中，把start、build和test的`react-scripts`改为`craco`，如下图所示：
+
+![修改craco的package.json设置](https://pic.imgdb.cn/item/666fc277d9c307b7e9cc542d.png)
+
+然后在`craco.config.js`写入下面内容，目的是确保所有以`/api`开头的api都能使用mock服务的3001端口进行：
+
+```js
+// craco.config.js
+
+module.exports = {
+  devServer: {
+    proxy: {
+      "/api": "http://localhost:3001",
+    },
+  },
+};
+```
+
+这时，在项目中使用fetch 就可获得mock数据：
+
+```ts
+  useEffect(() => {
+    fetch("/api/test")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("data:", data);
+      });
+  }, []);
+```
+
+### 安装axios获取mock数据
+
+[axios](https://www.axios-http.cn/)是一个node.js的网络请求库，使用`npm install axios -S`进行安装，然后就可以使用了。下面是使用axios的实例：
+
+```ts
+import axios from "axios";
+
+axios.get("/api/test").then((res) => {
+  console.log("axios data:", res.data);
+});
+
+```
+
+在项目中，可以新建`services`的文件夹，下面新建`ajax.ts`的文件，用于所有使用的axios实例：
+
+```ts
+// services/ajax.ts
+
+import { message } from "antd";
+import axios from "axios";
+
+// 创建axios的实例，设置超时时间为10秒
+const instance = axios.create({
+  timeout: 10 * 1000,
+});
+
+// 定义返回值类型
+export type ResType = {
+  errno: number;
+  data?: ResDataType;
+  msg?: string;
+};
+
+// 定义返回值中的数据类型
+export type ResDataType = {
+  [key: string]: any;
+};
+
+// 统一为响应设置拦截器，
+instance.interceptors.response.use((res) => {
+  const resData = (res.data || {}) as ResType; // 将返回值设置为统一类型
+  const { errno, data, msg } = resData;
+
+  // 如果错误类型不等于0，则说明有错误发生
+  if (errno !== 0) {
+    if (msg) {
+      // 用antd的message控件显示错误信息
+      message.error(msg);
+    }
+    // 抛出错误信息
+    throw new Error(msg);
+  }
+  // 如果没有错误，则应该有data，则返回data， 由于拦截器要求返回值为any，所以需要重新设置为any类型
+  return data as any;
+});
+
+// 默认导出axios的实例
+export default instance;
+
+```
+
+使用该实例也比较简单，以history页面api为例：
+
+```ts
+import axios, { ResDataType } from "./ajax";
+
+export async function getHistoryService(id: string): Promise<ResDataType> {
+  const url = `/api/history/${id}`; // 拼接目标url
+   // 获取结果数据, 其中axios.post方法已经被拦截器拦截过一次了
+  const data = (await axios.post(url)) as ResDataType;
+  return data;
+}
+
+```
 
 ## React Router
 
