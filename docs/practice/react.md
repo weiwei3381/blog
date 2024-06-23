@@ -1,4 +1,4 @@
-# React实战
+# React+nestJS全栈开发
 
 ## 初始化react项目
 
@@ -14,6 +14,9 @@
 npm install antd --save  # 针对npm
 yarn add antd  # 针对yarn
 pnpm install antd --save  # 针对pnpm
+
+# 然后安装antd的图标
+pnpm install @ant-design/icons --save  
 ```
 
 修改 `src/App.tsx`，引入 antd 的按钮组件。
@@ -36,6 +39,91 @@ export default App;
 ```
 
 保存之后就可以看效果了。
+
+## 添加prettier支持
+
+Prettier 是一个代码格式化工具，可以格式化代码，但不具备代码检查功能，使用方式：一是下载vscode中的 Prettier 插件，二是在项目中安装 `npm i prettier -D` ，然后在项目根目录下创建配置文件（`.prettierrc.js`）进行配置；如果两种方式都使用了，那么prettier配置文件的优先级首先是当前项目根目录下的配置文件；
+
+prettier的配置项文件常见的一般都有两种格式：js或者json；
+js后缀文件名为`.prettierrc.js`,写起来方便一点，不用给属性名添加双引号；
+json后缀的文件名为`.prettierrc.json`，写起来比较繁琐，必须严格遵守json语法；
+
+下面为常见配置：
+
+```js
+// 配置几个常用的就可以
+module.exports = {
+    // 一行最多多少个字符
+    "printWidth": 150,
+    // 指定每个缩进级别的空格数
+    "tabWidth": 2,
+    // 使用制表符而不是空格缩进行
+    "useTabs": false,
+    // 在语句末尾打印分号
+    "semi": true,
+    // 使用单引号而不是双引号
+    "singleQuote": true,
+    // 更改引用对象属性的时间 可选值"<as-needed|consistent|preserve>"
+    "quoteProps": 'as-needed',
+    // 在JSX中使用单引号而不是双引号
+    "jsxSingleQuote": false,
+    // 多行时尽可能打印尾随逗号。（例如，单行数组永远不会出现逗号结尾。） 可选值"<none|es5|all>"，默认none
+    "trailingComma": 'es5',
+    // 在对象文字中的括号之间打印空格
+    "bracketSpacing": true,
+    // jsx 标签的反尖括号需要换行
+    "jsxBracketSameLine": false,
+    // 在jsx中把'>' 是否单独放一行
+    "bracketSameLine": false,
+    // 在单独的箭头函数参数周围包括括号 always：(x) => x \ avoid：x => x
+    "arrowParens": 'always',
+    // 这两个选项可用于格式化以给定字符偏移量（分别包括和不包括）开始和结束的代码
+    "rangeStart": 0,
+    "rangeEnd": Infinity,
+    // 指定要使用的解析器，不需要写文件开头的 @prettier
+    "requirePragma": false,
+    // 不需要自动在文件开头插入 @prettier
+    "insertPragma": false,
+    // 使用默认的折行标准 always\never\preserve
+    "proseWrap": 'preserve',
+    // 指定HTML文件的全局空格敏感度 css\strict\ignore
+    "htmlWhitespaceSensitivity": 'css',
+    // Vue文件脚本和样式标签缩进
+    "vueIndentScriptAndStyle": false,
+    // 换行符使用 lf 结尾是 可选值"<auto|lf|crlf|cr>"
+    "endOfLine": 'lf'
+};
+```
+
+## 添加css支持
+
+### 增加classnames
+
+安装`classnames`模块，可以方便根据逻辑增加或者改变react组件中的类名，`npm install classnames -S`
+
+### 使用css module
+
+即对css进行模块管理，每个css文件都当做单独的模块，命名为`xxx.module.css`，其目的就是为每个classname增加后缀名，不让他们重复，creat-react-app原生支持css module
+
+在使用中如果出现`找不到模块“./MainLayout.module.css”或其相应的类型声明`类似的错误，可以在根目录增加文件`global.d.ts`
+```ts
+// global.d.ts
+
+declare module "*.css";
+declare module "*.scss";
+```
+
+然后在`tsconfig.json`中增加该文件引入。
+
+```json
+// tsconfig.json
+
+"include": ["src", "./global.d.ts"]
+```
+
+### 使用sass
+
+sass属于预处理css样式之一，使用前先安装`npm install sass -S`，然后就可以像使用model css一样使用了，只是命名规则换成了`XXX.module.scss`
 
 ## 数据管理
 
@@ -692,6 +780,301 @@ export async function getHistoryService(id: string): Promise<ResDataType> {
   const data = (await axios.post(url)) as ResDataType;
   return data;
 }
+
+```
+
+## 使用nest.js搭建node.js后端
+
+### 创建nest项目
+
+使用下面命令创建nest项目，默认为typescript项目，如果需要开启typescript项目的严格模式，则需要将`--strict`传递给`nest new`命令。
+
+```shell
+npm i -g @nestjs/cli
+nest new project-name
+```
+
+安装完成后，使用`npm run start:dev`启动开发模式，修改后自动重启生效。
+
+### 创建模块
+
+在命令行中使用`nest g module simulate`创建模块，然后在入口模块文件`app.module.ts`中能看到`imports: [SimulateModule],`
+
+然后使用`nest g controller simulate --no-spec`安装simulate模块对应的控制器，且不生成测试文件
+
+使用`nest g service simulate --no-spec`生成simulate模块对应的服务
+
+### 路由设置
+
+在`simulate.controller.ts`中，修改下面代码：
+
+```ts
+import { Controller, Get } from '@nestjs/common';
+
+@Controller('simulate')
+export class SimulateController {
+  @Get()  // get请求
+  findAll() {
+    // 使用`http://localhost:3005/simulate`返回该内容
+    return {
+      list: ['a', 'b', 'c'],
+      count: 10,
+    };
+  }
+
+  @Get('test')
+  getTest(): string {
+    // 使用`http://localhost:3005/simulate/test`返回该内容
+    return 'simulate test';
+  }
+}
+```
+
+在`main.ts`中可以修改端口号和设置全局前缀
+
+```ts
+// main.ts
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api'); // 全局前缀，即在所有的路由前面都加上api/
+  await app.listen(3005); // 设置监听的端口号
+}
+bootstrap();
+```
+
+#### 获取路由参数
+
+为了获取浏览器带过来的形如"?keyword=123&type=4"的参数。
+
+```ts
+// simulate.controller.ts
+
+import { Body, Controller, Get, Param, Patch, Query } from '@nestjs/common';
+import { SimulateDto } from './dto/simulate.dto';
+
+@Controller('simulate')
+export class SimulateController {
+  // 获取网址中形如"?keyword=aaa&page=123"的参数，使用@Query('参数名')
+  @Get()
+  findAll(
+    @Query('keyword') k1: string, // 获取keyword参数，赋给keyword变量
+    @Query('page') page: number, // 获取type参数，并赋给type变量
+  ) {
+    return {
+      page: page,
+      keyword: k1,
+      list: ['a', 'b', 'c'],
+      count: 10,
+    };
+  }
+
+  // 获取网址中形如"simulate/xxx"中的xxx的参数，使用@Param
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return {
+      id,
+      title: 'aaa',
+    };
+  }
+
+  // 获取patch更新中的body内参数，需要先创建对应的dto文件，然后通过对应到dto上去获取
+  // 获取的方式是@Body
+  @Patch(':id')
+  updateOne(@Param('id') id: string, @Body() simulateDto: SimulateDto) {
+    console.log('simulateDto', simulateDto);
+    return {
+      id,
+      title: 'aaa',
+      desc: 'bbb',
+    };
+  }
+}
+```
+
+测试body内的参数时，使用postman的对应方法，然后选择body里面“raw”，格式选择“json”，直接在下面写json内容。
+
+#### 统一路由返回格式
+
+为了将返回格式统一为下面格式：
+```
+{
+  "errno": "表示错误代码，number类型，0表示无错误",
+  "data": "表示正常返回的数据",
+  "msg": "表示错误时的消息"
+}
+```
+需要使用拦截器和过滤器。
+
+**第一步**，创建nest拦截器transform：`nest g interceptor transform`，然后找到对应的`transform`文件夹下的`transform.interceptor.ts`文件,修改为：
+
+```ts
+// transform/transform.interceptor.ts
+
+import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common';
+import { Observable, map } from 'rxjs';
+
+@Injectable()
+export class TransformInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    return next.handle().pipe(
+      map((data) => {
+        // 当data存在时，那表明为正常返回格式，
+        // 需要加上errno=0，并且将内容包在data中
+        return {
+          errno: 0,
+          data,
+        };
+      }),
+    );
+  }
+}
+
+```
+
+然后在`main.ts`中增加拦截器内容
+
+```ts
+// main.ts
+
+import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
+import { TransformInterceptor } from './transform/transform.interceptor';
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  // 全局前缀，即在所有的路由前面都加上api/
+  app.setGlobalPrefix('api');
+  // 全局拦截器，当正常返回数据时统一返回格式
+  app.useGlobalInterceptors(new TransformInterceptor());
+
+  await app.listen(3005); // 设置监听的端口号
+}
+bootstrap();
+
+```
+
+**第二步**，创建过滤器http-exception, `nest g filter http-exception`，会在`http-exception`文件夹下创建`http-exception.filter.ts`文件。
+
+```ts
+// http-exception/http-exception.filter.ts
+
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
+import { Request, Response } from 'express';
+
+// http错误的全局过滤器
+@Catch(HttpException)
+export class HttpExceptionFilter implements ExceptionFilter {
+  catch(exception: HttpException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+    const status = exception.getStatus();
+    // 获取错误消息，默认为服务器错误
+    const message = exception.message || '服务器错误';
+    // 设定返回值，错误时默认errno为-1，日期和网址路径先留着
+    response.status(status).json({
+      errno: -1,
+      msg: message,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+    });
+  }
+}
+```
+
+然后还需要在`main.ts`中增加一行全局过滤器
+
+```ts
+// main.ts（只显示新增部分）
+
+import { HttpExceptionFilter } from './http-exception/http-exception.filter';
+
+// 全局过滤器，当抛出异常时统一返回格式
+app.useGlobalFilters(new HttpExceptionFilter());
+```
+
+测试错误时，可以使用下面代码：
+
+```ts
+// simulate\simulate.controller.ts（新增内容）
+
+import {HttpException, HttpStatus} from '@nestjs/common';
+
+// 测试错误代码
+@Get('test')
+getTest(): string {
+  throw new HttpException('自定义错误', HttpStatus.BAD_REQUEST);
+}
+```
+
+### 使用mongodb数据库
+
+可以按照[教程](https://www.runoob.com/mongodb/mongodb-window-install.html)安装mongodb服务，然后记得要安装mongodb的GUI数据库管理软件mongodb compass，进入之后创建数据库database和collection。
+
+为了将mongodb集成到nest.js中去，可以参考nest的文档，里面有一章是专门讲mongo的，首先安装相关依赖：`npm i @nestjs/mongoose mongoose`，然后在`app.module.ts`中增加下面代码：
+
+```ts
+// app.module.ts
+
+import { MongooseModule } from '@nestjs/mongoose';
+
+// 其中尽量写ip地址而不是localhost,加上默认的端口，然后humanDB是需要连接的数据库名称
+@Module({
+  imports: [MongooseModule.forRoot('mongodb://127.0.0.1:27017/humanDB')]
+})
+```
+
+### 将设置抽离出单独的配置
+
+文档地址在[nestjs的配置地址](https://docs.nestjs.com/techniques/configuration)，安装配置所需的依赖：`npm i --save @nestjs/config`，
+
+然后在`app.module.ts`中增加
+
+```ts
+// app.module.ts
+
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+
+@Module({
+  imports: [ConfigModule.forRoot()],
+})
+export class AppModule {}
+```
+
+然后在根目录下新建文件`.env`，内容如下：
+```shell
+MONGO_HOST=127.0.0.1
+MONGO_PORT=27017
+MONGO_DATABASE=humanDB
+```
+
+然后在代码中就可以使用`process.env.MONGO_PORT`来引入`27017`这个端口了，改造后的`app.module.ts`如下：
+
+```ts
+import { Module } from '@nestjs/common';
+import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { SimulateModule } from './simulate/simulate.module';
+
+@Module({
+  imports: [
+    ConfigModule.forRoot(),
+    MongooseModule.forRoot(
+      `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.DATABASE}`,
+    ),
+    SimulateModule,
+  ],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
 
 ```
 
