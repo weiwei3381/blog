@@ -1630,6 +1630,138 @@ export class AuthController {
 }
 ```
 
+### 增加全局验证
+
+当前验证方式必须要在每个需要验证的路由上增加`@UseGuards(AuthGuard)`，但是在大多数情况下都是反过来，即默认需要验证登录信息，只有部分路由需要不验证，那么设置如下。
+
+首先，修改`auth.module.ts`文件，增加providers中的设置，确保每个路由都跑`AuthGuard`方法
+
+```ts
+// src\auth\auth.module.ts（部分修改）
+
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth.guard';
+
+providers: [
+  AuthService,
+  {
+    provide: APP_GUARD,
+    useClass: AuthGuard,
+  },
+  ],
+```
+然后，自定义`Public`装饰器，在不需要登录验证的路由上增加该装饰器即可。在`auth`中新增`decorators`文件夹，新增`public.decorator.ts`装饰器。
+
+```ts
+// auth\decorators\public.decorator.ts
+
+import { SetMetadata } from '@nestjs/common';
+
+export const IS_PUBLIC_KEY = 'isPublic';
+// 装饰器命名规则为都字母大写，自定义Public装饰器，用来声明哪些路由不需要走鉴权流程
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+
+```
+
+
+然后，修改`auth.guard.ts`，对于所有带public的路由不进行验证。
+
+```ts
+// src\auth\auth.guard.ts(部分修改)
+
+import { IS_PUBLIC_KEY } from './decorators/public.decorator';
+import { Reflector } from '@nestjs/core';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+  constructor(
+    private jwtService: JwtService,
+    private reflector: Reflector,
+  ) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    // 获取isPublic的值
+    const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
+      context.getHandler(),
+      context.getClass(),
+    ]);
+    if (isPublic) {
+      // 如果当前路由是public，则不需要走下面的鉴权流程了
+      return true;
+    }
+
+    const request = context.switchToHttp().getRequest(); // 获取http的request
+    const token = this.extractTokenFromHeader(request); // 获取包裹在header中的token
+    // 如果没有token则返回未授权错误
+    if (!token) {
+      throw new UnauthorizedException('用户未登录');
+    }
+    try {
+      // 用jwt对传入的token进行验证，解密后的payload就是之前传入的userInfo
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: jwtConstants.secret,
+      });
+      // 把用户信息userInfo放到请求的‘user’中去了
+      request['user'] = payload; // 实际得到的是userInfo
+    } catch {
+      throw new UnauthorizedException('登录信息无效');
+    }
+    return true;
+  }
+}
+```
+
+如果某些路由不需要验证，则在路由上增加`@Public()`即可，例如登录路由：
+
+```ts
+  @Public()
+  @Post('login')
+  async login(@Body() userInfo: CreateUserDto) {
+    const { username, password } = userInfo;
+
+    return await this.authService.signIn(username, password);
+  }
+```
+
+在其他路由上使用传入的用户信息时，以创建simulate实验数据为例，先在`simulate.schema.ts`文件中增加`author`属性
+
+```ts
+// src\simulate\schemas\simulate.schema.ts（部分修改）
+
+ @Prop()
+  author: string; // 作者
+```
+在Service中增加数据库使用用户名的内容。
+
+```ts
+// src\simulate\simulate.service.ts（部分修改）
+
+  // 新增数据
+  async create(username: string) {
+    const simulate = new this.simulateModel({
+      title: 'title' + Date.now(),
+      desc: 'desc',
+      author: username,
+    });
+
+    return await simulate.save();
+  }
+```
+
+在controller中增加使用场景
+
+```ts
+// src\simulate\simulate.controller.ts（部分修改）
+
+// 利用post方法新增数据
+@Post()
+async create(@Request() req) {
+  const { username } = req.user; // 获取用户信息
+  // 调用service的新增数据方法，在数据库中新增数据内容
+  return await this.simulateService.create(username);
+}
+```
+
 
 
 ## React Router
