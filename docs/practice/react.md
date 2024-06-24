@@ -1067,7 +1067,7 @@ import { SimulateModule } from './simulate/simulate.module';
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(
-      `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.DATABASE}`,
+      `mongodb://${process.env.MONGO_HOST}:${process.env.MONGO_PORT}/${process.env.MONGO_DATABASE}`,
     ),
     SimulateModule,
   ],
@@ -1077,6 +1077,560 @@ import { SimulateModule } from './simulate/simulate.module';
 export class AppModule {}
 
 ```
+
+### 增加schemas
+
+参考[mongodb设置页面](https://docs.nestjs.com/techniques/mongodb)，首先新建`schemas`文件夹，然后建立`simulate.schema.ts`文件如下：
+
+```ts
+// simulate.schema.ts
+
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type SimulateDocument = HydratedDocument<Simulate>;
+
+@Schema({
+  timestamps: true, // 记录时间戳,包括更新时间updatedAT和创建时间createdAt
+})
+export class Simulate {
+  // 设置为必填属性
+  @Prop({ required: true })
+  title: string;
+
+  @Prop()
+  desc: string;
+
+  //   其他字段待补充
+}
+
+export const SimulateSchema = SchemaFactory.createForClass(Simulate);
+
+```
+
+然后在`simulate.module.ts`中，增加相关内容
+
+```ts
+// simulate/simulate.module.ts
+
+import { MongooseModule } from '@nestjs/mongoose';
+import { Simulate, SimulateSchema } from './schemas/simulate.schema';
+
+@Module({
+  imports: [MongooseModule.forFeature([{ name: Simulate.name, schema: SimulateSchema }])],
+  controllers: [SimulateController],
+  providers: [SimulateService],
+})
+export class SimulateModule {}
+```
+
+之后在humanDB数据库中就能看到`simulates`的集合了。
+
+### 使用service对数据进行增删改查
+
+在`simulate.service.ts`改成下面形式，service主要是采用控制反转和依赖注入的方式，跟java的框架spring很像，不过它采用的方式是在`constructor`方法内部利用传参的方式注入依赖。
+
+```ts
+// simulate/simulate.service.ts
+
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Simulate } from './schemas/simulate.schema';
+import { Model } from 'mongoose';
+
+@Injectable()
+export class SimulateService {
+  constructor(
+    // 依赖注入，注入Simulate数据
+    @InjectModel(Simulate.name) private readonly simulateModel: Model<Simulate>,
+  ) {}
+
+  // 新增数据
+  async create() {
+    const simulate = new this.simulateModel({
+      title: 'title' + Date.now(),
+      desc: 'desc',
+    });
+
+    return await simulate.save();
+  }
+
+  // 查找单个数据
+  async findOne(id: string) {
+    return this.simulateModel.findById(id);
+  }
+
+  // 查找指定元素并删除
+  async delete(id: string) {
+    return await this.simulateModel.findByIdAndDelete(id);
+  }
+
+  async update(id: string, updateData: any) {
+    return await this.simulateModel.updateOne({ _id: id }, updateData);
+  }
+
+  // 查找所有
+  // 结构数据并赋予默认值
+  async findAllList({ keyword = '', page = 1, pageSize = 10 }) {
+    const whereOpt: any = {}; // 自定义搜索条件
+    // 如果关键词有值，则搜索title内容
+    if (keyword) {
+      const reg = new RegExp(keyword, 'i'); // 用正则表达式搜索
+      whereOpt.title = { $regex: reg }; // 标题增加正则表达式用于模糊搜索
+    }
+    return await this.simulateModel
+      .find(whereOpt)
+      .sort({ _id: -1 }) // 按照id逆序排序，其中mongodb的id值为_id
+      .skip((page - 1) * pageSize) // 分页，即跳过前几条
+      .limit(pageSize); // 限制只显示pageSize内容
+  }
+
+  async countAll({ keyword = '' }) {
+    const whereOpt: any = {}; // 自定义搜索条件
+    // 如果关键词有值，则搜索title内容
+    if (keyword) {
+      const reg = new RegExp(keyword, 'i'); // 用正则表达式搜索
+      whereOpt.title = { $regex: reg }; // 标题增加正则表达式用于模糊搜索
+    }
+    // 求出所有的数量
+    return await this.simulateModel.countDocuments(whereOpt);
+  }
+}
+
+
+```
+
+然后在控制器controller中也可以使用类似的方式注入service方法，就可以使用service中的方法
+
+```ts
+// simulate/simulate.controller.ts
+
+import { Body, Controller, Get, Param, Patch, Query, Post, Delete } from '@nestjs/common';
+import { SimulateDto } from './dto/simulate.dto';
+import { SimulateService } from './simulate.service';
+
+@Controller('simulate')
+export class SimulateController {
+  // 在constructor方法中，注入对应所需的service
+  constructor(private readonly simulateService: SimulateService) {}
+
+  // 利用post方法新增数据
+  @Post()
+  async create() {
+    // 调用service的新增数据方法，在数据库中新增数据内容
+    return await this.simulateService.create();
+  }
+
+  // 获取网址中形如"?keyword=aaa&page=123"的参数，使用@Query('参数名')
+  @Get()
+  async findAll(
+    @Query('keyword') keyword: string, // 获取keyword参数，赋给keyword变量
+    @Query('page') page: number, // 获取type参数，并赋给type变量
+    @Query('pageSize') pageSize: number, // 获取type参数，并赋给type变量
+  ) {
+    // 获得某页的list
+    const list = await this.simulateService.findAllList({ keyword, page, pageSize });
+    // 获得结果的总数
+    const count = await this.simulateService.countAll({ keyword });
+
+    return {
+      list,
+      count,
+    };
+  }
+
+  // 获取网址中形如"simulate/xxx"中的xxx的参数，使用@Param
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    // 调用service的根据id找对象的方法
+    return await this.simulateService.findOne(id);
+  }
+
+  // 获取patch更新中的body内参数，需要先创建对应的dto文件，然后通过对应到dto上去获取
+  // 获取的方式是@Body
+  @Patch(':id')
+  async updateOne(@Param('id') id: string, @Body() simulateDto: SimulateDto) {
+    return await this.simulateService.update(id, simulateDto);
+  }
+
+  @Delete(':id')
+  async deleteOne(@Param('id') id: string) {
+    return await this.simulateService.delete(id);
+  }
+}
+
+
+```
+
+### 创建user模块
+
+使用下面命令创建模块
+```bash
+nest g module user
+nest g service user --no-spec
+nest g controller user --no-spec
+```
+
+**第一步**，增加schema
+```ts
+// user\schemas\user.schema.ts
+
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { HydratedDocument } from 'mongoose';
+
+export type UserDocument = HydratedDocument<User>;
+
+@Schema({
+  timestamps: true,
+})
+export class User {
+  // 设置为必填属性，且不同相同
+  @Prop({ required: true, unique: true })
+  username: string; // 用户名
+
+  @Prop({ required: true })
+  password: string; // 密码
+
+  @Prop()
+  nickname: string; // 昵称
+}
+
+export const UserSchema = SchemaFactory.createForClass(User);
+```
+
+**第二步**，修改model文件，加入schema文件
+
+```ts
+// user/user.module.ts
+
+import { Module } from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from './schemas/user.schema';
+
+@Module({
+  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
+  providers: [UserService],
+  controllers: [UserController],
+})
+export class UserModule {}
+
+```
+
+**第三步**，将schema中的User注入到service文件之中，然后写相关数据库方法
+
+```ts
+// user\user.service.ts
+
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { User } from './schemas/user.schema';
+import { Model } from 'mongoose';
+import { CreateUserDto } from './dto/create-user.dto';
+
+@Injectable()
+export class UserService {
+  // 依赖注入user模型
+  constructor(@InjectModel(User.name) private readonly userModel: Model<User>) {}
+
+  async create(userData: CreateUserDto) {
+    const newUser = new this.userModel(userData);
+    return await newUser.save();
+  }
+
+  // 根据用户名和密码找到对应的用户
+  async findOne(username: string, password: string) {
+    return await this.userModel.findOne({ username, password });
+  }
+}
+```
+
+第四步，写路由对应的方法，由于在创建用户的实话需要用post方法在body中传输数据，所以还需要写对应的dto文件
+
+```ts
+// user\dto\create-user.dto.ts
+
+export class CreateUserDto {
+  readonly username: string;
+  readonly password: string;
+  readonly nickname?: string; // 用户昵称可以没有
+}
+```
+
+然后写对应的路由方法：
+
+```ts
+import { Body, Controller, Post, HttpException, HttpStatus } from '@nestjs/common';
+import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
+
+@Controller('user')
+export class UserController {
+  // 依赖注入，注入用户service
+  constructor(private readonly userService: UserService) {}
+
+  // 创建用户的方法
+  @Post('register')
+  async register(@Body() userDto: CreateUserDto) {
+    try {
+      // 尝试创建用户，如果出现错误则抛出
+      return await this.userService.create(userDto);
+    } catch (err) {
+      throw new HttpException(err, HttpStatus.BAD_REQUEST);
+    }
+  }
+}
+```
+
+### 创建auth模块
+
+auth模块需要使用userService中的功能，因此需要在之前创建的UserModule中，把UserService给export出去。
+
+```ts
+// src\user\user.module.ts
+
+import { Module } from '@nestjs/common';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
+import { MongooseModule } from '@nestjs/mongoose';
+import { User, UserSchema } from './schemas/user.schema';
+
+@Module({
+  imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
+  exports: [UserService],  // 将UserService导出出去
+  providers: [UserService],
+  controllers: [UserController],
+})
+export class UserModule {}
+
+```
+
+在auth.module.ts中引入对应的module
+```ts
+// src\auth\auth.module.ts
+
+import { Module } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { UserModule } from 'src/user/user.module';
+
+@Module({
+  imports: [UserModule], // 引入UserModule
+  providers: [AuthService],
+  controllers: [AuthController],
+})
+export class AuthModule {}
+
+```
+
+然后在src\auth\auth.service.ts中写相关的数据库操作代码
+
+```ts
+// src\auth\auth.service.ts
+
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
+
+@Injectable()
+export class AuthService {
+  // 依赖注入userService
+  constructor(private readonly userService: UserService) {}
+
+  async signIn(username: string, password: string) {
+    const user = await this.userService.findOne(username, password);
+    // 找不到用户，则抛出异常
+    if (!user) {
+      throw new UnauthorizedException('用户名或密码错误');
+    }
+
+    // 下面代码主要解决返回值带密码的问题
+    // user是数据库数据，用toObject方法获取他的原始数据
+    // 然后结构对象，分成password属性和其他属性，只返回其他属性
+    const { password: p, ...userInfo } = user.toObject(); // eslint-disable-line
+
+    return userInfo; // 不返回password字段
+  }
+}
+
+```
+
+在controller路由中使用对应的功能
+
+```ts
+// src\auth\auth.controller.ts
+
+import { Body, Controller, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+
+@Controller('auth')
+export class AuthController {
+  // 依赖注入authService模块
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('login')
+  async login(@Body() userInfo: CreateUserDto) {
+    const { username, password } = userInfo;
+
+    return await this.authService.signIn(username, password);
+  }
+}
+
+```
+
+### 使用JWT功能
+
+在官网的[鉴权](https://docs.nestjs.com/security/authentication)部分，首先安装对应的模块`npm install @nestjs/jwt -S`。
+
+首先更新AuthModule以导入新的依赖项并配置JwtModule
+
+```ts
+// src\auth\auth.module.ts
+
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './constants';
+
+@Module({
+  imports: [
+    UserModule,
+    // 增加Jwt Module
+    JwtModule.register({
+      global: true,
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: '1d' }, // jwt过期时间
+    }),
+  ], // 引入UserModule
+  providers: [AuthService],
+  controllers: [AuthController],
+})
+export class AuthModule {}
+```
+
+其中`jwtConstants`需要新建一个常量文件，把jwt相关的常量放进去
+
+```ts
+// src\auth\constants.ts
+
+// 鉴权内容的常量
+export const jwtConstants = {
+  secret: '123@abc',  // jwt token的密钥
+};
+```
+
+Service内容修改如下：
+
+```ts
+// src\auth\auth.service.ts 
+
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { UserService } from 'src/user/user.service';
+import { JwtService } from '@nestjs/jwt';
+
+@Injectable()
+export class AuthService {
+  // 依赖注入userService和jwtService
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
+
+  async signIn(username: string, password: string) {
+    const user = await this.userService.findOne(username, password);
+    // 找不到用户，则抛出异常
+    if (!user) {
+      throw new UnauthorizedException('用户名或密码错误');
+    }
+
+    // 下面代码主要解决返回值带密码的问题
+    // user是数据库数据，用toObject方法获取他的原始数据
+    // 然后结构对象，分成password属性和其他属性，只返回其他属性
+    // 不返回password字段
+    const { password: p, ...userInfo } = user.toObject(); // eslint-disable-line
+
+    return {
+      // 将用户内容使用jwt加密成token，并返回给客户端
+      token: this.jwtService.sign(userInfo),
+    };
+  }
+}
+```
+
+在其他接口，如果要校验用户的token，则可以新建guard文件，进行统一校验，校验成功后，会把用户信息放到request的user属性中去。
+
+```ts
+// src\auth\auth.guard.ts
+
+import { CanActivate, ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+import { jwtConstants } from './constants';
+import { Request } from 'express';
+
+@Injectable()
+export class AuthGuard implements CanActivate {
+  constructor(private jwtService: JwtService) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    const request = context.switchToHttp().getRequest(); // 获取http的request
+    const token = this.extractTokenFromHeader(request); // 获取包裹在header中的token
+    // 如果没有token则返回未授权错误
+    if (!token) {
+      throw new UnauthorizedException('用户未登录');
+    }
+    try {
+      // 用jwt对传入的token进行验证，解密后的payload就是之前传入的userInfo
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: jwtConstants.secret,
+      });
+      // 把用户信息userInfo放到请求的‘user’中去了
+      request['user'] = payload; // 实际得到的是userInfo
+    } catch {
+      throw new UnauthorizedException('登录信息无效');
+    }
+    return true;
+  }
+
+  // 从headers中抽取jwt token
+  private extractTokenFromHeader(request: Request): string | undefined {
+    // 在headers中的authorization字段值，按照空格进行拆分，取Bearer后面的值
+    // ??表示的意思与||很像，只是不会把0排除掉，例如0||5返回5，而0??5返回0
+    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    return type === 'Bearer' ? token : undefined;
+  }
+}
+
+```
+
+在接口文件中，通过增加`@UseGuards(AuthGuard)`让相关接口跑token鉴权的代码，会把鉴权的结果自动附在请求Request的user属性上，然后通过`@Request() req` 拿到请求的req，将user可以打印出来。
+
+```ts
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { AuthGuard } from './auth.guard';
+
+@Controller('auth')
+export class AuthController {
+  // 依赖注入authService模块
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('login')
+  async login(@Body() userInfo: CreateUserDto) {
+    const { username, password } = userInfo;
+
+    return await this.authService.signIn(username, password);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('profile')
+  async getProfile(@Request() req) {
+    // 打印请求上面附加的user情况
+    return req.user;
+  }
+}
+```
+
+
 
 ## React Router
 
