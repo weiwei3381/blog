@@ -6,10 +6,9 @@
 
 - :100::fire: [git常用命令及解决方案](./git.md)
 - :100::fire: [markdown常用命令](./markdown.md)
-- :100: [使用Nexus搭建私有源教程](./nexus.md)
 - :100: [LaTeX公式](./latex.md)
 - :pencil2: [vscode高效操作](./vscode.md)
-- :bear: [项目搭建指南](./guide.md)
+- :bear: [vuepress项目搭建指南](./guide.md)
 
 ## 参考书目与网站
 

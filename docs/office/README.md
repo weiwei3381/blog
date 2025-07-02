@@ -4,6 +4,7 @@
 
 ## 文章目录
 
+- :boom: [高效办公](./other.md)
 - :fire: [Word使用技巧和常见问题解决方案](./word.md)
 - :fire: [VBA使用速览](./vba.md)
 -  [Excel教程](./excel.md)
