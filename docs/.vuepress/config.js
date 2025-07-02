@@ -40,8 +40,8 @@ module.exports = {
       {
         text: '🦉近期重点',
         items: [
-          { text: '🐇python常用模块', link: '/back-end/python' },
-          { text: '🌹zrender源码解析', link: '/practice/zrender' },
+          { text: '📚常用技术书籍', link: '/practice/book' },
+          { text: '💼常用办公技巧', link: '/office/other' },
         ],
       },
       {
@@ -82,7 +82,7 @@ module.exports = {
         'docker',
       ],
       // 实战
-      '/practice/': ['deepL', 'canvas', 'react', 'phaser', 'medicine'],
+      '/practice/': ['book', 'deepL', 'canvas', 'react', 'phaser', 'medicine'],
       // 办公
       '/office/': ['word', 'excel', 'vba', 'other', 'software', 'math'],
       // 通用
