@@ -33,10 +33,9 @@ module.exports = {
     nav: [
       { text: '🎨前端', link: '/front-end/' },
       { text: '💻后端', link: '/back-end/' },
-      { text: '🚀实战', link: '/practice/' },
       { text: '🏢办公', link: '/office/' },
+      { text: '🚀实战', link: '/practice/' },
       { text: '🍓通用', link: '/general/' },
-      { text: '🐸论文', link: '/paper/' },
       { text: '⚡快速笔记', link: '/general/fast' },
       {
         text: '🦉近期重点',
@@ -51,7 +50,7 @@ module.exports = {
         items: [
           { text: '小鸟搜索', link: 'https://www.birdiesearch.com/' },
           { text: '每天一本编程书', link: 'https://salttiger.com/' },
-          { text: '秘塔搜索', link: 'https://metaso.cn/' },
+          { text: '秘塔AI搜索', link: 'https://metaso.cn/' },
         ],
       },
     ],
@@ -83,18 +82,9 @@ module.exports = {
         'docker',
       ],
       // 实战
-      '/practice/': [
-        'deepL',
-        'Hilo',
-        'canvas',
-        'react',
-        'zrender',
-        'search',
-        'phaser',
-        'medicine',
-      ],
+      '/practice/': ['deepL', 'canvas', 'react', 'phaser', 'medicine'],
       // 办公
-      '/office/': ['word', 'excel', 'vba', 'other', 'software'],
+      '/office/': ['word', 'excel', 'vba', 'other', 'software', 'math'],
       // 通用
       '/general/': [
         'fast',
@@ -105,21 +95,6 @@ module.exports = {
         'vscode',
         'guide',
         'reg',
-      ],
-      // 论文
-      '/paper/': [
-        'writing',
-        'search',
-        'defense',
-        'cover',
-        '2020Auguest',
-        'daily',
-        'technology',
-        'strategy',
-        'mpc',
-        'MARL',
-        'UAV',
-        'clustering',
       ],
     },
   },
