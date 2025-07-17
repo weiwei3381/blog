@@ -206,4 +206,16 @@ ISBN: 978-1718503229 | 480页 | PDF, EPUB | 26 MB
 
 您是否在数据结构和算法方面遇到了困难？无论您是准备编码面试的学生还是独立学习者，这本书都是您在编程中有效解决问题的重要指南。了解哈希表、递归、动态编程、树、图形和堆的复杂性。熟练选择和实施应对任何编码挑战的最佳解决方案。
 
-网盘下载：(algorithmic-thinking-programming-potential-2nd.rar)[https://pan.baidu.com/s/1hWqCE6uU7osahyXxmvEriA]
+网盘下载：[algorithmic-thinking-programming-potential-2nd.rar](https://pan.baidu.com/s/1hWqCE6uU7osahyXxmvEriA)
+
+### 信号与系统——Python 理论与实践探索
+
+> 《Signals and Systems: Theory and Practical Explorations with Python》，2025年7月发布
+
+![信号与系统](https://pic1.imgdb.cn/item/68792db658cb8da5c8bf09a1.png)
+
+ISBN: 978-1394215751 | 448页 | PDF, EPUB | 48 MB
+
+关于信号和系统的入门课程教科书，包含大量用 Python 实现的示例和代码片段。在代码示例的支持下，Signals and Systems： Theory and Practical Explorations with Python 是系统和信号完整入门课程的教科书资源，使读者能够运行 Python 程序进行卷积、离散时间傅里叶变换和级数、采样和插值，以实现各种函数。将指导读者逐步学习基本微分方程、基本线性代数和微积分，以确保完全理解练习。
+
+网盘下载：[signals-systems-practical-explorations.rar](https://pan.baidu.com/s/1W-oQWSwBYYO_0LAtRhNAOA)
