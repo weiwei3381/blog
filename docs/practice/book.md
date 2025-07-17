@@ -60,6 +60,30 @@ ISBN: 978-1098171308 | 1169页 | PDF, EPUB | 21 MB
 
 网盘下载：[learning-python-powerful-oop-6th.rar](https://pan.baidu.com/s/1JGLyAkM5YtukpYnb7d2MVQ)
 
+### Python的乐趣——开发移动应用程序、自动化任务和分析加密货币趋势
+
+> 📗《Fun with Python: Developing mobile apps, automating tasks, and analyzing cryptocurrency trends》，2025年5月发布
+
+![Python的乐趣](https://pic1.imgdb.cn/item/6879199058cb8da5c8bef861.png)
+
+ISBN: 978-9365893816 | 496页 | EPUB | 10 MB
+
+本书提供了 Python 编程的实践之旅，从脚本、面向对象编程和函数式编程等核心概念开始。然后，您将设置一个高效的开发环境并构建越来越复杂的项目。创建聊天机器人和语音控制系统等交互式应用程序，并深入研究数据驱动的项目，包括财务分析、网络抓取和加密货币交易。通过构建病毒检测系统和 Web 网关来探索安全性。最后，通过 QR 码作将您的技能扩展到移动应用程序开发和图像处理。通过实践项目，您将获得适用于各种现实世界领域的多才多艺的技能。
+
+网盘下载：[fun-python-developing-automating-cryptocurrency.rar](https://pan.baidu.com/s/1lo1_Q9vPNAj2KC6-UZ7Kig)
+
+### 使用Python自动化无聊的东西——初学者的实用编程（第3版）
+
+> 📗《Automate the Boring Stuff with Python: Practical Programming for Total Beginners, 3rd Edition》，2025年5月发布
+
+![使用Python自动化无聊的东西](https://pic1.imgdb.cn/item/68791ae158cb8da5c8bef946.png)
+
+ISBN: 978-1718503403 | 672页 | PDF, EPUB, MOBI | 107 MB
+
+在这本经过全面修订的 Automate the Boring Stuff with Python 第三版中，您将学习如何使用 Python 编写程序，这些程序可以在几分钟内完成需要数小时手动完成的工作，无需任何编程经验。前面的章节将通过清晰的解释和引人入胜的示例来教你 Python 的基础知识。您将编写您的第一个 Python 程序;使用字符串、列表、字典和其他数据结构;然后使用正则表达式查找和作文本模式。
+
+网盘下载：[automate-boring-stuff-python-3rd.rar](https://pan.baidu.com/s/1j3mhZ5WttRzt93Odw7f9JQ)
+
 ## 前沿技术电子书
 
 ### 实用深度学习——基于Python的入门指南（第二版）
@@ -87,3 +111,73 @@ ISBN: 978-9355518651 | 304页 | PDF, EPUB | 48 MB
 本书是一本全面的指南，探索了 Microsoft Excel 的高级功能。从使用 VBA 创建宏到自动化任务、处理大型数据集、创建可视化效果以及进行数据分析，本书涵盖了所有内容。此外，本书还介绍了 ChatGPT，一个增强 Excel 自动化功能的 AI 聊天机器人。本书通过实际示例和清晰的说明，帮助用户最大限度地提高 Excel 的生产力、效率和决策能力。
 
 网盘下载：[mastering-advanced-excel-chatgpt-integration.rar](https://pan.baidu.com/s/1IYS7g75JTp_ypRE2hDuQcg)
+
+### 自然语言处理中的嵌入意义——向量表示的理论和进展
+
+> 📗《Embeddings in Natural Language Processing: Theory and Advances in Vector Representations of Meaning》，2021年1月发布
+
+![自然语言处理中的嵌入意义](https://pic1.imgdb.cn/item/68791cd358cb8da5c8befb38.png)
+
+ISBN: 978-1636390239 | 175页 | PDF | 12 MB
+
+嵌入无疑是自然语言处理（NLP）领域最具影响力的研究领域之一。将信息编码为低维向量表示，这很容易集成到现代机器学习模型中，在NLP的发展中发挥了核心作用。嵌入技术最初侧重于单词，但很快人们的注意力开始转移到其他形式：从图形结构（如知识库）到其他类型的文本内容（如句子和文档）。
+
+这本书从广义上提供了 NLP 中主要嵌入技术的高级综合。本书首先解释了传统的词向量空间模型和词嵌入（例如 Word2Vec 和 GloVe），然后转向其他类型的嵌入，例如词义、句子和文档以及图形嵌入。本书还概述了情境化表示（例如 ELMo 和 BERT）的最新发展，并解释了它们在 NLP 中的潜力。
+
+网盘下载：[embeddings-natural-language-processing-theory.rar](https://pan.baidu.com/s/1Xlh3E_gpSv4duN7wyr6gGw)
+
+### 神经搜索——使用 Jina 从原型到生产，构建可以轻松部署和管理的深度学习驱动的搜索系统
+
+> 📙 《Neural Search – From Prototype to Production with Jina: Build deep learning–powered search systems that you can deploy and manage with ease》，2022年10月发布
+
+![神经搜索](https://pic1.imgdb.cn/item/68791dda58cb8da5c8befc2c.png)
+
+ISBN: 978-1801816823 | 188页 | PDF, EPUB, MOBI | 20 MB
+
+搜索是科技生态系统中一个重要且不断增长的部分。但是，传统搜索具有难以克服的局限性，因为它的设计方式很难克服。神经搜索是一种新颖的方法，它利用机器学习的强大功能，使用向量嵌入作为一等公民来检索信息，为改进通过传统搜索获得的结果开辟了新的可能性。
+
+尽管神经搜索是一个强大的工具，但它是新的并且对其进行微调它可能很乏味，因为它需要您了解它所依赖的几个组件。Jina 通过提供基础设施来填补这一空白，该基础设施减少了创建深度学习驱动的搜索引擎所需的时间和复杂性。这本书将使您能够学习用于神经搜索的神经网络的基础知识、它的优缺点，以及如何使用 Jina 构建搜索引擎。在分步解释、实际示例和自我评估问题的帮助下，您将精通神经搜索的基础知识和核心 Jina 概念，并学会应用这些知识来构建自己的搜索引擎。
+
+网盘下载：[neural-search-prototype-production-jina.rar](https://pan.baidu.com/s/1Jd6WXz17FOKBvYO25qJSjA)
+
+### 使用Elastic为从业者提供向量搜索——利用向量搜索构建搜索、可观察性和安全性的自然语言处理解决方案工具包
+
+> 📙 《Vector Search for Practitioners with Elastic: A toolkit for building NLP solutions for search, observability, and security using vector search》，2023年12月发布
+
+![使用Elastic为从业者提供向量搜索](https://pic1.imgdb.cn/item/68791fea58cb8da5c8beff0e.png)
+
+ISBN: 978-1805121022 | 240页 | PDF, EPUB | 30 MB
+
+虽然自然语言处理 （NLP） 主要用于搜索用例，但本书旨在激励您开始使用向量来克服同样重要的领域挑战，例如可观察性和网络安全。这些章节主要侧重于将矢量搜索与 Elastic 集成，以增强其搜索能力，以及可观测性和网络安全功能。
+
+本书首先向您介绍 NLP 以及 Elastic 在 NLP 流程中的功能。接下来，您将深入研究资源要求，并了解如何以 dense-vector 类型存储向量，以及实现快速响应时间的特定页面缓存要求。随着您的进步，您将发现各种优化技术和策略来改进机器学习模型部署，包括节点扩展、配置调整以及使用 Rally 和 Python 进行负载测试。您还将介绍使用图像进行矢量搜索的技术、微调模型以提高性能，以及在 Elasticsearch 中使用剪辑模型进行图像相似性搜索。最后，您将探索检索增强生成 （RAG），并学习将 ChatGPT 与 Elasticsearch 集成，以利用矢量化数据、ELSER 的功能和 RRF 的精细搜索机制。
+
+网盘下载：[vector-search-practitioners-elastic.rar](https://pan.baidu.com/s/1qR8qywaeygxvmkXkWTEdVw)
+
+### Python深度学习——了解深度神经网络的工作原理并将其应用于实际任务（第三版）
+
+> 📙《Python Deep Learning: Understand how deep neural networks work and apply them to real-world tasks, 3rd Edition》，2024年5月发布
+
+![Python深度学习](https://pic1.imgdb.cn/item/6879225058cb8da5c8bf0304.png)
+
+ISBN: 978-1837638505 | 362页 | PDF, EPUB | 69 MB
+
+深度学习领域在过去几年中发展迅速，如今涵盖了广泛的应用。这使得导航具有挑战性，如果没有坚实的基础，就很难理解。这本书将指导您从神经网络的基础知识到当今使用的最先进的大型语言模型。掌握神经网络（包括卷积和转换器）的有效导航，以使用 Python 处理计算机视觉和 NLP 任务，了解深度神经网络的理论、数学基础和结构；熟悉 Transformers、大型语言模型和卷积网络；了解如何将它们应用于各种计算机视觉和自然语言处理问题。
+
+网盘下载：[python-deep-learning-understand-3rd.rar](https://pan.baidu.com/s/16i-J8i2aDipOe_cyOgNBBg)
+
+## 算法基础电子书
+
+### 算法思维——释放您的编程潜力（第二版）
+
+> 📙《Algorithmic Thinking: Unlock Your Programming Potential, 2nd Edition》，2024年3月发布
+
+![算法思维](https://pic1.imgdb.cn/item/6879212f58cb8da5c8bf00d7.png)
+
+ISBN: 978-1718503229 | 480页 | PDF, EPUB | 26 MB
+
+进入游戏，通过解决竞争性编程问题来学习基本的计算机算法，在畅销书原版的第二版中全面修订。（仍然不需要数学）
+
+您是否在数据结构和算法方面遇到了困难？无论您是准备编码面试的学生还是独立学习者，这本书都是您在编程中有效解决问题的重要指南。了解哈希表、递归、动态编程、树、图形和堆的复杂性。熟练选择和实施应对任何编码挑战的最佳解决方案。
+
+网盘下载：(algorithmic-thinking-programming-potential-2nd.rar)[https://pan.baidu.com/s/1hWqCE6uU7osahyXxmvEriA]
