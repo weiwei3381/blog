@@ -44,6 +44,18 @@ ISBN: 978-1492098829 | 352页 | PDF, EPUB | 45 MB
 
 网盘下载：[learning-vue-core-concepts-practical.rar](https://pan.baidu.com/s/1Upatc_gWCpc0uVHLB126DQ)
 
+### 使用TypeScript学习React——使用React 19和TypeScript构建真实世界Web应用程序的初学者指南（第三版）
+
+> 📙《Learn React with TypeScript: A beginner’s guide to building real-world, production-ready web apps with React 19 and TypeScript, 3rd Edition》，2025年7月发布
+
+![使用TypeScript学习React](https://pic1.imgdb.cn/item/6879292a58cb8da5c8bf07a6.png)
+
+ISBN: 978-1836643173 | 438页 | PDF, EPUB | 21 MB
+
+读取、导航和调试大型前端代码库可能具有挑战性。使用 TypeScript 学习 React，第 3 版通过教您 React、TypeScript 和 Next.js 来帮助您克服这些挑战，这些是构建可扩展、高性能应用程序的核心技术。这个新版本针对 React 19 进行了更新，涵盖了 React 服务器组件、服务器函数和强大的现代钩子（包括 useFormStatus 和 useActionState）等新功能。您将使用 TypeScript 构建类型安全的组件，使本书非常适合希望掌握与现实世界前端和 React 开发人员角色一致的模式的 React 初学者。
+
+网盘下载：[learn-react-typescript-production-ready-3rd.rar](https://pan.baidu.com/s/1eVT1jQ_CtCaCYZcGOG7gug)
+
 ## 后端开发电子书
 
 ### 学习Python——强大的面向对象编程（第6版）
@@ -165,6 +177,20 @@ ISBN: 978-1837638505 | 362页 | PDF, EPUB | 69 MB
 深度学习领域在过去几年中发展迅速，如今涵盖了广泛的应用。这使得导航具有挑战性，如果没有坚实的基础，就很难理解。这本书将指导您从神经网络的基础知识到当今使用的最先进的大型语言模型。掌握神经网络（包括卷积和转换器）的有效导航，以使用 Python 处理计算机视觉和 NLP 任务，了解深度神经网络的理论、数学基础和结构；熟悉 Transformers、大型语言模型和卷积网络；了解如何将它们应用于各种计算机视觉和自然语言处理问题。
 
 网盘下载：[python-deep-learning-understand-3rd.rar](https://pan.baidu.com/s/16i-J8i2aDipOe_cyOgNBBg)
+
+### 基本图RAG——知识图谱增强的检索增强生成
+
+> 《Essential GraphRAG: Knowledge Graph-Enhanced RAG》，2025年7月发布
+
+![基本图RAG](https://pic1.imgdb.cn/item/6879276c58cb8da5c8bf0601.png)
+
+ISBN: 978-1633436268 | 175页 | PDF | 29 MB
+
+检索增强生成 （RAG） 是利用生成式 AI 的强大功能获取 LLM 训练数据中未包含的信息并避免依赖 LLM 获取事实信息的好方法。但是，只有当您可以快速识别并提供与 LLM 最相关的上下文时，RAG 才会起作用。Essential GraphRAG 向您展示如何使用知识图谱对 RAG 数据进行建模，并提供更好的性能、准确性、可追溯性和完整性。
+
+Essential GraphRAG 教您通过将上下文数据构建为知识图谱来实施准确、高性能和可追溯的 RAG。这本书充满了实用技术，教你如何在非结构化和结构化数据上构建 RAG。您将动手构建向量相似性搜索检索工具和 Agentic RAG 应用程序，从文本中提取信息以创建知识图谱，评估性能和准确性等。
+
+网盘下载：[essential-graphrag-knowledge-graph-enhanced-rag.rar](https://pan.baidu.com/s/1t1Lu6pQgQYMn84QtRXyL_A)
 
 ## 算法基础电子书
 
